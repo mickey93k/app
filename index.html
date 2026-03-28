@@ -195,11 +195,14 @@
         setStartPoint({ x: e.clientX, y: e.clientY, w: b.w, h: b.h });
       };
 
+      const effectiveScale = viewportWidth < 768
+        ? Math.min(0.55, Math.max(0.28, (viewportWidth - 22) / 1122))
+        : config.pageScale / 100;
+
       const handlePointerMove = (e) => {
         if (!activeAction) return;
-        const scale = config.pageScale / 100;
-        const dx = (e.clientX - startPoint.x) / scale;
-        const dy = (e.clientY - startPoint.y) / scale;
+        const dx = (e.clientX - startPoint.x) / effectiveScale;
+        const dy = (e.clientY - startPoint.y) / effectiveScale;
         setPatientData(prev => {
           const curr = prev.blocks[activeAction.block];
           const next = { ...curr };
@@ -346,8 +349,7 @@
       };
 
       const saveBadge = saveStatus === 'saved' ? 'Guardado' : saveStatus === 'saving' ? 'Guardando' : 'Autosave local';
-      const isMobile = viewportWidth < 768;
-      const autoScale = isMobile ? Math.min(0.55, Math.max(0.28, (viewportWidth - 22) / 1122)) : config.pageScale / 100;
+      const autoScale = effectiveScale;
 
       return (
         <div className="min-h-screen flex relative overflow-hidden" style={{ backgroundColor: config.style.appBg }} onPointerMove={handlePointerMove} onPointerUp={handlePointerUp}>
