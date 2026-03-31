@@ -27,22 +27,22 @@
       --shadow:0 14px 40px rgba(0,0,0,.34);
       --radius:22px;
       --radius-sm:16px;
-      --nav-h:86px;
+      --nav-h:94px;
       --top-safe: max(18px, env(safe-area-inset-top));
       --bottom-safe: max(18px, env(safe-area-inset-bottom));
       --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-    html,body{height:100%}
-    body{
+    html,body{
       margin:0;
       font-family:var(--font);
       color:var(--text);
       background:
         radial-gradient(circle at top, rgba(83,239,185,.08), transparent 28%),
         linear-gradient(180deg, #06101a 0%, #08101b 35%, #040b14 100%);
-      overflow:hidden;
+      overflow-x:hidden;
+      overflow-y:auto;
     }
 
     button,input,textarea,select{font:inherit}
@@ -53,6 +53,7 @@
       width:100%;
       max-width:520px;
       margin:0 auto;
+      min-height:100dvh;
       height:100dvh;
       background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
       position:relative;
@@ -63,13 +64,16 @@
 
     .screen{
       height:100%;
-      overflow:auto;
-      padding:var(--top-safe) 18px calc(var(--nav-h) + 18px + var(--bottom-safe));
+      overflow-y:auto;
+      overflow-x:hidden;
+      -webkit-overflow-scrolling:touch;
+      padding:var(--top-safe) 16px calc(var(--nav-h) + 28px + var(--bottom-safe));
       display:none;
       scroll-behavior:smooth;
     }
     .screen.active{display:block}
     .screen::-webkit-scrollbar{width:0;height:0}
+    .sheet::-webkit-scrollbar{width:0;height:0}
 
     .topbar{
       display:flex;
@@ -232,12 +236,13 @@
 
     .searchbar{
       display:flex;align-items:center;gap:12px;
-      height:58px;
-      border-radius:20px;
+      min-height:58px;
+      border-radius:18px;
       background:rgba(255,255,255,.045);
       border:1px solid rgba(255,255,255,.07);
-      padding:0 16px;
+      padding:0 14px;
       margin-bottom:16px;
+      width:100%;
     }
     .searchbar input{
       background:transparent;border:none;color:var(--text);
@@ -456,23 +461,28 @@
       position:absolute;
       left:0;right:0;bottom:0;
       height:calc(var(--nav-h) + var(--bottom-safe));
-      padding:10px 14px calc(10px + var(--bottom-safe));
+      padding:8px 8px calc(10px + var(--bottom-safe));
       background:linear-gradient(180deg, rgba(14,19,27,.82), rgba(20,26,37,.96));
       backdrop-filter:blur(18px);
       border-top:1px solid rgba(255,255,255,.08);
       display:grid;
       grid-template-columns:repeat(5,minmax(0,1fr));
-      gap:8px;
+      gap:4px;
       z-index:70;
     }
     .nav-btn{
       min-width:0;
-      border-radius:18px;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+      border-radius:16px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
       color:#8f9baa;
-      font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800;
+      font-size:.58rem;line-height:1.05;text-transform:uppercase;letter-spacing:.04em;font-weight:800;
+      padding:4px 2px;
+      text-align:center;
+      word-break:break-word;
+      overflow:hidden;
     }
-    .nav-btn .nav-ico{width:26px;height:26px;display:grid;place-items:center}
+    .nav-btn .nav-ico{width:22px;height:22px;display:grid;place-items:center;flex:0 0 auto}
+    .nav-btn span:last-child{display:block;max-width:100%}
     .nav-btn.active{color:var(--accent)}
 
     .fab{
@@ -494,7 +504,8 @@
     }
     .modal-backdrop.open{display:flex}
     .sheet{
-      width:100%;max-height:84dvh;overflow:auto;
+      width:100%;max-height:88dvh;overflow-y:auto;overflow-x:hidden;
+      -webkit-overflow-scrolling:touch;
       border-radius:28px 28px 0 0;
       padding:14px 18px calc(18px + var(--bottom-safe));
       background:linear-gradient(180deg, #101925, #0c131c);
@@ -503,7 +514,31 @@
     }
     .grabber{width:54px;height:5px;border-radius:999px;background:rgba(255,255,255,.14);margin:4px auto 14px}
 
+    .library-list{padding-bottom:6px}
+    .library-item{align-items:flex-start}
+    .library-item .l-main .name{line-height:1.2}
+    .library-item .l-main .meta{line-height:1.35}
     .hidden{display:none !important}
+
+    @media (max-width: 420px){
+      .title{font-size:1.18rem}
+      .subtitle{font-size:.85rem}
+      .hero .main{font-size:1.32rem;max-width:none}
+      .hero .meta{font-size:.88rem;max-width:none}
+      .grid-3{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+      .stat{padding:12px;min-height:88px}
+      .stat .label{font-size:.64rem}
+      .stat .value{font-size:1.32rem}
+      .grid-2{grid-template-columns:1fr 1fr;gap:10px}
+      .quick-btn{min-height:88px;padding:12px}
+      .quick-btn .t{font-size:.92rem}
+      .quick-btn .s{font-size:.78rem}
+      .routine-title,.patient-name,.exercise-name{font-size:1rem}
+      .section-title{font-size:.98rem}
+      .searchbar input{font-size:.94rem}
+      .footer-actions{grid-template-columns:1fr}
+      .between{align-items:flex-start}
+    }
 
     @media (min-width: 520px){
       body{display:grid;place-items:center;padding:10px;background:#02070e}
@@ -1277,7 +1312,7 @@
           </div>
           <div class="searchbar">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-            <input type="text" id="librarySearch" placeholder="Buscar movimiento o ejercicio" />
+            <input type="text" id="librarySearch" placeholder="Buscar ejercicio, grupo o tipo" />
           </div>
           <div class="filter-row" id="groupFilters">
             <button class="chip active" data-group="Todos">Todos</button>
@@ -1328,7 +1363,6 @@
         </div>
       </div>
     </div>
-  </div>
   </div>
 
   <script>
