@@ -1,476 +1,829 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>KINEPRO</title>
-<meta name="description" content="KINEPRO · gestión clínica mobile-first" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#07101b;--bg2:#0b1420;--card:#18212c;--card2:#202a38;--line:rgba(255,255,255,.08);
-  --text:#eef3f7;--muted:#9ba7b4;--accent:#53efb9;--accent2:#21c58f;--accentSoft:rgba(83,239,185,.14);
-  --warn:#ffb84d;--danger:#c93244;--shadow:0 14px 40px rgba(0,0,0,.34);
-  --navH:88px;--topSafe:max(14px, env(safe-area-inset-top));--bottomSafe:max(14px, env(safe-area-inset-bottom));
-  --font:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+:root {
+  --bg:#07101b; --bg2:#0b1420; --card:#18212c; --line:rgba(255,255,255,.08); --text:#eef3f7; --muted:#9ba7b4;
+  --accent:#53efb9; --accent2:#21c58f; --danger:#c93244; --warn:#ffb84d; --shadow:0 14px 40px rgba(0,0,0,.34);
+  --navH:86px; --topSafe:max(14px, env(safe-area-inset-top)); --bottomSafe:max(14px, env(safe-area-inset-bottom));
+  --font:Montserrat,Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0}
-body{
-  font-family:var(--font);color:var(--text);
-  background:radial-gradient(circle at top, rgba(83,239,185,.08), transparent 28%),linear-gradient(180deg,#06101a 0%,#08101b 35%,#040b14 100%);
-  overflow:hidden;
+body{font-family:var(--font);color:var(--text);background:
+radial-gradient(circle at top, rgba(83,239,185,.08), transparent 28%),
+linear-gradient(180deg,#06101a 0%,#08101b 35%,#040b14 100%);overflow:hidden}
+body.theme-light {
+  --bg:#f3f7fb; --bg2:#e7edf5; --card:#ffffff; --line:rgba(0,0,0,.08); --text:#101722; --muted:#566375;
+  --shadow:0 10px 24px rgba(16,23,34,.12);
+  background:linear-gradient(180deg,#f7fbff 0%, #eef5fb 100%);
 }
 button,input,textarea,select{font:inherit} button{cursor:pointer;border:none;background:none;color:inherit} input,textarea,select{outline:none}
-.app{width:100%;max-width:520px;height:100dvh;min-height:100dvh;margin:0 auto;position:relative;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));border-left:1px solid rgba(255,255,255,.03);border-right:1px solid rgba(255,255,255,.03)}
+.app{width:100%;max-width:520px;height:100dvh;margin:0 auto;position:relative;overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0))}
 main{height:100%;position:relative;overflow:hidden}
-.screen{position:absolute;inset:0;display:none;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:var(--topSafe) 16px calc(var(--navH) + 30px + var(--bottomSafe));scroll-behavior:smooth}
+.screen{position:absolute;inset:0;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:var(--topSafe) 16px calc(var(--navH) + 28px + var(--bottomSafe))}
 .screen.active{display:block}
 .screen::-webkit-scrollbar,.sheet::-webkit-scrollbar{width:0;height:0}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
 .brand{display:flex;align-items:center;gap:12px;min-width:0}
-.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:linear-gradient(180deg,#2a323e,#1a2029);color:var(--accent);border:1px solid rgba(255,255,255,.06);box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-.brand-stack{min-width:0} .eyebrow{color:var(--muted);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase} .title{font-size:1.18rem;font-weight:800;line-height:1.15;margin-top:2px} .subtitle{color:var(--muted);font-size:.88rem;margin-top:4px;line-height:1.35}
-.icon-btn{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;flex:0 0 auto;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
-.hero{padding:18px;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));position:relative;overflow:hidden;margin-bottom:18px}
-.hero::before{content:"";position:absolute;right:-40px;bottom:-55px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle, rgba(83,239,185,.22), transparent 68%);pointer-events:none}
+.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(180deg,#2a323e,#1a2029);color:var(--accent);border:1px solid var(--line)}
+body.theme-light .avatar{background:linear-gradient(180deg,#edf3fa,#dbe7f3)}
+.eyebrow{color:var(--muted);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase}
+.title{font-size:1.15rem;font-weight:800;line-height:1.15}
+.subtitle{font-size:.87rem;color:var(--muted);margin-top:4px;line-height:1.35}
+.icon-btn{width:42px;height:42px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+body.theme-light .icon-btn{background:rgba(0,0,0,.02)}
+.card,.session-card,.routine-card,.patient-card,.detail-card,.exec-item,.sheet-card,.hero,.builder-box{background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px;padding:15px;box-shadow:var(--shadow)}
+body.theme-light .card,body.theme-light .session-card,body.theme-light .routine-card,body.theme-light .patient-card,body.theme-light .detail-card,body.theme-light .exec-item,body.theme-light .sheet-card,body.theme-light .hero,body.theme-light .builder-box{background:#fff}
+.hero{padding:18px;margin-bottom:18px}
 .hero .small{font-size:.74rem;color:#b7c3cd;text-transform:uppercase;letter-spacing:.14em;margin-bottom:8px}
-.hero .main{font-size:1.34rem;font-weight:800;line-height:1.08;max-width:260px}
-.hero .meta{margin-top:8px;color:var(--muted);font-size:.9rem;line-height:1.45;max-width:290px}
-.hero-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+body.theme-light .hero .small{color:var(--muted)}
+.hero .main{font-size:1.3rem;font-weight:800;line-height:1.08;max-width:260px}
+.hero .meta{margin-top:8px;color:var(--muted);font-size:.9rem;line-height:1.4}
 .grid3,.grid2{display:grid;gap:10px} .grid3{grid-template-columns:repeat(3,minmax(0,1fr))} .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .stat{background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));border:1px solid var(--line);border-radius:18px;padding:12px;min-height:88px;display:flex;flex-direction:column;justify-content:space-between}
-.stat .label{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:#a6b1bc} .stat .value{font-size:1.32rem;font-weight:800;line-height:1;color:#fff} .stat .delta{font-size:.78rem;color:var(--accent)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:20px 0 12px} .section-title{font-size:1rem;font-weight:800} .section-link{font-size:.84rem;color:var(--accent);font-weight:700}
-.card,.session-card,.routine-card,.patient-card,.detail-card,.exec-item,.form-card,.block-card{background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:15px;box-shadow:var(--shadow)}
-.session-card{border-color:rgba(100,255,205,.18);background:linear-gradient(180deg, rgba(83,239,185,.08), rgba(255,255,255,.03))}
-.row{display:flex;align-items:center;gap:12px} .between{display:flex;align-items:flex-start;justify-content:space-between;gap:12px} .stack{display:flex;flex-direction:column;gap:6px;min-width:0}
-.mini{font-size:.82rem;color:var(--muted);line-height:1.4} .strong{font-weight:800} .routine-title,.patient-name,.exercise-name{font-size:1rem;font-weight:800;line-height:1.2}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border-radius:999px;white-space:nowrap;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#dde7ee}
-.badge.active{background:rgba(83,239,185,.12);border-color:rgba(83,239,185,.22);color:var(--accent)} .badge.paused{background:rgba(255,184,77,.12);border-color:rgba(255,184,77,.2);color:var(--warn)} .badge.template{background:rgba(93,112,255,.12);border-color:rgba(93,112,255,.2);color:#aab4ff}
-.session-time{font-size:2.2rem;font-weight:900;letter-spacing:.03em}
-.quick-btn,.primary-btn,.secondary-btn,.danger-btn,.action-pill{border-radius:18px;padding:14px 15px;font-weight:800;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;gap:10px}
-.quick-btn{background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.07);text-align:left;justify-content:flex-start;min-height:88px;align-items:flex-start;flex-direction:column;padding:12px}
+body.theme-light .stat{background:#fff}
+.stat .label{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)} .stat .value{font-size:1.32rem;font-weight:800} .stat .delta{font-size:.78rem;color:var(--accent)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0 12px} .section-title{font-size:1rem;font-weight:800} .section-link{font-size:.84rem;color:var(--accent);font-weight:700}
+.session-card{border-color:rgba(100,255,205,.18)}
+.row{display:flex;align-items:center;gap:12px} .between{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mini{font-size:.82rem;color:var(--muted);line-height:1.4} .routine-title,.patient-name,.exercise-name{font-size:1rem;font-weight:800;line-height:1.2}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border-radius:999px;white-space:nowrap;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:.74rem;font-weight:700;text-transform:uppercase}
+body.theme-light .badge{background:rgba(0,0,0,.03)}
+.badge.active{background:rgba(83,239,185,.12);border-color:rgba(83,239,185,.22);color:var(--accent)} .badge.paused{background:rgba(255,184,77,.12);border-color:rgba(255,184,77,.22);color:var(--warn)} .badge.warning{background:rgba(255,184,77,.14);border-color:rgba(255,184,77,.24);color:var(--warn)} .badge.template{background:rgba(93,112,255,.12);border-color:rgba(93,112,255,.22);color:#aab4ff}
+.session-time{font-size:2.1rem;font-weight:900}
+.quick-btn,.primary-btn,.secondary-btn,.danger-btn,.action-pill{border-radius:18px;padding:14px 15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
+.quick-btn{background:linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));border:1px solid var(--line);text-align:left;justify-content:flex-start;min-height:88px;align-items:flex-start;flex-direction:column;padding:12px}
+body.theme-light .quick-btn{background:#fff}
 .quick-btn .k{width:36px;height:36px;border-radius:12px;background:rgba(83,239,185,.13);display:grid;place-items:center;color:var(--accent)} .quick-btn .t{font-size:.92rem;font-weight:800} .quick-btn .s{font-size:.78rem;color:var(--muted);line-height:1.35}
-.primary-btn{background:linear-gradient(180deg, var(--accent), var(--accent2));color:#04110d;box-shadow:0 8px 24px rgba(83,239,185,.24)} .secondary-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#e8eef4} .danger-btn{background:linear-gradient(180deg,#c93244,#920f1f);color:#ffe8eb}
-.searchbar{display:flex;align-items:center;gap:12px;min-height:54px;width:100%;margin-bottom:14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07);padding:0 14px} .searchbar input{background:transparent;border:none;color:var(--text);width:100%;font-size:.96rem} .searchbar input::placeholder{color:#8895a2}
+.primary-btn{background:linear-gradient(180deg,var(--accent),var(--accent2));color:#04110d} .secondary-btn{background:rgba(255,255,255,.05);border:1px solid var(--line)} .danger-btn{background:linear-gradient(180deg,#c93244,#920f1f);color:#ffe8eb}
+body.theme-light .secondary-btn{background:#fff}
+.searchbar,.input,.textarea,.select{display:flex;align-items:center;gap:12px;min-height:54px;width:100%;margin-bottom:14px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line);padding:0 14px;color:var(--text)}
+body.theme-light .searchbar,body.theme-light .input,body.theme-light .textarea,body.theme-light .select{background:#fff}
+.searchbar input,.input input,.select select{background:transparent;border:none;color:var(--text);width:100%;font-size:.96rem}
+textarea.textarea{display:block;padding:14px;min-height:90px;resize:none}
 .segmented,.filter-row{display:flex;gap:10px;overflow:auto;padding-bottom:2px;margin-bottom:14px} .segmented::-webkit-scrollbar,.filter-row::-webkit-scrollbar{display:none}
-.seg-btn,.chip{flex:0 0 auto;padding:11px 14px;border-radius:15px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.06);color:#dbe4eb;font-weight:800;font-size:.86rem} .seg-btn.active{background:var(--accentSoft);border-color:rgba(83,239,185,.26);color:var(--accent)} .chip{border-radius:999px;font-size:.82rem} .chip.active{background:var(--accent);color:#02120b;border-color:transparent}
-.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px} .tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.05);color:#cbd5df;border:1px solid rgba(255,255,255,.06)}
-.action-pill{padding:10px 12px;border-radius:12px;font-size:.8rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:#ecf2f8} .action-pill.start{background:rgba(83,239,185,.12);border-color:rgba(83,239,185,.25);color:var(--accent)} .action-pill.delete{background:rgba(201,50,68,.1);border-color:rgba(201,50,68,.18);color:#ffb6be}
-.field{display:flex;flex-direction:column;gap:8px;margin-bottom:14px} .field:last-child{margin-bottom:0} .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:#b1bcc6;font-weight:800}
-.input,.textarea,.select{width:100%;min-height:50px;border-radius:16px;background:#232c39;border:1px solid rgba(255,255,255,.06);color:var(--text);padding:14px;font-size:.96rem} .textarea{min-height:98px;resize:none} .inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.block-card{border-color:rgba(83,239,185,.18);background:linear-gradient(180deg, rgba(83,239,185,.08), rgba(255,255,255,.02))} .exercise-compact{border-radius:18px;padding:14px;background:rgba(15,20,28,.74);border:1px solid rgba(255,255,255,.06);margin-top:12px}
-.exercise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px} .metric{border-radius:14px;padding:10px 8px;background:#2a3442;border:1px solid rgba(255,255,255,.06);text-align:center} .metric .m-label{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:#acb7c3} .metric .m-value{margin-top:6px;font-weight:800;font-size:.96rem}
-.library-list{margin-top:8px;padding-bottom:6px} .library-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px;margin-bottom:10px;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)} .library-item .l-main{min-width:0} .library-item .name{font-weight:800;line-height:1.2} .library-item .meta{font-size:.82rem;color:var(--muted);margin-top:4px;line-height:1.35}
-.plus-btn{width:38px;height:38px;border-radius:12px;background:rgba(83,239,185,.12);border:1px solid rgba(83,239,185,.24);color:var(--accent);display:grid;place-items:center;font-size:1.15rem;flex:0 0 auto}
-.timer-panel{text-align:center;padding:18px;border-radius:24px;background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);box-shadow:var(--shadow);margin-bottom:16px}
-.timer-panel .timer-label{font-size:.76rem;text-transform:uppercase;letter-spacing:.16em;color:#b6c0ca}
-.digital{font-size:3.5rem;line-height:1;margin:12px 0 10px;font-weight:900;letter-spacing:.02em;background:linear-gradient(180deg,#eff7fb,#57ebb7);-webkit-background-clip:text;background-clip:text;color:transparent}
-.progress-wrap{margin:14px 0 0} .progress-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px} .progress-bar{width:100%;height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden} .progress-bar>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:60%}
-.exec-item.completed{border-color:rgba(83,239,185,.22);background:linear-gradient(180deg, rgba(83,239,185,.09), rgba(255,255,255,.02))} .check{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.22);display:grid;place-items:center;flex:0 0 auto;color:transparent;font-size:.85rem;font-weight:900} .exec-item.completed .check{background:var(--accent);color:#032216;border-color:transparent}
-.note-box{margin-top:12px;border-radius:16px;padding:12px;background:#242e3b;color:#c6d1da;font-size:.92rem;border:1px solid rgba(255,255,255,.06);line-height:1.45}
-.footer-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px} .footer-actions.single{grid-template-columns:1fr}
+.seg-btn,.chip{flex:0 0 auto;padding:11px 14px;border-radius:15px;background:rgba(255,255,255,.045);border:1px solid var(--line);color:var(--text);font-weight:800;font-size:.86rem} .seg-btn.active{background:rgba(83,239,185,.14);border-color:rgba(83,239,185,.26);color:var(--accent)} .chip{border-radius:999px;font-size:.82rem} .chip.active{background:var(--accent);color:#02120b;border-color:transparent}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px} .tag{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--line)}
+.action-pill{padding:10px 12px;border-radius:12px;font-size:.8rem;background:rgba(255,255,255,.05);border:1px solid var(--line)} .action-pill.start{background:rgba(83,239,185,.12);border-color:rgba(83,239,185,.25);color:var(--accent)} .action-pill.delete{background:rgba(201,50,68,.1);border-color:rgba(201,50,68,.18);color:#ffb6be}
 .avatar-sm{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-weight:900;background:rgba(83,239,185,.12);color:var(--accent);border:1px solid rgba(83,239,185,.18)}
-.detail-list{display:grid;gap:10px} .detail-row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start} .detail-row .k{color:#aab6c2;font-size:.86rem} .detail-row .v{text-align:right;font-weight:700;max-width:62%}
-.menu-list{display:grid;gap:12px} .menu-item{display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:20px;padding:16px;background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.07);box-shadow:var(--shadow)} .menu-item .left{display:flex;align-items:center;gap:12px;min-width:0} .menu-item .ico{width:42px;height:42px;border-radius:14px;background:rgba(83,239,185,.12);color:var(--accent);display:grid;place-items:center;border:1px solid rgba(83,239,185,.18)} .menu-item .m-title{font-weight:800} .menu-item .m-sub{font-size:.84rem;color:var(--muted);margin-top:4px;line-height:1.35}
-.bottom-nav{position:absolute;left:0;right:0;bottom:0;z-index:70;height:calc(var(--navH) + var(--bottomSafe));padding:8px 8px calc(10px + var(--bottomSafe));background:linear-gradient(180deg, rgba(14,19,27,.82), rgba(20,26,37,.96));backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
-.nav-btn{min-width:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#8f9baa;font-size:.56rem;line-height:1.05;text-transform:uppercase;letter-spacing:.03em;font-weight:800;padding:4px 1px;text-align:center;overflow:hidden} .nav-btn .nav-ico{width:22px;height:22px;display:grid;place-items:center;flex:0 0 auto} .nav-btn.active{color:var(--accent)}
+.timer-panel{text-align:center;padding:18px;border-radius:24px;background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));border:1px solid var(--line);box-shadow:var(--shadow);margin-bottom:16px}
+body.theme-light .timer-panel{background:#fff}
+.timer-panel .timer-label{font-size:.76rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted)}
+.digital{font-size:3.5rem;line-height:1;margin:12px 0 10px;font-weight:900;letter-spacing:.02em;background:linear-gradient(180deg,#eff7fb,#57ebb7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.progress-wrap{margin:14px 0 0} .progress-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:10px} .progress-bar{width:100%;height:9px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden} .progress-bar>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+body.theme-light .progress-bar{background:rgba(0,0,0,.08)}
+.exec-item.completed{border-color:rgba(83,239,185,.22);background:linear-gradient(180deg, rgba(83,239,185,.09), rgba(255,255,255,.02))}
+.check{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.22);display:grid;place-items:center;flex:0 0 auto;color:transparent;font-size:.85rem;font-weight:900} .exec-item.completed .check{background:var(--accent);color:#032216;border-color:transparent}
+body.theme-light .check{border-color:rgba(0,0,0,.18)}
+.note-box{margin-top:12px;border-radius:16px;padding:12px;background:#242e3b;color:#c6d1da;font-size:.92rem;border:1px solid var(--line);line-height:1.45}
+body.theme-light .note-box{background:#f4f7fb;color:#334055}
+.footer-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px} .footer-actions.single{grid-template-columns:1fr}
+.detail-list{display:grid;gap:10px} .detail-row{display:flex;justify-content:space-between;gap:10px;align-items:flex-start} .detail-row .k{color:var(--muted);font-size:.86rem} .detail-row .v{text-align:right;font-weight:700;max-width:62%}
+.bottom-nav{position:absolute;left:0;right:0;bottom:0;z-index:70;height:calc(var(--navH) + var(--bottomSafe));padding:8px 8px calc(10px + var(--bottomSafe));background:linear-gradient(180deg,rgba(14,19,27,.82),rgba(20,26,37,.96));backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+body.theme-light .bottom-nav{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(245,248,252,.98))}
+.nav-btn{min-width:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:.56rem;line-height:1.05;text-transform:uppercase;letter-spacing:.03em;font-weight:800;padding:4px 1px;text-align:center;overflow:hidden} .nav-btn .nav-ico{width:22px;height:22px;display:grid;place-items:center;flex:0 0 auto} .nav-btn.active{color:var(--accent)}
 .fab{position:fixed;right:calc(16px + (100vw - min(100vw,520px))/2);bottom:calc(var(--navH) + 20px + var(--bottomSafe));width:56px;height:56px;border-radius:18px;background:linear-gradient(180deg,var(--accent),var(--accent2));color:#04110d;display:grid;place-items:center;box-shadow:0 14px 30px rgba(83,239,185,.28);z-index:62}
-.modal-backdrop{position:absolute;inset:0;background:rgba(3,7,12,.66);backdrop-filter:blur(8px);display:none;align-items:flex-end;z-index:90} .modal-backdrop.open{display:flex}} .sheet{width:100%;max-height:88dvh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;border-radius:28px 28px 0 0;padding:14px 18px calc(18px + var(--bottomSafe));background:linear-gradient(180deg,#101925,#0c131c);border-top:1px solid rgba(255,255,255,.08);box-shadow:0 -18px 40px rgba(0,0,0,.4)}} .grabber{width:54px;height:5px;border-radius:999px;background:rgba(255,255,255,.14);margin:4px auto 14px}
-.hidden{display:none !important}
-@media (max-width:420px){.title{font-size:1.14rem} .subtitle{font-size:.84rem} .hero .main{font-size:1.26rem;max-width:none} .hero .meta{font-size:.86rem;max-width:none} .footer-actions{grid-template-columns:1fr} .quick-btn{min-height:84px} .digital{font-size:3.1rem}}
-@media (min-width:520px){body{display:grid;place-items:center;padding:10px;background:#02070e} .app{border-radius:34px;box-shadow:0 24px 70px rgba(0,0,0,.46)} .fab{right:calc(50% - 260px + 16px)}}
+.modal-backdrop{position:absolute;inset:0;background:rgba(3,7,12,.66);backdrop-filter:blur(8px);display:none;align-items:flex-end;z-index:90} .modal-backdrop.open{display:flex}
+.sheet{width:100%;max-height:88dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;border-radius:28px 28px 0 0;padding:14px 18px calc(18px + var(--bottomSafe));background:linear-gradient(180deg,#101925,#0c131c);border-top:1px solid var(--line);box-shadow:0 -18px 40px rgba(0,0,0,.4)}
+body.theme-light .sheet{background:#eef5fb}
+.grabber{width:54px;height:5px;border-radius:999px;background:rgba(255,255,255,.14);margin:4px auto 14px} .hidden{display:none !important}
+.field{display:flex;flex-direction:column;gap:8px;margin-bottom:14px} .field:last-child{margin-bottom:0} .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}
+.builder-list{display:grid;gap:10px}
+.topbar{margin-bottom:16px}
+.title{font-size:1.22rem;font-weight:900}
+.subtitle{font-size:.92rem}
+.routine-title,.patient-name,.exercise-name{font-size:1.08rem;font-weight:900;line-height:1.18}
+.searchbar,.input,.textarea,.select{min-height:58px;border-radius:20px}
+.seg-btn,.chip{min-height:54px;padding:0 18px;display:flex;align-items:center;justify-content:center}
+.routine-card,.patient-card,.detail-card,.exec-item,.sheet-card,.builder-box,.session-card{border-radius:24px;padding:18px}
+.home-greeting{margin-bottom:14px}
+.home-greeting .hello{font-size:1.05rem;font-weight:800;line-height:1.15}
+.home-greeting .sub{font-size:.84rem;color:var(--muted);margin-top:6px;font-weight:700}
+.home-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.home-stat{min-height:138px;border-radius:22px;padding:16px;border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between}
+body.theme-light .home-stat{background:#fff}
+.home-stat.full{min-height:98px;grid-column:1 / -1}
+.home-stat .k{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.home-stat .v{font-size:1.92rem;line-height:1;font-weight:900}
+.home-stat .v small{font-size:1rem;color:var(--accent);font-weight:900}
+.home-live-title{font-size:.92rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:900;margin:2px 0 12px}
+.home-live-card{border-radius:22px;padding:18px;border:1px solid rgba(83,239,185,.45);background:linear-gradient(180deg, rgba(83,239,185,.14), rgba(83,239,185,.05));box-shadow:var(--shadow)}
+.home-live-top{display:flex;gap:12px;align-items:flex-start}
+.home-live-icon{width:52px;height:52px;border-radius:16px;background:rgba(83,239,185,.18);display:grid;place-items:center;color:var(--accent);font-size:1.4rem;font-weight:900}
+.home-live-state{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:900}
+.home-live-name{font-size:1.05rem;font-weight:900;line-height:1.1;margin-top:2px}
+.home-live-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.home-live-tag{padding:10px 12px;border-radius:12px;background:rgba(18,24,35,.72);border:1px solid rgba(255,255,255,.06)}
+.home-live-tag .t1{font-size:.7rem;text-transform:uppercase;color:var(--muted);font-weight:800;letter-spacing:.06em}
+.home-live-tag .t2{font-size:.92rem;font-weight:800;margin-top:2px}
+.home-live-timer{font-size:3rem;line-height:1;font-weight:900;text-align:center;color:var(--accent);margin:18px 0 14px}
+.home-live-btn{width:100%;min-height:52px;border-radius:14px;background:linear-gradient(180deg,var(--accent),var(--accent2));color:#04110d;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:420px){.footer-actions{grid-template-columns:1fr} .digital{font-size:3.1rem} .home-live-timer{font-size:2.6rem} .home-stat .v{font-size:1.76rem}}
 </style>
 </head>
 <body>
-<div class="app" id="app">
+<div class="app">
   <main>
     <section class="screen active" data-screen="home">
-      <div class="topbar">
-        <div class="brand">
-          <div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 12c2.76 0 5-2.69 5-6s-2.24-6-5-6-5 2.69-5 6 2.24 6 5 6Zm0 2c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6Z"/></svg></div>
-          <div class="brand-stack">
-            <div class="eyebrow" id="homeEyebrow">Panel clínico</div>
-            <div class="title" id="homeGreeting">Buen día, Dr. Ríos</div>
-            <div class="subtitle" id="homeSubtitle">Control de pacientes, rutinas y sesiones activas</div>
-          </div>
-        </div>
-        <button class="icon-btn" aria-label="Buscar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+      <div class="home-greeting">
+        <div class="hello" id="brandUserName">Hola, Dr. Ruiz</div>
+        <div class="sub">Panel de control clínico hoy</div>
       </div>
 
-      <div class="hero">
-        <div class="small">KINEPRO</div>
-        <div class="main">Herramienta clínica para trabajo real en rehabilitación</div>
-        <div class="meta">Crea rutinas, ejecuta sesiones en vivo, registra observaciones y sigue el progreso del paciente desde el celular.</div>
-        <div class="hero-actions">
-          <button class="badge active">● Sesión activa</button>
-          <button class="badge">12 plantillas guardadas</button>
+      <div class="home-stats-grid">
+        <div class="home-stat">
+          <div class="k">Total pacientes</div>
+          <div class="v"><span id="homePatientCount">0</span><small id="homePatientDelta"></small></div>
+        </div>
+        <div class="home-stat">
+          <div class="k">Sesiones activas</div>
+          <div class="v"><span id="homeActiveCount">0</span><small id="homeActiveDot"></small></div>
+        </div>
+        <div class="home-stat full">
+          <div class="k">Sesiones hoy</div>
+          <div class="v"><span id="homeFinishedToday">0</span> <small>/ 12 cupos</small></div>
         </div>
       </div>
 
-      <div class="grid3">
-        <div class="stat"><div class="label">Pacientes</div><div class="value">48</div><div class="delta">+4 este mes</div></div>
-        <div class="stat"><div class="label">Activas</div><div class="value">3</div><div class="delta">2 en curso</div></div>
-        <div class="stat"><div class="label">Hoy</div><div class="value">14</div><div class="delta">9 cerradas</div></div>
-      </div>
-
-      <div class="section-head"><div class="section-title">Sesiones en curso</div><button class="section-link" data-go="execution">Ver ejecución</button></div>
-      <div class="session-card">
-        <div class="between">
-          <div class="stack">
-            <div class="mini">Paciente</div>
-            <div class="routine-title">Marta Gómez</div>
-            <div class="mini">Post-Op ACL Recovery · Bloque Día 2</div>
-          </div>
-          <span class="badge active">Activa</span>
-        </div>
-        <div class="between" style="margin-top:14px;align-items:flex-end">
-          <div><div class="mini">Cronómetro visible</div><div class="session-time" id="homeTimer">24:42</div></div>
-          <div class="stack" style="align-items:flex-end"><div class="mini">Progreso</div><div class="strong">60%</div></div>
-        </div>
-        <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill start" data-go="execution">Abrir sesión</button><button class="action-pill" id="homeNoteBtn">Registrar nota</button></div>
-      </div>
-
-      <div class="section-head"><div class="section-title">Accesos rápidos</div></div>
-      <div class="grid2">
-        <button class="quick-btn" data-go="execution"><span class="k"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"></path><path d="M4 5h2v14H4z"></path></svg></span><span class="t">Nueva sesión</span><span class="s">Cronómetro, progreso y registro clínico</span></button>
-        <button class="quick-btn" data-go="patients"><span class="k"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.79 2.99-4S17.66 3 16 3s-3 1.79-3 4 1.34 4 3 4Zm-8 0c1.66 0 2.99-1.79 2.99-4S9.66 3 8 3 5 4.79 5 7s1.34 4 3 4Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.92 1.97 3.45V19H23v-2.5c0-2.33-4.67-3.5-7-3.5Z"/></svg></span><span class="t">Ver pacientes</span><span class="s">Ficha clínica, evolución e historial</span></button>
-        <button class="quick-btn" data-go="editor"><span class="k"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25Zm18-11.5a1 1 0 0 0 0-1.41l-1.34-1.34a1 1 0 0 0-1.41 0L15.13 4.1l3.75 3.75L21 5.75Z"/></svg></span><span class="t">Nueva rutina</span><span class="s">Editor por día o por semana</span></button>
-        <button class="quick-btn" data-open-sheet="templates"><span class="k"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2Zm-7 9H8V8h4v4Zm4 0h-2V8h2v4Z"/></svg></span><span class="t">Plantillas</span><span class="s">Modelos reutilizables para distintos casos</span></button>
-      </div>
+      <div class="home-live-title">Sesión en tiempo real</div>
+      <div id="homeSessionsList"></div>
     </section>
 
     <section class="screen" data-screen="routines">
       <div class="topbar">
-        <div class="brand"><div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.63-.94L14.4 2.5a.5.5 0 0 0-.49-.4h-3.84a.5.5 0 0 0-.49.4l-.36 2.82c-.58.22-1.12.53-1.63.94L5.2 5.3a.5.5 0 0 0-.6.22L2.68 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.8 14.52a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.5.41 1.05.72 1.63.94l.36 2.82c.03.24.24.4.49.4h3.84c.25 0 .46-.18.49-.4l.36-2.82c.58-.22 1.12-.53 1.63-.94l2.39.96c.22.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg></div><div class="brand-stack"><div class="eyebrow">Gestión de rutinas</div><div class="title">Rutinas y plantillas</div></div></div>
-        <button class="icon-btn" data-go="editor"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 11H13V5h-2v6H5v2h6v6h2v-6h6z"/></svg></button>
+        <div class="brand"><div class="avatar">≣</div><div><div class="eyebrow">Gestión de rutinas</div><div class="title">Rutinas y plantillas</div></div></div>
+        <button class="icon-btn" data-go="builder">＋</button>
       </div>
-      <div class="searchbar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="text" placeholder="Buscar rutinas, pacientes o plantillas" /></div>
-      <div class="segmented"><button class="seg-btn active">Rutinas</button><button class="seg-btn">Plantillas</button><button class="seg-btn">Recientes</button></div>
-      <div class="routine-card"><div class="between"><div><div class="routine-title">Reeducación de rodilla post LCA</div><div class="mini">Paciente: Marta Gómez · 31/03/2026</div></div><span class="badge active">Activa</span></div><div class="tags"><span class="tag">Día 2</span><span class="tag">Rodilla</span><span class="tag">Estabilidad</span></div><div class="mini" style="margin-top:10px">Buena tolerancia al trabajo isométrico. Seguir controlando extensión terminal y descarga.</div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill" data-go="editor">Editar</button><button class="action-pill" id="dupRoutineBtn">Duplicar</button><button class="action-pill delete" id="delRoutineBtn">Eliminar</button><button class="action-pill start" data-go="execution">Iniciar sesión</button></div></div>
-      <div class="routine-card"><div class="between"><div><div class="routine-title">Control lumbopélvico y cadena posterior</div><div class="mini">Paciente: Juan Molina · 30/03/2026</div></div><span class="badge">Pendiente</span></div><div class="tags"><span class="tag">Semana 1</span><span class="tag">Espalda</span><span class="tag">Movilidad</span></div><div class="mini" style="margin-top:10px">Agregar variantes funcionales si no hay dolor irradiado. Priorizar patrón respiratorio.</div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill" data-go="editor">Editar</button><button class="action-pill">Duplicar</button><button class="action-pill delete">Eliminar</button><button class="action-pill start" data-go="execution">Iniciar sesión</button></div></div>
-      <div class="routine-card"><div class="between"><div><div class="routine-title">Plantilla hombro post inmovilización</div><div class="mini">Sin paciente asignado · 25/03/2026</div></div><span class="badge template">Plantilla</span></div><div class="tags"><span class="tag">Hombro</span><span class="tag">Movilidad</span><span class="tag">Rehabilitación</span></div><div class="mini" style="margin-top:10px">Base reutilizable para fases iniciales con progresión semanal y control de dolor.</div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill">Editar</button><button class="action-pill">Duplicar</button><button class="action-pill delete">Eliminar</button><button class="action-pill start">Usar plantilla</button></div></div>
-      <div class="footer-actions single"><button class="primary-btn" data-go="editor">Crear nueva rutina</button></div>
+      <div class="searchbar"><span>⌕</span><input id="routineSearch" type="text" placeholder="Buscar rutina o paciente"></div>
+      <div class="segmented"><button class="seg-btn active" data-routetab="rutinas">Rutinas</button><button class="seg-btn" data-routetab="plantillas">Plantillas</button></div>
+      <div id="routinesList"></div>
+    </section>
+
+    <section class="screen" data-screen="builder">
+      <div class="topbar">
+        <div class="brand"><div class="avatar">✎</div><div><div class="eyebrow">Constructor</div><div class="title">Armar rutina</div><div class="subtitle">Crea una rutina desde cero</div></div></div>
+        <button class="icon-btn" onclick="resetBuilder()">↺</button>
+      </div>
+      <div class="builder-box">
+        <div class="field">
+          <label class="label">Paciente</label>
+          <div class="select"><select id="builderPatient"></select></div>
+        </div>
+        <div class="field">
+          <label class="label">Nombre de la rutina</label>
+          <div class="input"><input id="builderRoutineName" type="text" placeholder="Ej. Reeducación de rodilla"></div>
+        </div>
+        <div class="field">
+          <label class="label">Observaciones</label>
+          <textarea class="textarea" id="builderObservations" placeholder="Indicaciones generales"></textarea>
+        </div>
+        <div class="row" style="gap:8px;flex-wrap:wrap;margin-bottom:14px">
+          <button class="action-pill start" onclick="openLibrary(true)">Agregar ejercicio</button>
+          <button class="action-pill" onclick="addCustomExercise()">Ejercicio manual</button>
+        </div>
+        <div class="section-head"><div class="section-title">Ejercicios cargados</div><div class="mini" id="builderCount">0 ejercicios</div></div>
+        <div class="builder-list" id="builderExercises"></div>
+        <div class="footer-actions single"><button class="primary-btn" onclick="saveBuiltRoutine()">Guardar rutina</button></div>
+      </div>
     </section>
 
     <section class="screen" data-screen="execution">
       <div class="topbar">
-        <div class="brand"><div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M7 2h10v2h-1v3.07A7.001 7.001 0 0 1 12 20a7.001 7.001 0 0 1-4-12.93V4H7V2Zm3 2v4.26l-.47.29A5 5 0 1 0 14 8.55l-.47-.29V4h-3.53Z"/></svg></div><div class="brand-stack"><div class="eyebrow">Sesión activa</div><div class="title">Marta Gómez</div><div class="subtitle">Post-Op ACL Recovery · Día 2</div></div></div>
-        <button class="icon-btn" id="sessionMenuBtn"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="12" cy="5" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="12" cy="19" r="2"></circle></svg></button>
+        <div class="brand"><div class="avatar">⏱</div><div><div class="eyebrow">Sesión activa</div><div class="title" id="execPatientName">Sin sesión activa</div><div class="subtitle" id="execRoutineName">Selecciona una rutina desde Rutinas</div></div></div>
+        <button class="icon-btn" id="resetSessionBtn">↺</button>
       </div>
-      <div class="timer-panel"><div class="timer-label">Tiempo de sesión actual</div><div class="digital" id="executionTimer">24:42</div><div class="badge active" id="sessionState">Sesión activa</div><div class="progress-wrap"><div class="progress-head"><span class="mini">Progreso global</span><span class="strong" id="progressText">60%</span></div><div class="progress-bar"><span id="progressFill" style="width:60%"></span></div></div></div>
-      <div class="section-head"><div class="section-title">Bloque actual</div><button class="section-link" id="addObservationBtn">Registrar observación</button></div>
-      <div class="exec-item completed"><div class="between"><div class="row" style="align-items:flex-start"><div class="check">✓</div><div><div class="exercise-name">Quad Setting Isometric</div><div class="mini">3 sets · 10 reps · hold 5s</div></div></div><button class="icon-btn" style="width:40px;height:40px;border-radius:14px" id="quadNoteBtn"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2Z"/></svg></button></div></div>
-      <div class="exec-item completed"><div class="between"><div class="row" style="align-items:flex-start"><div class="check">✓</div><div><div class="exercise-name">Straight Leg Raise</div><div class="mini">Objetivo activo · control de extensión terminal</div></div></div><button class="badge active" id="repsBadgeBtn">12 reps</button></div><div class="exercise-grid"><div class="metric"><div class="m-label">Sets</div><div class="m-value">3</div></div><div class="metric"><div class="m-label">Reales</div><div class="m-value">12</div></div><div class="metric"><div class="m-label">Carga</div><div class="m-value">2.5</div></div></div><div class="note-box">Observación clínica: buena activación, leve fatiga al final de la serie. Sin compensaciones relevantes.</div></div>
-      <div class="exec-item" data-completable><div class="between"><div class="row" style="align-items:flex-start"><div class="check"></div><div><div class="exercise-name">Terminal Knee Extension</div><div class="mini">2 sets · 15 reps · banda amarilla</div></div></div><button class="action-pill load-data-btn">Cargar datos</button></div></div>
-      <div class="exec-item" data-completable><div class="between"><div class="row" style="align-items:flex-start"><div class="check"></div><div><div class="exercise-name">Heel Slides</div><div class="mini">3 sets · 10 reps · asistido</div></div></div><button class="action-pill load-data-btn">Cargar datos</button></div></div>
+      <div class="timer-panel">
+        <div class="timer-label">Tiempo de sesión actual</div>
+        <div class="digital" id="executionTimer">00:00</div>
+        <div class="badge paused" id="sessionState">Sin iniciar</div>
+        <div class="progress-wrap"><div class="progress-head"><span class="mini">Progreso global</span><span id="progressText">0%</span></div><div class="progress-bar"><span id="progressFill"></span></div></div>
+        <div class="row" style="margin-top:14px;justify-content:center"><span class="badge warning hidden" id="hourNoticeBadge">60 min alcanzados</span></div>
+      </div>
+      <div class="section-head"><div class="section-title">Ejercicios del bloque actual</div><button class="section-link" onclick="notify('Registrar observación')">Registrar observación</button></div>
+      <div id="executionExercises"></div>
       <div class="footer-actions"><button class="secondary-btn" id="pauseBtn">Pausar</button><button class="secondary-btn" id="resumeBtn">Reanudar</button></div>
       <div class="footer-actions single"><button class="danger-btn" id="finishSessionBtn">Finalizar sesión</button></div>
     </section>
 
     <section class="screen" data-screen="patients">
       <div class="topbar">
-        <div class="brand"><div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.79 2.99-4S17.66 3 16 3s-3 1.79-3 4 1.34 4 3 4Zm-8 0c1.66 0 2.99-1.79 2.99-4S9.66 3 8 3 5 4.79 5 7s1.34 4 3 4Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.92 1.97 3.45V19H23v-2.5c0-2.33-4.67-3.5-7-3.5Z"/></svg></div><div class="brand-stack"><div class="eyebrow">Base clínica</div><div class="title">Pacientes</div></div></div>
-        <button class="icon-btn" id="newPatientBtn"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 11H13V5h-2v6H5v2h6v6h2v-6h6z"/></svg></button>
+        <div class="brand"><div class="avatar">👥</div><div><div class="eyebrow">Base clínica</div><div class="title">Pacientes</div></div></div>
+        <button class="icon-btn" onclick="createPatient()">＋</button>
       </div>
-      <div class="searchbar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input type="text" placeholder="Buscar por nombre, fase o patología" /></div>
-      <div class="patient-card" data-go="patient-profile"><div class="between"><div class="row"><div class="avatar-sm">MG</div><div><div class="patient-name">Marta Gómez</div><div class="mini">Fase de tratamiento: reacondicionamiento inicial</div></div></div><span class="badge active">ACL</span></div><div class="tags"><span class="tag">+54 299 555 1020</span><span class="tag">Control semanal</span></div><div class="mini" style="margin-top:10px">Dolor bajo control. Persistencia de déficit en extensión terminal y leve inhibición cuadricipital.</div></div>
-      <div class="patient-card"><div class="between"><div class="row"><div class="avatar-sm">JM</div><div><div class="patient-name">Juan Molina</div><div class="mini">Fase de tratamiento: movilidad y control motor</div></div></div><span class="badge">Lumbar</span></div><div class="tags"><span class="tag">+54 299 555 9811</span><span class="tag">2 sesiones por semana</span></div><div class="mini" style="margin-top:10px">Buena adherencia. Molestia residual a la flexión sostenida. Mejoró la tolerancia a ejercicios de estabilidad.</div></div>
-      <div class="patient-card"><div class="between"><div class="row"><div class="avatar-sm">LP</div><div><div class="patient-name">Lucía Pérez</div><div class="mini">Fase de tratamiento: retorno funcional</div></div></div><span class="badge">Hombro</span></div><div class="tags"><span class="tag">+54 299 555 4132</span><span class="tag">Alta próxima</span></div><div class="mini" style="margin-top:10px">Rango casi completo. Seguir con trabajo excéntrico y control escapular antes de alta deportiva.</div></div>
-      <div class="footer-actions single"><button class="primary-btn" id="createPatientBtn">Crear nuevo paciente</button></div>
-    </section>
-
-    <section class="screen" data-screen="more">
-      <div class="topbar">
-        <div class="brand"><div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></div><div class="brand-stack"><div class="eyebrow">Herramientas extra</div><div class="title">Más</div></div></div>
-        <button class="icon-btn" id="settingsBtn"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.63-.94L14.4 2.5a.5.5 0 0 0-.49-.4h-3.84a.5.5 0 0 0-.49.4l-.36 2.82c-.58.22-1.12.53-1.63.94L5.2 5.3a.5.5 0 0 0-.6.22L2.68 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.8 14.52a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.5.41 1.05.72 1.63.94l.36 2.82c.03.24.24.4.49.4h3.84c.25 0 .46-.18.49-.4l.36-2.82c.58-.22 1.12-.53 1.63-.94l2.39.96c.22.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg></button>
-      </div>
-      <div class="menu-list">
-        <button class="menu-item" data-open-sheet="templates"><div class="left"><div class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2Z"/></svg></div><div><div class="m-title">Plantillas</div><div class="m-sub">Modelos reutilizables por patología o fase</div></div></div><span>›</span></button>
-        <button class="menu-item" data-open-sheet="library"><div class="left"><div class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-2H6.5a.5.5 0 0 1 0-1H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14Z"/></svg></div><div><div class="m-title">Biblioteca de ejercicios</div><div class="m-sub">Prokinesis y CES757 con buscador independiente</div></div></div><span>›</span></button>
-        <button class="menu-item" data-open-sheet="branding"><div class="left"><div class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6Z"/></svg></div><div><div class="m-title">Textos de inicio</div><div class="m-sub">Edita encabezado, saludo y subtítulo de la portada</div></div></div><span>›</span></button>
-        <button class="menu-item" id="exportWhatsappBtn"><div class="left"><div class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v11.17A2 2 0 0 0 4 19h3v3l4-3h9a2 2 0 0 0 2-1.83V6a2 2 0 0 0-2-2Zm-8.17 11.59-.86-.88 4.3-4.21H6v-1.25h9.24l-4.29-4.21.86-.88L17.6 10l-5.78 5.59Z"/></svg></div><div><div class="m-title">Exportar rutina por WhatsApp</div><div class="m-sub">Resumen claro para enviar al paciente</div></div></div><span>›</span></button>
-      </div>
-    </section>
-
-    <section class="screen" data-screen="editor">
-      <div class="topbar">
-        <div class="brand"><div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25Zm18-11.5a1 1 0 0 0 0-1.41l-1.34-1.34a1 1 0 0 0-1.41 0L15.13 4.1l3.75 3.75L21 5.75Z"/></svg></div><div class="brand-stack"><div class="eyebrow">Editor de rutina</div><div class="title">Crear o editar rutina</div></div></div>
-        <button class="icon-btn" data-go="routines"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.41L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.29-6.3 1.42 1.42Z"/></svg></button>
-      </div>
-      <div class="form-card">
-        <div class="field"><label class="label">Nombre del paciente</label><input class="input" type="text" value="Marta Gómez"></div>
-        <div class="inline-grid"><div class="field"><label class="label">Fecha automática</label><input class="input" type="text" value="31/03/2026"></div><div class="field"><label class="label">Modo</label><select class="select"><option>Por día</option><option>Por semana</option></select></div></div>
-        <div class="field"><label class="label">Nombre de la rutina</label><input class="input" type="text" value="Post-Op ACL Recovery"></div>
-        <div class="field"><label class="label">Observaciones generales</label><textarea class="textarea">Controlar extensión terminal. Mantener carga progresiva según tolerancia. Monitorear compensaciones de cadera.</textarea></div>
-      </div>
-      <div class="section-head"><div class="section-title">Bloques de la rutina</div><button class="section-link" id="addBlockBtn">Agregar bloque</button></div>
-      <div class="block-card"><div class="between"><div><div class="routine-title">Día 1</div><div class="mini">Activación inicial y movilidad controlada</div></div><button class="action-pill">Renombrar</button></div><div class="exercise-compact"><div class="between"><div><div class="exercise-name">Quad Setting Isometric</div><div class="mini">Isométrico · Rodilla</div></div><div class="row" style="gap:8px;flex-wrap:wrap"><button class="action-pill">Editar</button><button class="action-pill delete">Quitar</button></div></div><div class="exercise-grid"><div class="metric"><div class="m-label">Series</div><div class="m-value">3</div></div><div class="metric"><div class="m-label">Reps</div><div class="m-value">10</div></div><div class="metric"><div class="m-label">Peso</div><div class="m-value">0</div></div></div><div class="note-box">Observación: sostener 5 segundos y evitar elevación compensatoria de pelvis.</div></div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill start" data-open-sheet="library">Agregar ejercicio</button><button class="action-pill">Reordenar</button></div></div>
-      <div class="footer-actions single"><button class="primary-btn" id="saveRoutineBtn">Guardar rutina</button></div>
+      <div class="searchbar"><span>⌕</span><input id="patientSearch" type="text" placeholder="Buscar paciente"></div>
+      <div id="patientsList"></div>
     </section>
 
     <section class="screen" data-screen="patient-profile">
       <div class="topbar">
-        <div class="brand"><div class="avatar"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 12c2.76 0 5-2.69 5-6s-2.24-6-5-6-5 2.69-5 6 2.24 6 5 6Zm0 2c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6Z"/></svg></div><div class="brand-stack"><div class="eyebrow">Ficha clínica</div><div class="title">Marta Gómez</div><div class="subtitle">Seguimiento individual del paciente</div></div></div>
-        <button class="icon-btn" data-go="patients"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="m14 7-5 5 5 5V7Z"/></svg></button>
+        <div class="brand"><div class="avatar">👤</div><div><div class="eyebrow">Ficha clínica</div><div class="title" id="profileName">Paciente</div><div class="subtitle">Seguimiento individual</div></div></div>
+        <button class="icon-btn" data-go="patients">←</button>
       </div>
-      <div class="detail-card"><div class="detail-list"><div class="detail-row"><div class="k">Edad</div><div class="v">29 años</div></div><div class="detail-row"><div class="k">Teléfono</div><div class="v">+54 299 555 1020</div></div><div class="detail-row"><div class="k">Email</div><div class="v">marta.gomez@email.com</div></div><div class="detail-row"><div class="k">Fase</div><div class="v">Reacondicionamiento inicial</div></div><div class="detail-row"><div class="k">Antecedentes</div><div class="v">Reconstrucción LCA, sin comorbilidades relevantes</div></div><div class="detail-row"><div class="k">Observaciones</div><div class="v">Buena adherencia. Déficit leve en extensión terminal.</div></div></div></div>
+      <div class="detail-card" id="profileDetails"></div>
+      <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill start" onclick="editCurrentPatient()">Editar paciente</button></div>
       <div class="section-head"><div class="section-title">Rutinas asociadas</div></div>
-      <div class="routine-card"><div class="between"><div><div class="routine-title">Post-Op ACL Recovery</div><div class="mini">Actualizada hoy · 2 bloques activos</div></div><span class="badge active">En uso</span></div></div>
+      <div id="profileRoutines"></div>
       <div class="section-head"><div class="section-title">Historial de sesiones</div></div>
-      <div class="routine-card"><div class="between"><div><div class="routine-title">31/03 · Sesión 14</div><div class="mini">Mejor control en SLR. Toleró 2.5 kg sin dolor.</div></div><span class="badge">35 min</span></div></div>
-      <div class="routine-card"><div class="between"><div><div class="routine-title">29/03 · Sesión 13</div><div class="mini">Persistió rigidez inicial. Mejoró al final de la sesión.</div></div><span class="badge">33 min</span></div></div>
-      <div class="section-head"><div class="section-title">Evolución reciente</div></div>
-      <div class="detail-card"><div class="mini">Dolor subjetivo ↓ · Extensión activa ↑ · Mayor tolerancia a estabilidad básica y carga progresiva.</div></div>
+      <div id="profileHistory"></div>
+    </section>
+
+    <section class="screen" data-screen="more">
+      <div class="topbar">
+        <div class="brand"><div class="avatar">⋯</div><div><div class="eyebrow">Herramientas extra</div><div class="title">Más</div></div></div>
+        <button class="icon-btn" onclick="openSettings()">⚙</button>
+      </div>
+      <div class="sheet-card">
+        <div class="between">
+          <div><div class="routine-title">Configuración</div><div class="mini">Nombre del usuario, color y tema de la app</div></div>
+          <button class="action-pill start" onclick="openSettings()">Abrir</button>
+        </div>
+      </div>
+      <div class="sheet-card" style="margin-top:12px">
+        <div class="between">
+          <div><div class="routine-title">Biblioteca de ejercicios</div><div class="mini">Prokinesis y CES757</div></div>
+          <button class="action-pill start" onclick="openLibrary()">Abrir</button>
+        </div>
+      </div>
     </section>
   </main>
 
-  <button class="fab" data-go="editor" aria-label="Crear"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 11H13V5h-2v6H5v2h6v6h2v-6h6z"/></svg></button>
+  <button class="fab" id="fabActionBtn">＋</button>
 
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-nav="home"><span class="nav-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 3 3 10v11h6v-7h6v7h6V10l-9-7Z"/></svg></span><span>Inicio</span></button>
-    <button class="nav-btn" data-nav="routines"><span class="nav-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M3 5h18v4H3V5Zm0 5h18v4H3v-4Zm0 5h18v4H3v-4Z"/></svg></span><span>Rutinas</span></button>
-    <button class="nav-btn" data-nav="execution"><span class="nav-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></span><span>Ejecución</span></button>
-    <button class="nav-btn" data-nav="patients"><span class="nav-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.79 2.99-4S17.66 3 16 3s-3 1.79-3 4 1.34 4 3 4Zm-8 0c1.66 0 2.99-1.79 2.99-4S9.66 3 8 3 5 4.79 5 7s1.34 4 3 4Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.92 1.97 3.45V19H23v-2.5c0-2.33-4.67-3.5-7-3.5Z"/></svg></span><span>Pacientes</span></button>
-    <button class="nav-btn" data-nav="more"><span class="nav-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></span><span>Más</span></button>
+    <button class="nav-btn active" data-nav="home"><span class="nav-ico">⌂</span><span>Inicio</span></button>
+    <button class="nav-btn" data-nav="routines"><span class="nav-ico">≣</span><span>Rutinas</span></button>
+    <button class="nav-btn" data-nav="execution"><span class="nav-ico">▶</span><span>Ejecución</span></button>
+    <button class="nav-btn" data-nav="patients"><span class="nav-ico">👥</span><span>Pacientes</span></button>
+    <button class="nav-btn" data-nav="more"><span class="nav-ico">⋯</span><span>Más</span></button>
   </nav>
 
   <div class="modal-backdrop" id="sheetBackdrop">
     <div class="sheet">
       <div class="grabber"></div>
 
-      <div id="sheetTemplates" class="sheet-view hidden">
-        <div class="between" style="margin-bottom:14px"><div><div class="eyebrow">Plantillas</div><div class="title">Biblioteca reutilizable</div></div><button class="icon-btn close-sheet" style="width:40px;height:40px;border-radius:14px"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.41L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.29-6.3 1.42 1.42Z"/></svg></button></div>
-        <div class="library-list">
-          <div class="library-item"><div class="l-main"><div class="name">Plantilla rodilla fase inicial</div><div class="meta">Movilidad, isométricos y control de carga</div></div><button class="plus-btn">+</button></div>
-          <div class="library-item"><div class="l-main"><div class="name">Plantilla hombro post inmovilización</div><div class="meta">Recuperación de rango y control escapular</div></div><button class="plus-btn">+</button></div>
-          <div class="library-item"><div class="l-main"><div class="name">Plantilla lumbalgia control motor</div><div class="meta">Respiración, core y patrón de bisagra</div></div><button class="plus-btn">+</button></div>
-        </div>
-      </div>
-
       <div id="sheetLibrary" class="sheet-view hidden">
-        <div class="between" style="margin-bottom:14px"><div><div class="eyebrow">Biblioteca de ejercicios</div><div class="title">Seleccionar ejercicio</div><div class="mini" id="libraryCount"></div></div><button class="icon-btn close-sheet" style="width:40px;height:40px;border-radius:14px"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.41L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.29-6.3 1.42 1.42Z"/></svg></button></div>
-        <div class="segmented" id="libraryTabs">
-          <button class="seg-btn active" data-libtab="prokinesis">Ejercicios Prokinesis</button>
-          <button class="seg-btn" data-libtab="ces757">Ejercicios CES757</button>
-        </div>
-
+        <div class="between" style="margin-bottom:14px"><div><div class="eyebrow">Biblioteca de ejercicios</div><div class="title">Seleccionar ejercicio</div><div class="mini" id="libraryCount"></div></div><button class="icon-btn close-sheet">✕</button></div>
+        <div class="segmented" id="libraryTabs"><button class="seg-btn active" data-libtab="prokinesis">Ejercicios Prokinesis</button><button class="seg-btn" data-libtab="ces757">Ejercicios CES757</button></div>
         <div id="pane-prokinesis" class="libpane">
-          <div class="searchbar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input id="searchProkinesis" type="text" placeholder="Buscar ejercicio en Prokinesis"></div>
-          <div class="filter-row" id="pkFiltersType">
-            <button class="chip active" data-type="Todos">Todos</button>
-            <button class="chip" data-type="Movilidad">Movilidad</button>
-            <button class="chip" data-type="Estabilidad">Estabilidad</button>
-            <button class="chip" data-type="Fuerza">Fuerza</button>
-            <button class="chip" data-type="Integrado">Integrado</button>
-            <button class="chip" data-type="Flexibilidad">Flexibilidad</button>
-          </div>
+          <div class="searchbar"><span>⌕</span><input id="searchProkinesis" type="text" placeholder="Buscar ejercicio en Prokinesis"></div>
+          <div class="filter-row" id="pkFiltersType"><button class="chip active" data-type="Todos">Todos</button><button class="chip" data-type="Movilidad">Movilidad</button><button class="chip" data-type="Estabilidad">Estabilidad</button><button class="chip" data-type="Fuerza">Fuerza</button><button class="chip" data-type="Flexibilidad">Flexibilidad</button></div>
           <div class="library-list" id="listProkinesis"></div>
         </div>
-
         <div id="pane-ces757" class="libpane hidden">
-          <div class="searchbar"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input id="searchCES" type="text" placeholder="Buscar ejercicio en CES757"></div>
+          <div class="searchbar"><span>⌕</span><input id="searchCES" type="text" placeholder="Buscar ejercicio en CES757"></div>
           <div class="library-list" id="listCES"></div>
         </div>
       </div>
 
-      <div id="sheetBranding" class="sheet-view hidden">
-        <div class="between" style="margin-bottom:14px"><div><div class="eyebrow">Personalización</div><div class="title">Textos del inicio</div></div><button class="icon-btn close-sheet" style="width:40px;height:40px;border-radius:14px"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.41L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.29 6.29-6.3 1.42 1.42Z"/></svg></button></div>
-        <div class="form-card">
-          <div class="field"><label class="label">Texto superior</label><input class="input" type="text" id="brandingEyebrowInput" value="Panel clínico"></div>
-          <div class="field"><label class="label">Saludo principal</label><input class="input" type="text" id="brandingTitleInput" value="Buen día, Dr. Ríos"></div>
-          <div class="field"><label class="label">Subtítulo</label><textarea class="textarea" id="brandingSubtitleInput">Control de pacientes, rutinas y sesiones activas</textarea></div>
-          <div class="footer-actions single"><button class="primary-btn" id="saveBrandingBtn">Guardar textos</button></div>
+      <div id="sheetSettings" class="sheet-view hidden">
+        <div class="between" style="margin-bottom:14px"><div><div class="eyebrow">Configuración</div><div class="title">Personalización de la app</div></div><button class="icon-btn close-sheet">✕</button></div>
+        <div class="field">
+          <label class="label">Nombre del usuario</label>
+          <div class="input"><input id="settingsUserName" type="text" placeholder="Ej. Dr. Ríos"></div>
         </div>
+        <div class="field">
+          <label class="label">Tema</label>
+          <div class="row" style="gap:8px;flex-wrap:wrap">
+            <button class="chip active" id="themeDarkBtn">Oscuro</button>
+            <button class="chip" id="themeLightBtn">Claro</button>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Color principal</label>
+          <div class="row" style="gap:8px;flex-wrap:wrap">
+            <button class="chip active color-choice" data-color="#53efb9">Verde</button>
+            <button class="chip color-choice" data-color="#55c6ff">Celeste</button>
+            <button class="chip color-choice" data-color="#b380ff">Violeta</button>
+            <button class="chip color-choice" data-color="#ff8a65">Coral</button>
+          </div>
+        </div>
+        <div class="footer-actions single"><button class="primary-btn" onclick="saveSettings()">Guardar configuración</button></div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-const prokinesis = [{"name":"Elongación fascia sentado","category":"Movilidad y activación escapular","group":"Escápula","type":"Movilidad"},{"name":"Elongación psoas dinámica","category":"Movilidad y activación escapular","group":"Piernas","type":"Movilidad"},{"name":"Estocada con rotación contraria con pesa rusa","category":"Movilidad y activación escapular","group":"Piernas","type":"Movilidad"},{"name":"Postura caballero manos juntas movilidad escapular","category":"Movilidad y activación escapular","group":"Escápula","type":"Movilidad"},{"name":"Spiderman (toco tobillos rotando)","category":"Movilidad y activación escapular","group":"Core","type":"Movilidad"},{"name":"Tocar rodillas en rotación","category":"Movilidad y activación escapular","group":"Core","type":"Movilidad"},{"name":"Espinales + movilidad escapular alternada","category":"Movilidad y activación escapular","group":"Espalda","type":"Movilidad"},{"name":"Retracción escapular con banda en codos","category":"Movilidad y activación escapular","group":"Escápula","type":"Movilidad"},{"name":"Rotación externa de hombro con banda","category":"Movilidad y activación escapular","group":"Brazos","type":"Movilidad"},{"name":"Superman","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Plancha alta con transferencia de mancuerna","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Plancha con apertura lateral y diagonal con banda","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Plancha baja con rotación escapular con mancuerna","category":"Core / escápula / estabilidad","group":"Escápula","type":"Estabilidad"},{"name":"Plancha alta a plancha baja con rodillas al pecho","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Oblicuos con pesa rusa","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Bicho muerto (y sus variantes)","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Rotaciones con banda arrodillado (Pallof press)","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Plancha lateral con mancuerna y flexión de rodilla","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Abductores en plancha lateral con disco","category":"Core / escápula / estabilidad","group":"Piernas","type":"Estabilidad"},{"name":"Vitalización en caballero con kettlebell invertida","category":"Core / escápula / estabilidad","group":"Escápula","type":"Estabilidad"},{"name":"Plancha y pies (adentro, afuera, arriba y abajo)","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Plancha y rodillas al medio y afuera","category":"Core / escápula / estabilidad","group":"Core","type":"Estabilidad"},{"name":"Aductores banco plancha lateral (Copenhague)","category":"Core / escápula / estabilidad","group":"Piernas","type":"Estabilidad"},{"name":"Bisagra de cadera con estiramiento posterior","category":"Movilidad cadena posterior","group":"Cadena posterior","type":"Flexibilidad"},{"name":"Elongación fascia (aguantando respiración)","category":"Movilidad cadena posterior","group":"Cadena posterior","type":"Flexibilidad"},{"name":"Elongación de columna en cruz","category":"Movilidad cadena posterior","group":"Espalda","type":"Flexibilidad"},{"name":"Saltos laterales alternados sobre cajón","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Peso muerto con barra","category":"Fuerza tren inferior / potencia","group":"Cadena posterior","type":"Fuerza"},{"name":"Búlgaras con vuelos laterales","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Sentadilla tocando tobillos alternados","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Desplazamiento lateral con banda + sentadilla","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Sentadilla con pesa rusa y banda en los pies","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Sentadillas en TRX","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Subida al cajón con mancuernas + press hombro","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Integrado"},{"name":"Subida al cajón con pesa rusa","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Sentadilla + saltos potencia","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Saltos a la barra a una pierna","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Sentadilla con barra","category":"Fuerza tren inferior / potencia","group":"Piernas","type":"Fuerza"},{"name":"Dominadas","category":"Fuerza tren superior","group":"Brazos","type":"Fuerza"},{"name":"Dominadas con peso","category":"Fuerza tren superior","group":"Brazos","type":"Fuerza"},{"name":"Aperturas de pecho en banco o pelota","category":"Fuerza tren superior","group":"Brazos","type":"Fuerza"},{"name":"Flexiones con remo","category":"Fuerza tren superior","group":"Brazos","type":"Fuerza"},{"name":"Flexiones de brazos con flexión de rodilla explosiva","category":"Fuerza tren superior","group":"Brazos","type":"Fuerza"},{"name":"Remo con banda elástica","category":"Fuerza tren superior","group":"Espalda","type":"Fuerza"},{"name":"Pecho / remo en TRX","category":"Fuerza tren superior","group":"Espalda","type":"Fuerza"},{"name":"Press de hombro con banda en la panza","category":"Fuerza tren superior","group":"Brazos","type":"Fuerza"},{"name":"Estocada con press de hombro unilateral","category":"Fuerza integrada (piernas + brazos)","group":"Piernas","type":"Integrado"},{"name":"Peso muerto con arranque de potencia unilateral","category":"Fuerza integrada (piernas + brazos)","group":"Cadena posterior","type":"Integrado"},{"name":"Peso muerto unipodal + press de hombros potente","category":"Fuerza integrada (piernas + brazos)","group":"Cadena posterior","type":"Integrado"},{"name":"Peso muerto unipodal + bíceps","category":"Fuerza integrada (piernas + brazos)","group":"Cadena posterior","type":"Integrado"},{"name":"Peso muerto unipodal + remo","category":"Fuerza integrada (piernas + brazos)","group":"Cadena posterior","type":"Integrado"},{"name":"Puente glúteo unilateral con press de pecho alternado","category":"Fuerza integrada (piernas + brazos)","group":"Piernas","type":"Integrado"},{"name":"Press en piso + puente glúteo (press pecho explosivo)","category":"Fuerza integrada (piernas + brazos)","group":"Piernas","type":"Integrado"},{"name":"Estocada + rotaciones con disco o pesa","category":"Fuerza integrada (piernas + brazos)","group":"Piernas","type":"Integrado"},{"name":"Arrodillado a parado con bíceps + hombro","category":"Fuerza integrada (piernas + brazos)","group":"Piernas","type":"Integrado"},{"name":"Burpees","category":"Fuerza integrada (piernas + brazos)","group":"Piernas","type":"Integrado"}];
-const ces757 = [];
+const prokinesis = [{"name": "Elongación fascia sentado", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Elongación psoas dinámica", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Estocada con rotación contraria con pesa rusa", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Postura caballero manos juntas movilidad escapular", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Spiderman (toco tobillos rotando)", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Tocar rodillas en rotación", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Espinales + movilidad escapular alternada", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Retracción escapular con banda en codos", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Rotación externa de hombro con banda", "category": "MOVILIDAD Y ACTIVACIÓN ESCAPULAR", "type": "Movilidad"}, {"name": "Superman", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha alta con transferencia de mancuerna", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha con apertura lateral y diagonal con banda", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha baja con rotación escapular con mancuerna", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha alta a plancha baja con rodillas al pecho", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Oblicuos con pesa rusa", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Bicho muerto (y sus variantes)", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Rotaciones con banda arrodillado (Pallof press)", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha lateral con mancuerna y flexión de rodilla", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Abductores en plancha lateral con disco", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Vitalización en caballero con kettlebell invertida", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha y pies (adentro, afuera, arriba y abajo)", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Plancha y rodillas al medio y afuera", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Aductores banco plancha lateral (Copenhague)", "category": "CORE / ESCÁPULA / ESTABILIDAD", "type": "Estabilidad"}, {"name": "Bisagra de cadera con estiramiento posterior", "category": "MOVILIDAD CADENA POSTERIOR", "type": "Flexibilidad"}, {"name": "Elongación fascia (aguantando respiración)", "category": "MOVILIDAD CADENA POSTERIOR", "type": "Flexibilidad"}, {"name": "Elongación de columna en cruz", "category": "MOVILIDAD CADENA POSTERIOR", "type": "Flexibilidad"}, {"name": "Saltos laterales alternados sobre cajón", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Peso muerto con barra", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Búlgaras con vuelos laterales", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Sentadilla tocando tobillos alternados", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Desplazamiento lateral con banda + sentadilla", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Sentadilla con pesa rusa y banda en los pies", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Sentadillas en TRX", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Subida al cajón con mancuernas + press hombro", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Subida al cajón con pesa rusa", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Sentadilla + saltos potencia", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Saltos a la barra a una pierna", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Sentadilla con barra", "category": "FUERZA TREN INFERIOR / POTENCIA", "type": "Fuerza"}, {"name": "Dominadas", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Dominadas con peso", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Aperturas de pecho en banco o pelota", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Flexiones con remo", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Flexiones de brazos con flexión de rodilla explosiva", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Remo con banda elástica", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Pecho / remo en TRX", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Press de hombro con banda en la panza", "category": "FUERZA TREN SUPERIOR", "type": "Fuerza"}, {"name": "Estocada con press de hombro unilateral", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Peso muerto con arranque de potencia unilateral", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Peso muerto unipodal + press de hombros potente", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Peso muerto unipodal + bíceps", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Peso muerto unipodal + remo", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Puente glúteo unilateral con press de pecho alternado", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Press en piso + puente glúteo (press pecho explosivo)", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Estocada + rotaciones con disco o pesa", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Arrodillado a parado con bíceps + hombro", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}, {"name": "Burpees", "category": "FUERZA INTEGRADA (PIERNAS + BRAZOS)", "type": "Fuerza"}];
+const ces757 = [{"name": "VITALIZACION", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION A 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION DOBLE INESTABLE", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION DEL CENTRO CRUZ ARRIBA", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION CRUZ DE ABAJO AL CENTRO", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION A 1 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION A 1 BB Y 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION A 1 BB DOBLE INESTABLE", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "VITALIZACION A 1 BB + ELAST LAT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION A 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION DOBLE INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION A 1 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION A 1 BB Y 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION A 1 BB Y DOBLE INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "MEDIA VITALIZACION + ELAS LATERAL", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON BARRA DE PNTA 2 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON BARRA DE PNTA 1 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON B.PNTA 2 BB + 1PP IN", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON B.PNTA 2 BB + 2 INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON B.PNTA 1 BB + 1PP IN", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON B.PNTA 1 BB + 2 INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP.DE FZA CON B.PNTA 2 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP. DE FZA CON B. PNTA 1 BB + EL ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP. DE FZA EN SPLIT CON B. PNTA A 2 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP. DE FZA EN SPLIT CON B. PNTA A 1 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 1 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 1 BB Y 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 1 BB DOBLE INESTABLE", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 2 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 2 BB CON 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 2 BB CON DOBLE INES", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA CON BARRA", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP. DE FZA CON B. Y DISCOS COLGANDO", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 1 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 1 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 2 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 2 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP. DE FZA A 1 BB 1PP INES + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMP. DE FZA A 2 BB 1PP INES + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 1 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA A 2 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA EN SPLIT A 1 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA EN SPLIT A 2 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA EN SENT BULG A 1 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "EMPUJE DE FZA EN SENT BULG A 2 BB", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 1 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 2 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO CON BARRA", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMP. CON B. Y DISC COLGANDO", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 1 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 1 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 2 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 2 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 1 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO A 2 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "FZA CON IMPULSO CON B. + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS"}, {"name": "2DO TIEMPO A 1 BB CON BARRA DE PNTA", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO A 2 BB CON BARRA DE PNTA", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO A 1BB CON MANC", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO A 2BB CON MANC", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO CON BARRA POR DETRÁS", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO A 1 PP Y 1 BB HL.", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO A 1 PP Y 1 BB CL.", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO A 1 PP Y 2 BB MANC", "category": "ACTIVADORES DLP"}, {"name": "2DO TIEMPO CON BARRA POR DELANTE", "category": "ACTIVADORES DLP"}, {"name": "2 TIEMPO B. PNTA (CON TIJERA)", "category": "ACTIVADORES DLP"}, {"name": "2 TIEMPO X DETRÁS (CON TIJERA)", "category": "ACTIVADORES DLP"}, {"name": "2 TIEMPO X DELANTE (CON TIJERA)", "category": "ACTIVADORES DLP"}, {"name": "ARRANQUE DE FZA A 1 BB", "category": "ACTIVADORES DLP"}, {"name": "ARRANQUE DE FZA A 1 BB Y 1 PP INES", "category": "ACTIVADORES DLP"}, {"name": "ARRANQUE DE POT A 1 BB", "category": "ACTIVADORES DLP"}, {"name": "ARR DE FZA DE INGLE", "category": "ACTIVADORES DLP"}, {"name": "ARR DE FZA DE MEDIO MUSLO", "category": "ACTIVADORES DLP"}, {"name": "ARR DE FZA COLGADO", "category": "ACTIVADORES DLP"}, {"name": "ARR DE POTENCIA DE INGLE", "category": "ACTIVADORES DLP"}, {"name": "ARR DE POTENCIA DE MEDIO MUSLO", "category": "ACTIVADORES DLP"}, {"name": "ARR DE POTENCIA COLGADO", "category": "ACTIVADORES DLP"}, {"name": "ARR DE POT. DE SOPORTE MEDIO MUSLO", "category": "ACTIVADORES DLP"}, {"name": "ARR DE POTENCIA DE SOPORTE COLGADO", "category": "ACTIVADORES DLP"}, {"name": "ARR DE POTENCIA DE SOPORTE B.R.", "category": "ACTIVADORES DLP"}, {"name": "ARR FRANCES", "category": "ACTIVADORES DLP"}, {"name": "ARR ALTERNO 1 PP/1 BB", "category": "ACTIVADORES DLP"}, {"name": "ARRANQUE ALTO DE VELOCIDAD", "category": "ACTIVADORES DLP"}, {"name": "METIDAS DE ARRANQUE CON INSTR. DE GUE", "category": "ACTIVADORES DLP"}, {"name": "METIDAS DE ARRANQUE", "category": "ACTIVADORES DLP"}, {"name": "METIDAS DE ARRANQUE A 2 O 3 POSICIONES", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT A 1 PP CON BARRA", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT A 1 PP + ELAS LAT. EN ROD.", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT A 1 PP + ELAS FRONT. EN ROD.", "category": "ACTIVADORES DLP"}, {"name": "CARG DE FZA DE MEDIO MUSLO", "category": "ACTIVADORES DLP"}, {"name": "CARG DE FZA DE COLGADO", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POTENCIA DE MEDIO MUSLO", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POTENCIA COLGADO", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT. DE SOPORTE MEDIO MUSLO", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT. DE SOPORTE COLGDADO", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT. DE SOPORTE B.R.", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT. COLGADO BAJO RODILLA", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT DE 1/2 MUSLO A LA FRANCESA", "category": "ACTIVADORES DLP"}, {"name": "CARG DE POT COLG A LA FRANCESA", "category": "ACTIVADORES DLP"}, {"name": "ENVION A UN PIE CON MANC", "category": "ACTIVADORES DLP"}, {"name": "SENTADILLA DE ARRANQUE", "category": "ACTIVADORES DLP"}, {"name": "SENTADILLA DE ARRANQUE CON MANC", "category": "ACTIVADORES DLP"}, {"name": "SENTADILLA DE ARRANQUE A 1 BB", "category": "ACTIVADORES DLP"}, {"name": "1ER TIRON DE ARR", "category": "PESAS"}, {"name": "1ER TIRON DE ENV", "category": "PESAS"}, {"name": "TIRON DE ARR", "category": "PESAS"}, {"name": "TIRON DE ENV", "category": "PESAS"}, {"name": "TRANSICION DE TIRON ARRANQUE", "category": "PESAS"}, {"name": "TRANSICION DE TIRON CARGADA", "category": "PESAS"}, {"name": "2DO TIRON DE ARR", "category": "PESAS"}, {"name": "2DO TIRON DE ENV", "category": "PESAS"}, {"name": "ARRANQUE DE POT", "category": "PESAS"}, {"name": "ARRANQUE CLASICO", "category": "PESAS"}, {"name": "ARRANQUE COLGADO", "category": "PESAS"}, {"name": "CARGADAS DE POT", "category": "PESAS"}, {"name": "CARGADAS", "category": "PESAS"}, {"name": "CARGADA DE POT + FZA CON IMPULSO", "category": "PESAS"}, {"name": "CARGADA DE POT + 2DO TIEMPO", "category": "PESAS"}, {"name": "CARGADAS + FZA CON IMPULSO", "category": "PESAS"}, {"name": "CARG DE POT COLGADO + FZA CON IMP.", "category": "PESAS"}, {"name": "CARG DE POT COLGADO + 2DO TIEMPO", "category": "PESAS"}, {"name": "ENVION DE POT", "category": "PESAS"}, {"name": "ENVION CLASICO", "category": "PESAS"}, {"name": "REMO CHINO", "category": "PESAS"}, {"name": "ARRANQUE DE INGLE", "category": "PESAS"}, {"name": "CARGADA DE MEDIO MUSLO", "category": "PESAS"}, {"name": "ENVION DE MEDIO MUSLO", "category": "PESAS"}, {"name": "SENTADILLAS BULGARAS CON MANC", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS A 1 MANC CL.", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS CON BARRA", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULG. CON DISC COLGANDO", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS EN TRX Y MANC", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS CON PP INES", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS DE ARR CON MANC", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS DE ARR PALITO", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULG. DE ARR CON BARRA", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULG. DE ARR CON ELAST", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS BULGARAS COPA", "category": "PP CADENA ANTERIOR"}, {"name": "SUBIDAS AL BANCO CON MANC", "category": "PP CADENA ANTERIOR"}, {"name": "SUBIDAS AL BANCO CON BARRA", "category": "PP CADENA ANTERIOR"}, {"name": "SUBIDAS AL BANCO A 1 BB HL.", "category": "PP CADENA ANTERIOR"}, {"name": "SUBIDAS AL BANCO A 1 BB CL.", "category": "PP CADENA ANTERIOR"}, {"name": "SUBIDAS AL BANCO + ELAS FROT", "category": "PP CADENA ANTERIOR"}, {"name": "SUBIDAS AL BANCO + ELAS LAT", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA A 1 PP CON APOYO", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA A 1 PP SIN APOYO", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA A 1 PP SIN APOYO + ELAS", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS CON MANC", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS CON MANC 1 BB CL.", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS CON BARRA", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS CON DISC COLGANDO", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS HIPER CON MANC", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS HIPER CON BARRA", "category": "PP CADENA ANTERIOR"}, {"name": "SPLITS COPA", "category": "PP CADENA ANTERIOR"}, {"name": "ESTOCADAS HACIA ATRÁS CON MANC", "category": "PP CADENA ANTERIOR"}, {"name": "ESTOCADAS HACIA ATRÁS COPA", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE SUMO", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE SUMO HIPER", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE SUMO DESDE PISO CON BARRA", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE SUMO A 1 PP INES", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE SUMO DOBLE INES", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE SUMO CON BARRA DE PNTA", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE ROMANO", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE ROMANO HIPER", "category": "PP CADENA ANTERIOR"}, {"name": "1/4 DE DESPEGUE ROMANO", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE ROMANO A 1 PP INES", "category": "PP CADENA ANTERIOR"}, {"name": "DESPEGUE ROMANO DESDE PISO", "category": "PP CADENA ANTERIOR"}, {"name": "GRUYA", "category": "PP CADENA ANTERIOR"}, {"name": "GRUYA INESTABLE", "category": "PP CADENA ANTERIOR"}, {"name": "GRUYA + SALTO", "category": "PP CADENA ANTERIOR"}, {"name": "GRUYA + ELAS LAT", "category": "PP CADENA ANTERIOR"}, {"name": "PISTOLAS A 2 PP", "category": "PP CADENA ANTERIOR"}, {"name": "PISTOLAS A 1 PP", "category": "PP CADENA ANTERIOR"}, {"name": "PISTOLAS A 1 PP + ELAS LAT", "category": "PP CADENA ANTERIOR"}, {"name": "PISTOLAS A 1 PP + ELAS FRONT", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS ADEL CON BB EXTENDIDOS", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS ATRÁS", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS ADELANTE", "category": "PP CADENA ANTERIOR"}, {"name": "SENT. (DEL. O DET.) CON DISC COLGANDO", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA CON BARRA DE PNTA", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLAS LATERALES", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA COPA", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA COPA A 1 PP INES", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA COPA DOBLE INES", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA CAJON X DETRÁS", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA CAJON X DELANTE", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA CAJON COPA", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA SISSY", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA A 1 PP CON TRX", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA EMPUJANDO FB", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA EMPUJANDO FB A 1 PP", "category": "PP CADENA ANTERIOR"}, {"name": "ISOMETRICO DE CUADRICEP 45\"+ 45\"", "category": "PP CADENA ANTERIOR"}, {"name": "CUADRICERA", "category": "PP CADENA ANTERIOR"}, {"name": "CUADRICERA + ISOM 15\" + 15\"", "category": "PP CADENA ANTERIOR"}, {"name": "VASTO INTERNO CON ELAS", "category": "PP CADENA ANTERIOR"}, {"name": "VASTO EXTERNO CON ELAS", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA ATRÁS 3:1: 3", "category": "PP CADENA ANTERIOR"}, {"name": "SENTADILLA ADELANTE 3:1:3", "category": "PP CADENA ANTERIOR"}, {"name": "ELEV DE CAD A 2 PP", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP INES", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP + ELAS ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP INES + ELAS ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP SOBRE FB", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP SOBRE FB + ELAS ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD 2 PP ISOM 20\"", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP SOBRE MANC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP CON BARRA", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 2 PP EN TRX", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP INES", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP + ELAS ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP INES + ELAS ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP SOBRE FB", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP SOBRE FB + ELAS ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD 1 PP ISOM 20\"", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP SOBRE MANC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP CON BARRA", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD A 1 PP EN TRX", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD + MB EN ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "ELEV DE CAD + FB EN ADUC", "category": "PP CADENA POSTERIOR"}, {"name": "PATADAS AL CIELO", "category": "PP CADENA POSTERIOR"}, {"name": "PATADAS AL CIELO SOBRE INES", "category": "PP CADENA POSTERIOR"}, {"name": "PATADAS AL CIELO CON ELAS", "category": "PP CADENA POSTERIOR"}, {"name": "PATADAS AL CIELO SOBRE FB", "category": "PP CADENA POSTERIOR"}, {"name": "PATADAS AL CIELO EN TRX", "category": "PP CADENA POSTERIOR"}, {"name": "PATADAS AL CIELO SOBRE MANC", "category": "PP CADENA POSTERIOR"}, {"name": "SERRUCHO BI PODAL EN PUAS", "category": "PP CADENA POSTERIOR"}, {"name": "SERRUCHO BI PODAL EN FB", "category": "PP CADENA POSTERIOR"}, {"name": "SERRUCHO BI PODAL SOBRE MANC", "category": "PP CADENA POSTERIOR"}, {"name": "SERRUCHO UNI PODAL EN PUAS", "category": "PP CADENA POSTERIOR"}, {"name": "SERRUCHO UNI PODAL EN FB", "category": "PP CADENA POSTERIOR"}, {"name": "SERRUCHO UNI PODAL SOBRE MANC", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 1 PP ASISTIDO", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 1 PP Y 1 BB CL o HL", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 1 P Y 2 BB", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 1 PP CON BARRA", "category": "PP CADENA POSTERIOR"}, {"name": "PERO MUERTO A 1 PP SOBRE INES", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 1 PP + ELAS LAT", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 1 PP EN BARRA DE PNTA CL", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO A 2 BB CON MANC", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO CON BARRA", "category": "PP CADENA POSTERIOR"}, {"name": "DESPEGUE CON BARRA DESDE PISO", "category": "PP CADENA POSTERIOR"}, {"name": "DESCENSO DE ISQUIOS A 2 PP", "category": "PP CADENA POSTERIOR"}, {"name": "DESCENSO DE ISQUIOS A 1 PP", "category": "PP CADENA POSTERIOR"}, {"name": "DESCENSO DE ISQUIOS FACILITADO", "category": "PP CADENA POSTERIOR"}, {"name": "DESCENSO DE ISQUIOS + CONCENTRICO", "category": "PP CADENA POSTERIOR"}, {"name": "BUENOS DIAS A 1 PP", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO CUERPO EN BNCO", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO PEGANDO EN FB", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO CUERPO EN FB", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO ASISTIDO A 2 PP", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO ASISTIDO A 1 PP", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO A 2 PP", "category": "PP CADENA POSTERIOR"}, {"name": "DETENTE INSTANTANEO A 1 PP", "category": "PP CADENA POSTERIOR"}, {"name": "ELONG. DINAM. C/TIRANTE MUSCULADOR", "category": "PP CADENA POSTERIOR"}, {"name": "PASAJE + ABEDUC DE VALLAS CON SALT.", "category": "PP CADENA POSTERIOR"}, {"name": "CURL DE ISQUIOS A 1 PP CON ELAS", "category": "PP CADENA POSTERIOR"}, {"name": "CURL DE ISQUIOS ISOM A 1 PP", "category": "PP CADENA POSTERIOR"}, {"name": "CULR DE ISQUIS ISOM CON ELAS", "category": "PP CADENA POSTERIOR"}, {"name": "TRACCION DE DISCO CON ISQUIOS", "category": "PP CADENA POSTERIOR"}, {"name": "CAMINATA ISQUIOS", "category": "PP CADENA POSTERIOR"}, {"name": "PESO MUERTO BULGARO", "category": "PP CADENA POSTERIOR"}, {"name": "PRESS ARNOLD A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD INEST A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD INEST", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD EN SPLIT A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD EN SPLT A 1 BB INES", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD A 1 BB Y EL OTRO ISOM", "category": "EMPUJE VERTICAL"}, {"name": "PRES ARNOLD ISOM", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD ALTERNO", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD ALTERNO INESTABLE", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD + ELAS LAT EN MANC 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD + ELAS LAT SOBRE INES", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD CON BARRA ROMANA", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD CON B. ROM. E INEST.", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD EN BARRA DE PNTA A 2 BB", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD EN BARRA DE PNTA A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD EN B. PNTA A 2 BB INEST", "category": "EMPUJE VERTICAL"}, {"name": "PRESS ARNOLD EN B. PNTA A 1 BB INEST.", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD INEST A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD INEST", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD EN SPLIT A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD EN SPLT A 1 BB INES", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD ALTERNO", "category": "EMPUJE VERTICAL"}, {"name": "BI + PRESS ARNOLD ALTERNO INESTABLE", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS LATERALES CON MANC", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS FRONTALES CON MANC", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS ALTERNOS CON MANC", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS LATERALES CON ELAS", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS FRONTALES CON ELAS", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS ALTERNOS CON ELAS", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS LATERALES CON ELAS A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "VUELOS LATERALES CON MANC A 1 BB", "category": "EMPUJE VERTICAL"}, {"name": "VUELO FRONTAL CON BARRA", "category": "EMPUJE VERTICAL"}, {"name": "RECHAZOS DE HOMBROS CON MANC", "category": "EMPUJE VERTICAL"}, {"name": "REMO DE PIE CON MANC", "category": "EMPUJE VERTICAL"}, {"name": "REMO DE PIE CON BARRA", "category": "EMPUJE VERTICAL"}, {"name": "REMO DE PIE CON B. o MANC INESTABLE", "category": "EMPUJE VERTICAL"}, {"name": "FZA ESTRICTA", "category": "EMPUJE VERTICAL"}, {"name": "FZA ESTRICA CON DISC COLGANDO", "category": "EMPUJE VERTICAL"}, {"name": "BI + VUELO LAT", "category": "EMPUJE VERTICAL"}, {"name": "BI + VUELO FRONT", "category": "EMPUJE VERTICAL"}, {"name": "PRESS + VUELO LAT", "category": "EMPUJE VERTICAL"}, {"name": "PRESS + VUELO FRONT", "category": "EMPUJE VERTICAL"}, {"name": "BI+PRESS + VUELO LAT", "category": "EMPUJE VERTICAL"}, {"name": "BI+PRESS + VUELO FRONT", "category": "EMPUJE VERTICAL"}, {"name": "FZA EN BANCO PLANO A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO PLANO A 2 BB ALTERNO", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO PLANO A 2 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO DECLINADO A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO DECLINADO A 2 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO INCLINADO A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO INCLINADO A 2 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO PLANO", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO DECLINADO", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO INCLINADO", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO PLANO CON DISC. COLG.", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO DECLINADO CON DISC. COLG.", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO INCLINADO CON DISC. COLG.", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO TOMA CERRADA", "category": "EMPUJE HORIZONTAL"}, {"name": "FLOOR PRESS A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FLOOR PRESS A 2 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FLOOR PRESS CON BARRA", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS PLANO CON MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS INCLINADO CON MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS DECLINADO CON MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS PLANO A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS INCLINADO A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS DECLINADO A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "PECK DECK CON ELAS", "category": "EMPUJE HORIZONTAL"}, {"name": "PECK DECK EN POLEA", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN FB A 1 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN FB A 2 BB ALTERNO", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN FB A 2 BB", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB SOBRE MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB A 1 BB INES", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB A INES", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON PP ELEVADOS", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON BB ELEVADOS", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON BB SOBRE FB", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON BB SOBRE TRX", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON PP SOBRE CAJON", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON PP SOBRE FB", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB CON PP SOBRE TRX", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB DOBLE INEST", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES + REMO CON MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "EXT. + REMO CON MANC + APERTURA", "category": "EMPUJE HORIZONTAL"}, {"name": "PULL OVER A 2 BB Y 1 MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "PULL OVER A 2 BB Y 2 MANC", "category": "EMPUJE HORIZONTAL"}, {"name": "PULL OVER + PRESS", "category": "EMPUJE HORIZONTAL"}, {"name": "PULL OVER CON BARRA CRUZADA", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO 3 - 1 - 3", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB A 1 SOLO BB", "category": "EMPUJE HORIZONTAL"}, {"name": "EXTENSIONES DE BB A 1 SOLO BB - INES", "category": "EMPUJE HORIZONTAL"}, {"name": "FONDO DE TRICEP EN CAJON", "category": "EMPUJE HORIZONTAL"}, {"name": "FONDO DE TRICEP EN PARALELAS", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS EQUI EN FB", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO + APERTURA", "category": "EMPUJE HORIZONTAL"}, {"name": "FZA EN BANCO + TRICEP FRANCES", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURA + TRICEP FRANCES", "category": "EMPUJE HORIZONTAL"}, {"name": "TRICEP CON ELASTICO", "category": "EMPUJE HORIZONTAL"}, {"name": "TRICEPS EN POLEA", "category": "EMPUJE HORIZONTAL"}, {"name": "TRICEP A 1BB EN POLEA O ELAST", "category": "EMPUJE HORIZONTAL"}, {"name": "TRICEP FRANCER", "category": "EMPUJE HORIZONTAL"}, {"name": "TRICEP CON BARRA", "category": "EMPUJE HORIZONTAL"}, {"name": "APERTURAS EN FB", "category": "EMPUJE HORIZONTAL"}, {"name": "TIRONES CON ELAST A 1 BB", "category": "TRACCION VERTICAL"}, {"name": "TIRONES EN POLEA A 1 BB", "category": "TRACCION VERTICAL"}, {"name": "TIRONES EN POLEA TOMA PALMAR", "category": "TRACCION VERTICAL"}, {"name": "TIRONES EN POLEA TOMA NEUTRA", "category": "TRACCION VERTICAL"}, {"name": "TIRONES EN POLEA TOMA NEUTRA ABIERTA", "category": "TRACCION VERTICAL"}, {"name": "TIRONES EN POLEA TOMA DORSAL", "category": "TRACCION VERTICAL"}, {"name": "TIRON EN POLEA CON SOGA A 1 BB", "category": "TRACCION VERTICAL"}, {"name": "TIRON EN POLEA CON SOGA A 2 BB", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS ACOSTADO", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS ASISTIDO CON ELAS", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS SALTO Y EXCENTRICA EN 3\" O 5\"", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS NEUTRA", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS PALMAR", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS EN ANILLAS PALMAR", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS EN ANILLAS NEUTRA", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS EN ANILLAS", "category": "TRACCION VERTICAL"}, {"name": "DOM. EN ANILLAS PASANDO POR 3 POS", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS CON KIMONO", "category": "TRACCION VERTICAL"}, {"name": "BICEPS PARADO (B o M)", "category": "TRACCION VERTICAL"}, {"name": "BICEPS SENTADO INCLINADO", "category": "TRACCION VERTICAL"}, {"name": "BICEPS ACOSTADO BOCA ABAJO", "category": "TRACCION VERTICAL"}, {"name": "BICEPS EXCENTRICO", "category": "TRACCION VERTICAL"}, {"name": "DOMINADAS SENTADO", "category": "TRACCION VERTICAL"}, {"name": "REMO A 1 BB CON ELAS", "category": "TRACCION HORIZONTAL"}, {"name": "REMO A 1 BB EN POLEA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA TOMA NEUTRA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA TOMA NEUTRA ABIERTA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA TOMA PALMAR", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA TOMA DORSAL", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA CON SOGA A 1 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA CON SOGA A 2 BB", "category": "TRACCION HORIZONTAL"}, {"name": "PULL FACE", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN POLEA DORSAL A 2 o 3 POS", "category": "TRACCION HORIZONTAL"}, {"name": "REMO ACOSTADO CON MANC A 1 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO ACOSTADO CON MANC A 2 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO ACOSTADO CON MANC A 2 BB ALT.", "category": "TRACCION HORIZONTAL"}, {"name": "REMO ACOSTADO CON BARRA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO ACOSTADO CON B. TOMA PALMAR", "category": "TRACCION HORIZONTAL"}, {"name": "REMO ACOSTADO CON BARRA ROMANA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SERRUCHO", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SUSPENDIDO CON MANC A 1 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SUSPENDIDO CON MANC A 2 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SUSPENDIDO CON MANC A 2 BB ALT.", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SUSPENDIDO CON BARRA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SUSPENDIDO CON B. TOMA PALMAR", "category": "TRACCION HORIZONTAL"}, {"name": "REMO PARADO CON BARRA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO PARADO CON BARRA PALMAR", "category": "TRACCION HORIZONTAL"}, {"name": "REMO PARADO CON BARRA ROMMANA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX TOMA NEUTRA", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX TOMA DORSAL", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX TOMA PALMAR", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX A 2 O 3 POS", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX A 1 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX A 1 PP APOYADO", "category": "TRACCION HORIZONTAL"}, {"name": "REMO EN TRX A 1 PP AP Y 1 BB", "category": "TRACCION HORIZONTAL"}, {"name": "REMO SUSP. CON SUELTA Y TOMA (B o M)", "category": "TRACCION HORIZONTAL"}, {"name": "REMO CON SOGA EN B. DE PUNTA", "category": "TRACCION HORIZONTAL"}, {"name": "BICHO MUERTO UNIBRAQUIAL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "BICHO MUERTO UNIPODAL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "BICHO MUERTO CADENA CRUZADA", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "BICHO MUERTO HOMOLATERAL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "BICHO MUERTO CON PESO CL o HL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "BICHO MUERTO CON ELASTICO CL o HL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "BICHO MUERTO 2 BB 2 PP", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "CURL UP", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "CURL UP a 1 PP", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS CON ELAS A 2 BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + CIRCULOS 2BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + PASO LATERA 2BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + VISAGRA DE CADERA 2 BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS CON ELAS A 1 BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + CIRCULOS 1BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + PASO LATERA 1BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + BISAGRA DE CADERA 1 BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS CON ELAS A 2 BB INESTABLE", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + CIRCULOS 2BB INESTABLE", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF P.+ GIRO DE TRONCO 2BB INES.", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF P.+ BISAGRA DE CADERA 2 BB INES.", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS A 2 BB Y 1 PP", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + DISCO PERTURBADOR", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PALL OF PRESS + ROTACION", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES CLASICOS", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES RESISTIDOS CON ELAS", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES RES. ACEL. CON ELAS", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES RES. ACEL. CON PESO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES CON PESO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES CON PESO Y PP TRABADOS", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES + TWIST SOVIETICO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES + ADUCTORES", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES + ABEDUCTORES", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "RUEDITA ABDOMINAL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES DE PP A 45 º", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES A 200 º", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES DE PP COLG.\"ROD. AL PECHO\"", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES DE PP COLG.\"FLEX. A 90º PP\"", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES DE PP COLG. \"PATADA CRAWL\"", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES DE PP COLGADO \"RELOJITO\"", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "OBLICUOS EN MAQUINA DE HEL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "OBLICUOS CON MANC", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "TWIST SOVIETICO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "TWIST DE PP (90º O 180º)", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "TWIST EN FB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES EN FB Y PP TRABADOS", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "RUEDITA ABDOMINAL DESDE PARADO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL A 2 BB (EST o INEST)", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL 1 BB (EST o INEST)", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONT. EN FB + REVOLVER OLLA", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ROTACIONES DE TRONCO (EST o INEST)", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "GIROS CON DISCO PARADO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "GIROS CON BARRA DE PNTA", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES BISAGRA CADENA CRUZADA", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES BISAGRA", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES HAMACA ISOM", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES HAMACA ISOM CON PESO", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES IEC", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES IEC + ADUCTORES", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ABDOMINALES IEC + ISQUIOS", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "ROMPE PUBIS EN FB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL LLEVO Y TRAIGO MANC", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL \"ME PONGO LA MOCHILA\"", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL A 1 BB", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL BB EN INES", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL PP EN INES", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL DOBLE INES", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL A 1 PP", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA FRONTAL + ABEDUC DE PP", "category": "ZONA MEDIA CADENA ANTERIOR"}, {"name": "PLANCHA BOCA ARRIBA", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA INESTABLE PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA INEST. ESCAPULAS", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA DOBLE INESTABLE", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA 1PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA INESTABLE PP 1 PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRI. INEST. ESCAP. 1 PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA DOBLE INEST. 1 PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "LUMBARES ALTERNOS \"CAPRICHITO\"", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE PP ISOM 45º", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE PP A 1 PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE PP A 1 PP + ABEDUC 3\"", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE PP CEDIENTE EN 3\" (2 PP)", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE PP CEDIENTE EN 3\" (1 PP)", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL A 1 PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL ISOM", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL ISOM A 1 PP", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL CON BARRA", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "HEL DE ARRANQUE CON ELAST", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA CON PP EN FB", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PLANCHA BOCA ARRIBA CON ESCAP. EN FB", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "BUENOS DIAS", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "BUENOS DIAS SENTADO", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "BUENOS DIAS PANDA", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "LUMBARES A-W", "category": "ZONA MEDIA CADENA POSTERIOR"}, {"name": "PALOMAS", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS A 1 BB", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS CON ELAS", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS CON ELAS A 1 BB", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS CON ELAS e INEST", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS ISOM 20\"", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS A 2 o 3 POS", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS + REMO", "category": "CINTURA ESCAPULAR"}, {"name": "ISOMETRICO DE ESCAPULAS", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO A 1 BB", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO A 2 o 3 POS", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO + REMO", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO + VUELO FRONT", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO A 1 PP 2 BB", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO A 1 PP 1 BB", "category": "CINTURA ESCAPULAR"}, {"name": "RECHAZOS DE ESCAPULA COLGADO", "category": "CINTURA ESCAPULAR"}, {"name": "EXTENSIONES POR DETRÁS CON BARRA", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS EN TRX", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS EN TRX ISOM", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS SUSPENDIDO A 1 PP", "category": "CINTURA ESCAPULAR"}, {"name": "HELADERO", "category": "CINTURA ESCAPULAR"}, {"name": "CLAVAS", "category": "CINTURA ESCAPULAR"}, {"name": "T.G.U", "category": "CINTURA ESCAPULAR"}, {"name": "ISOM DE ESCAPULAS + ROTACION EXT EN FB", "category": "CINTURA ESCAPULAR"}, {"name": "SENTADO: TIRON + ROT + EMPUJE CON ELAS", "category": "CINTURA ESCAPULAR"}, {"name": "MEDIO ARRANQUE", "category": "CINTURA ESCAPULAR"}, {"name": "MEDIO ARRANQUE ACOSTADO", "category": "CINTURA ESCAPULAR"}, {"name": "ARRANQUE SENTADO", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS CON CUELLO APOYADO", "category": "CINTURA ESCAPULAR"}, {"name": "RELOJITO PARADO CON ELAS A 2 BB", "category": "CINTURA ESCAPULAR"}, {"name": "RELOJITO ACOSTADO CON MANC A 2 BB", "category": "CINTURA ESCAPULAR"}, {"name": "RELOJITO SUSPENDIDO CON MANC A 2 BB", "category": "CINTURA ESCAPULAR"}, {"name": "PALOMAS CON ELAS A-W", "category": "CINTURA ESCAPULAR"}, {"name": "EQUILIBRIO A 1 PP SOBRE INESTABLES", "category": "AUX DE PP"}, {"name": "EQUILIBRIO A 2 PP SOBRE INESTABLES", "category": "AUX DE PP"}, {"name": "EQUILIBRIO A 1 PP + ACTIVIDAD", "category": "AUX DE PP"}, {"name": "PIRAMIDAL CON ELASTICO", "category": "AUX DE PP"}, {"name": "PIRAMIDAL CON ELASTICO INESTABLE", "category": "AUX DE PP"}, {"name": "PIRAMIDAL CON ELAST EXCENTRICO EN 3\"", "category": "AUX DE PP"}, {"name": "PIRAMIDAL EQUI", "category": "AUX DE PP"}, {"name": "PIRAMIDAL DE PIE CON ELASTICO", "category": "AUX DE PP"}, {"name": "ABDUC. DE PP CON ELAS. A 1 PP PIE EN FLEX.", "category": "AUX DE PP"}, {"name": "ABEDUC. PP CON ELAS A 1 PP ACOST. EN FLEX.", "category": "AUX DE PP"}, {"name": "CAMINATA DEL CANGREJO CON BANDA ADUC", "category": "AUX DE PP"}, {"name": "ABEDUCCION DE PP PARADO", "category": "AUX DE PP"}, {"name": "ADUCTORES CON ELASTICO", "category": "AUX DE PP"}, {"name": "TRAPITO DE PIE", "category": "AUX DE PP"}, {"name": "TRAPITO SENTADO", "category": "AUX DE PP"}, {"name": "TIBIAL CON ELASTICO DE PIE", "category": "AUX DE PP"}, {"name": "TIBIAL CON BARRA DINAMICO", "category": "AUX DE PP"}, {"name": "GEMELOS CON MANC SENTADO", "category": "AUX DE PP"}, {"name": "GEMELOS PARADO CON BARRA", "category": "AUX DE PP"}, {"name": "PATADAS DE BURRO PARA ISQ. CON ELAS", "category": "AUX DE PP"}, {"name": "PATADAS DE BURRO PARA ISQ. CON POL.", "category": "AUX DE PP"}, {"name": "CAMINATA DEL CANGREJO 8x8", "category": "AUX DE PP"}, {"name": "DESLIZ. DE PP A 2 o 3 POS+BANDA ADUC.", "category": "AUX DE PP"}, {"name": "SENTADILLA LATERA DESLIZADA", "category": "AUX DE PP"}, {"name": "PULSEADAS AL REVES CON ELAS", "category": "AUX DE MOVILIDAD"}, {"name": "PULSEADAS AL REVES CON MANC", "category": "AUX DE MOVILIDAD"}, {"name": "CAMINATA DEL GRANJERO UNI BRAQUIAL", "category": "AUX DE MOVILIDAD"}, {"name": "CAMINATA DEL GRANJERO + PRESS ISOM", "category": "AUX DE MOVILIDAD"}, {"name": "CAMINATA DEL GRANJ. + B. CON PESO LAT.", "category": "AUX DE MOVILIDAD"}, {"name": "CAMINATA DEL GRANJ. + B. Y DISC COLG.", "category": "AUX DE MOVILIDAD"}, {"name": "GATO BUENO - GATO MALO", "category": "AUX DE MOVILIDAD"}, {"name": "ROTACIONES DE TRONCO EN CUADRIPEDIA", "category": "AUX DE MOVILIDAD"}, {"name": "MOVILIDAD DE CADERA EN CUADRIPEDIA", "category": "AUX DE MOVILIDAD"}, {"name": "SENTADILA LATERAL + FZA IPSILAT", "category": "AUX DE MOVILIDAD"}, {"name": "COORD EN ESCALERITA", "category": "PLIOMETRICOS"}, {"name": "COORD EN CUADRILATERO", "category": "PLIOMETRICOS"}, {"name": "TECNICA DE CARRERA", "category": "PLIOMETRICOS"}, {"name": "TECNICA DE CARRERA CON BANDA", "category": "PLIOMETRICOS"}, {"name": "TECNICA DE CARRERA CONTRA LA PARED", "category": "PLIOMETRICOS"}, {"name": "CORRER CON ELAST DE RESISTENCIA", "category": "PLIOMETRICOS"}, {"name": "SALTOS A 2 PP EN PISO", "category": "PLIOMETRICOS"}, {"name": "SALTOS A 2 PP EN ESC. o CUADRILAT.", "category": "PLIOMETRICOS"}, {"name": "SALTOS EN ESTOCADA", "category": "PLIOMETRICOS"}, {"name": "SALTOS EN CORRALITO 2 PP", "category": "PLIOMETRICOS"}, {"name": "SALTOS EN CORRALITO 2 PP HQ", "category": "PLIOMETRICOS"}, {"name": "DJ A 2 PP", "category": "PLIOMETRICOS"}, {"name": "SALTOS A 1 PP EN PISO", "category": "PLIOMETRICOS"}, {"name": "SALTOS A 1 PP EN ESC. o CUAD.", "category": "PLIOMETRICOS"}, {"name": "SALTOS EN CORRALITO 2 PP Y LAT 1 PP", "category": "PLIOMETRICOS"}, {"name": "SALTOS EN CORRALITO 1 PP", "category": "PLIOMETRICOS"}, {"name": "SALTOS EN CORRALITO 1 PP HQ", "category": "PLIOMETRICOS"}, {"name": "DJ A 1 PP", "category": "PLIOMETRICOS"}, {"name": "SALTOS RANA LATERAL", "category": "PLIOMETRICOS"}, {"name": "SALTOS AL CAJON", "category": "PLIOMETRICOS"}, {"name": "SALTOS CON PESO", "category": "PLIOMETRICOS"}, {"name": "SALTO VERTICAL CON ELAS. RESISTENCIA", "category": "PLIOMETRICOS"}, {"name": "ESC. CON SALT. Y COORD PARA MONTAÑA", "category": "PLIOMETRICOS"}, {"name": "BURPEES", "category": "PLIOMETRICOS"}];
+const libraryAll = [{"name": "Quad Setting Isometric", "category": "Rodilla", "source": "Prokinesis"}, {"name": "Straight Leg Raise", "category": "Rodilla", "source": "Prokinesis"}, {"name": "Terminal Knee Extension", "category": "Rodilla", "source": "Prokinesis"}, {"name": "Heel Slides", "category": "Rodilla", "source": "Prokinesis"}, {"name": "Plancha alta con transferencia de mancuerna", "category": "Core", "source": "Prokinesis"}, {"name": "Rotación externa de hombro con banda", "category": "Hombro", "source": "Prokinesis"}, {"name": "Retracción escapular con banda en codos", "category": "Escápula", "source": "Prokinesis"}, {"name": "Bisagra de cadera con estiramiento posterior", "category": "Cadena posterior", "source": "Prokinesis"}, {"name": "Sentadilla con barra", "category": "Piernas", "source": "Prokinesis"}, {"name": "Peso muerto con barra", "category": "Cadena posterior", "source": "Prokinesis"}, {"name": "VITALIZACION", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION A 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION DOBLE INESTABLE", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION DEL CENTRO CRUZ ARRIBA", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION CRUZ DE ABAJO AL CENTRO", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION A 1 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION A 1 BB Y 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION A 1 BB DOBLE INESTABLE", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "VITALIZACION A 1 BB + ELAST LAT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION A 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION DOBLE INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION A 1 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION A 1 BB Y 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION A 1 BB Y DOBLE INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "MEDIA VITALIZACION + ELAS LATERAL", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON BARRA DE PNTA 2 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON BARRA DE PNTA 1 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON B.PNTA 2 BB + 1PP IN", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON B.PNTA 2 BB + 2 INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON B.PNTA 1 BB + 1PP IN", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON B.PNTA 1 BB + 2 INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP.DE FZA CON B.PNTA 2 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP. DE FZA CON B. PNTA 1 BB + EL ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP. DE FZA EN SPLIT CON B. PNTA A 2 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP. DE FZA EN SPLIT CON B. PNTA A 1 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 1 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 1 BB Y 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 1 BB DOBLE INESTABLE", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 2 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 2 BB CON 1 PP INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 2 BB CON DOBLE INES", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA CON BARRA", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP. DE FZA CON B. Y DISCOS COLGANDO", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 1 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 1 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 2 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 2 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP. DE FZA A 1 BB 1PP INES + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMP. DE FZA A 2 BB 1PP INES + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 1 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA A 2 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA EN SPLIT A 1 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA EN SPLIT A 2 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA EN SENT BULG A 1 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "EMPUJE DE FZA EN SENT BULG A 2 BB", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 1 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 2 BB CON MANC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO CON BARRA", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMP. CON B. Y DISC COLGANDO", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 1 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 1 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 2 BB + ELAS LAT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 2 BB + ELAS FRONT", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 1 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO A 2 BB + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "FZA CON IMPULSO CON B. + ELAS ADUC", "category": "ACTIVADORES NO OLIMPICOS", "source": "CES757"}, {"name": "2DO TIEMPO A 1 BB CON BARRA DE PNTA", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO A 2 BB CON BARRA DE PNTA", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO A 1BB CON MANC", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO A 2BB CON MANC", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO CON BARRA POR DETRÁS", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO A 1 PP Y 1 BB HL.", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO A 1 PP Y 1 BB CL.", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO A 1 PP Y 2 BB MANC", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2DO TIEMPO CON BARRA POR DELANTE", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2 TIEMPO B. PNTA (CON TIJERA)", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2 TIEMPO X DETRÁS (CON TIJERA)", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "2 TIEMPO X DELANTE (CON TIJERA)", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARRANQUE DE FZA A 1 BB", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARRANQUE DE FZA A 1 BB Y 1 PP INES", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARRANQUE DE POT A 1 BB", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE FZA DE INGLE", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE FZA DE MEDIO MUSLO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE FZA COLGADO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE POTENCIA DE INGLE", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE POTENCIA DE MEDIO MUSLO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE POTENCIA COLGADO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE POT. DE SOPORTE MEDIO MUSLO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE POTENCIA DE SOPORTE COLGADO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR DE POTENCIA DE SOPORTE B.R.", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR FRANCES", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARR ALTERNO 1 PP/1 BB", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ARRANQUE ALTO DE VELOCIDAD", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "METIDAS DE ARRANQUE CON INSTR. DE GUE", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "METIDAS DE ARRANQUE", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "METIDAS DE ARRANQUE A 2 O 3 POSICIONES", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT A 1 PP CON BARRA", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT A 1 PP + ELAS LAT. EN ROD.", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT A 1 PP + ELAS FRONT. EN ROD.", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE FZA DE MEDIO MUSLO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE FZA DE COLGADO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POTENCIA DE MEDIO MUSLO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POTENCIA COLGADO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT. DE SOPORTE MEDIO MUSLO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT. DE SOPORTE COLGDADO", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT. DE SOPORTE B.R.", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT. COLGADO BAJO RODILLA", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT DE 1/2 MUSLO A LA FRANCESA", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "CARG DE POT COLG A LA FRANCESA", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "ENVION A UN PIE CON MANC", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "SENTADILLA DE ARRANQUE", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "SENTADILLA DE ARRANQUE CON MANC", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "SENTADILLA DE ARRANQUE A 1 BB", "category": "ACTIVADORES DLP", "source": "CES757"}, {"name": "1ER TIRON DE ARR", "category": "PESAS", "source": "CES757"}, {"name": "1ER TIRON DE ENV", "category": "PESAS", "source": "CES757"}, {"name": "TIRON DE ARR", "category": "PESAS", "source": "CES757"}, {"name": "TIRON DE ENV", "category": "PESAS", "source": "CES757"}, {"name": "TRANSICION DE TIRON ARRANQUE", "category": "PESAS", "source": "CES757"}, {"name": "TRANSICION DE TIRON CARGADA", "category": "PESAS", "source": "CES757"}, {"name": "2DO TIRON DE ARR", "category": "PESAS", "source": "CES757"}, {"name": "2DO TIRON DE ENV", "category": "PESAS", "source": "CES757"}, {"name": "ARRANQUE DE POT", "category": "PESAS", "source": "CES757"}, {"name": "ARRANQUE CLASICO", "category": "PESAS", "source": "CES757"}, {"name": "ARRANQUE COLGADO", "category": "PESAS", "source": "CES757"}, {"name": "CARGADAS DE POT", "category": "PESAS", "source": "CES757"}, {"name": "CARGADAS", "category": "PESAS", "source": "CES757"}, {"name": "CARGADA DE POT + FZA CON IMPULSO", "category": "PESAS", "source": "CES757"}, {"name": "CARGADA DE POT + 2DO TIEMPO", "category": "PESAS", "source": "CES757"}, {"name": "CARGADAS + FZA CON IMPULSO", "category": "PESAS", "source": "CES757"}, {"name": "CARG DE POT COLGADO + FZA CON IMP.", "category": "PESAS", "source": "CES757"}, {"name": "CARG DE POT COLGADO + 2DO TIEMPO", "category": "PESAS", "source": "CES757"}, {"name": "ENVION DE POT", "category": "PESAS", "source": "CES757"}, {"name": "ENVION CLASICO", "category": "PESAS", "source": "CES757"}, {"name": "REMO CHINO", "category": "PESAS", "source": "CES757"}, {"name": "ARRANQUE DE INGLE", "category": "PESAS", "source": "CES757"}, {"name": "CARGADA DE MEDIO MUSLO", "category": "PESAS", "source": "CES757"}, {"name": "ENVION DE MEDIO MUSLO", "category": "PESAS", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS CON MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS A 1 MANC CL.", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS CON BARRA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULG. CON DISC COLGANDO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS EN TRX Y MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS CON PP INES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS DE ARR CON MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS DE ARR PALITO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULG. DE ARR CON BARRA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULG. DE ARR CON ELAST", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS BULGARAS COPA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SUBIDAS AL BANCO CON MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SUBIDAS AL BANCO CON BARRA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SUBIDAS AL BANCO A 1 BB HL.", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SUBIDAS AL BANCO A 1 BB CL.", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SUBIDAS AL BANCO + ELAS FROT", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SUBIDAS AL BANCO + ELAS LAT", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA A 1 PP CON APOYO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA A 1 PP SIN APOYO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA A 1 PP SIN APOYO + ELAS", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS CON MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS CON MANC 1 BB CL.", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS CON BARRA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS CON DISC COLGANDO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS HIPER CON MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS HIPER CON BARRA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SPLITS COPA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "ESTOCADAS HACIA ATRÁS CON MANC", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "ESTOCADAS HACIA ATRÁS COPA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE SUMO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE SUMO HIPER", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE SUMO DESDE PISO CON BARRA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE SUMO A 1 PP INES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE SUMO DOBLE INES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE SUMO CON BARRA DE PNTA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE ROMANO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE ROMANO HIPER", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "1/4 DE DESPEGUE ROMANO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE ROMANO A 1 PP INES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "DESPEGUE ROMANO DESDE PISO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "GRUYA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "GRUYA INESTABLE", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "GRUYA + SALTO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "GRUYA + ELAS LAT", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "PISTOLAS A 2 PP", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "PISTOLAS A 1 PP", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "PISTOLAS A 1 PP + ELAS LAT", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "PISTOLAS A 1 PP + ELAS FRONT", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS ADEL CON BB EXTENDIDOS", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS ATRÁS", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS ADELANTE", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENT. (DEL. O DET.) CON DISC COLGANDO", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA CON BARRA DE PNTA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLAS LATERALES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA COPA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA COPA A 1 PP INES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA COPA DOBLE INES", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA CAJON X DETRÁS", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA CAJON X DELANTE", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA CAJON COPA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA SISSY", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA A 1 PP CON TRX", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA EMPUJANDO FB", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA EMPUJANDO FB A 1 PP", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "ISOMETRICO DE CUADRICEP 45\"+ 45\"", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "CUADRICERA", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "CUADRICERA + ISOM 15\" + 15\"", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "VASTO INTERNO CON ELAS", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "VASTO EXTERNO CON ELAS", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA ATRÁS 3:1: 3", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "SENTADILLA ADELANTE 3:1:3", "category": "PP CADENA ANTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP INES", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP + ELAS ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP INES + ELAS ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP SOBRE FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP SOBRE FB + ELAS ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD 2 PP ISOM 20\"", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP SOBRE MANC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP CON BARRA", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 2 PP EN TRX", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP INES", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP + ELAS ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP INES + ELAS ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP SOBRE FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP SOBRE FB + ELAS ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD 1 PP ISOM 20\"", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP SOBRE MANC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP CON BARRA", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD A 1 PP EN TRX", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD + MB EN ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELEV DE CAD + FB EN ADUC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PATADAS AL CIELO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PATADAS AL CIELO SOBRE INES", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PATADAS AL CIELO CON ELAS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PATADAS AL CIELO SOBRE FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PATADAS AL CIELO EN TRX", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PATADAS AL CIELO SOBRE MANC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "SERRUCHO BI PODAL EN PUAS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "SERRUCHO BI PODAL EN FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "SERRUCHO BI PODAL SOBRE MANC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "SERRUCHO UNI PODAL EN PUAS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "SERRUCHO UNI PODAL EN FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "SERRUCHO UNI PODAL SOBRE MANC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 1 PP ASISTIDO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 1 PP Y 1 BB CL o HL", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 1 P Y 2 BB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 1 PP CON BARRA", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PERO MUERTO A 1 PP SOBRE INES", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 1 PP + ELAS LAT", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 1 PP EN BARRA DE PNTA CL", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO A 2 BB CON MANC", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO CON BARRA", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DESPEGUE CON BARRA DESDE PISO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DESCENSO DE ISQUIOS A 2 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DESCENSO DE ISQUIOS A 1 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DESCENSO DE ISQUIOS FACILITADO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DESCENSO DE ISQUIOS + CONCENTRICO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "BUENOS DIAS A 1 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO CUERPO EN BNCO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO PEGANDO EN FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO CUERPO EN FB", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO ASISTIDO A 2 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO ASISTIDO A 1 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO A 2 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "DETENTE INSTANTANEO A 1 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "ELONG. DINAM. C/TIRANTE MUSCULADOR", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PASAJE + ABEDUC DE VALLAS CON SALT.", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "CURL DE ISQUIOS A 1 PP CON ELAS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "CURL DE ISQUIOS ISOM A 1 PP", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "CULR DE ISQUIS ISOM CON ELAS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "TRACCION DE DISCO CON ISQUIOS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "CAMINATA ISQUIOS", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PESO MUERTO BULGARO", "category": "PP CADENA POSTERIOR", "source": "CES757"}, {"name": "PRESS ARNOLD A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD INEST A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD INEST", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD EN SPLIT A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD EN SPLT A 1 BB INES", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD A 1 BB Y EL OTRO ISOM", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRES ARNOLD ISOM", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD ALTERNO", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD ALTERNO INESTABLE", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD + ELAS LAT EN MANC 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD + ELAS LAT SOBRE INES", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD CON BARRA ROMANA", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD CON B. ROM. E INEST.", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD EN BARRA DE PNTA A 2 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD EN BARRA DE PNTA A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD EN B. PNTA A 2 BB INEST", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "PRESS ARNOLD EN B. PNTA A 1 BB INEST.", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD INEST A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD INEST", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD EN SPLIT A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD EN SPLT A 1 BB INES", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD ALTERNO", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "BI + PRESS ARNOLD ALTERNO INESTABLE", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS LATERALES CON MANC", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS FRONTALES CON MANC", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS ALTERNOS CON MANC", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS LATERALES CON ELAS", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS FRONTALES CON ELAS", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS ALTERNOS CON ELAS", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS LATERALES CON ELAS A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELOS LATERALES CON MANC A 1 BB", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "VUELO FRONTAL CON BARRA", "category": "EMPUJE VERTICAL", "source": "CES757"}, {"name": "RECHAZOS DE HOMBROS CON MANC", "category": "EMPUJE VERTICAL", "source": "CES757"}];
+
+const state = {
+  settings: { userName:'Dr. Ruiz', theme:'dark', accent:'#53efb9' },
+  patients: [
+    {id:'p1',name:'Marta Gómez',age:29,phone:'+54 299 555 1020',email:'marta.gomez@email.com',phase:'Reacondicionamiento inicial',antecedentes:'Reconstrucción LCA, sin comorbilidades relevantes',observaciones:'Buena adherencia. Déficit leve en extensión terminal.',history:[{date:'29/03/2026',duration:'33 min',summary:'Persistió rigidez inicial. Mejoró al final de la sesión.'},{date:'31/03/2026',duration:'35 min',summary:'Mejor control en SLR. Toleró 2.5 kg sin dolor.'}]},
+    {id:'p2',name:'Juan Molina',age:34,phone:'+54 299 555 9811',email:'juan.molina@email.com',phase:'Movilidad y control motor',antecedentes:'Lumbalgia mecánica recurrente',observaciones:'Buena adherencia. Molestia residual a la flexión sostenida.',history:[]},
+    {id:'p3',name:'Lucía Pérez',age:27,phone:'+54 299 555 4132',email:'lucia.perez@email.com',phase:'Retorno funcional',antecedentes:'Inestabilidad escapular post inmovilización',observaciones:'Alta próxima. Rango casi completo.',history:[]}
+  ],
+  routines: [
+    {id:'r1',patientId:'p1',patientName:'Marta Gómez',name:'Post-Op ACL Recovery',date:'31/03/2026',status:'Lista',template:false,observations:'Buena tolerancia al trabajo isométrico.',exercises:[{name:'Quad Setting Isometric',prescription:'3 sets · 10 reps · hold 5s',notes:'Control isométrico inicial',completed:false},{name:'Straight Leg Raise',prescription:'3 sets · 12 reps · 2.5 kg',notes:'Control de extensión terminal',completed:false},{name:'Terminal Knee Extension',prescription:'2 sets · 15 reps · banda amarilla',notes:'Carga progresiva',completed:false},{name:'Heel Slides',prescription:'3 sets · 10 reps · asistido',notes:'Movilidad asistida',completed:false}]},
+    {id:'r2',patientId:'p2',patientName:'Juan Molina',name:'Control lumbopélvico y cadena posterior',date:'30/03/2026',status:'Lista',template:false,observations:'Agregar variantes funcionales si no hay dolor irradiado.',exercises:[{name:'Bisagra de cadera con estiramiento posterior',prescription:'3 sets · 10 reps',notes:'Cadena posterior',completed:false},{name:'Plancha alta con transferencia de mancuerna',prescription:'3 sets · 8 reps',notes:'Estabilidad lumbopélvica',completed:false}]},
+    {id:'t1',patientId:null,patientName:'Sin paciente',name:'Plantilla hombro post inmovilización',date:'25/03/2026',status:'Plantilla',template:true,observations:'Base reutilizable para fases iniciales.',exercises:[{name:'Rotación externa de hombro con banda',prescription:'3 sets · 12 reps',notes:'Base',completed:false}]}
+  ],
+  builder: { patientId:'p1', name:'', observations:'', exercises:[] },
+  activeSessions: [],
+  currentSessionId: null,
+  currentProfileId: 'p1',
+  finishedToday: 0,
+  hourAlertShown: false
+};
 
 const screens = [...document.querySelectorAll('.screen')];
 const navButtons = [...document.querySelectorAll('[data-nav]')];
 const goButtons = [...document.querySelectorAll('[data-go]')];
+let activeRouteTab = 'rutinas';
+let activeType = 'Todos';
+let activeLib = 'prokinesis';
+let libraryTargetBuilder = false;
+let settingsAccent = state.settings.accent;
+
+function notify(msg){ console.log(msg); }
+
+function applySettings() {
+  document.getElementById('brandUserName').textContent = 'Hola, ' + state.settings.userName;
+  document.body.classList.toggle('theme-light', state.settings.theme === 'light');
+  document.documentElement.style.setProperty('--accent', state.settings.accent);
+  document.documentElement.style.setProperty('--accent2', state.settings.accent);
+}
 
 function showScreen(name) {
   screens.forEach(s => s.classList.toggle('active', s.dataset.screen === name));
   navButtons.forEach(b => b.classList.toggle('active', b.dataset.nav === name));
   const active = screens.find(s => s.dataset.screen === name);
   if (active) active.scrollTop = 0;
+  if (name === 'patient-profile') renderPatientProfile();
+  if (name === 'builder') renderBuilder();
 }
 
-navButtons.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); showScreen(btn.dataset.nav); }));
-goButtons.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); showScreen(btn.dataset.go); }));
+navButtons.forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); showScreen(btn.dataset.nav); }));
+goButtons.forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); showScreen(btn.dataset.go); }));
+
+document.querySelectorAll('[data-routetab]').forEach(btn => btn.addEventListener('click', () => {
+  activeRouteTab = btn.dataset.routetab;
+  document.querySelectorAll('[data-routetab]').forEach(b => b.classList.toggle('active', b === btn));
+  renderRoutines();
+}));
 
 const sheetBackdrop = document.getElementById('sheetBackdrop');
-const views = {
-  templates: document.getElementById('sheetTemplates'),
-  library: document.getElementById('sheetLibrary'),
-  branding: document.getElementById('sheetBranding')
-};
-function openSheet(name) {
-  Object.values(views).forEach(v => v.classList.add('hidden'));
-  views[name].classList.remove('hidden');
+function openLibrary(forBuilder=false) {
+  libraryTargetBuilder = !!forBuilder;
+  document.getElementById('sheetLibrary').classList.remove('hidden');
+  document.getElementById('sheetSettings').classList.add('hidden');
+  sheetBackdrop.classList.add('open');
+}
+function openSettings() {
+  document.getElementById('sheetSettings').classList.remove('hidden');
+  document.getElementById('sheetLibrary').classList.add('hidden');
+  document.getElementById('settingsUserName').value = state.settings.userName;
+  document.getElementById('themeDarkBtn').classList.toggle('active', state.settings.theme === 'dark');
+  document.getElementById('themeLightBtn').classList.toggle('active', state.settings.theme === 'light');
+  document.querySelectorAll('.color-choice').forEach(btn => btn.classList.toggle('active', btn.dataset.color === state.settings.accent));
   sheetBackdrop.classList.add('open');
 }
 function closeSheet() { sheetBackdrop.classList.remove('open'); }
-document.querySelectorAll('[data-open-sheet]').forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openSheet(btn.dataset.openSheet); }));
 document.querySelectorAll('.close-sheet').forEach(btn => btn.addEventListener('click', closeSheet));
 sheetBackdrop.addEventListener('click', e => { if (e.target === sheetBackdrop) closeSheet(); });
 
-const homeEyebrow = document.getElementById('homeEyebrow');
-const homeGreeting = document.getElementById('homeGreeting');
-const homeSubtitle = document.getElementById('homeSubtitle');
-const brandingEyebrowInput = document.getElementById('brandingEyebrowInput');
-const brandingTitleInput = document.getElementById('brandingTitleInput');
-const brandingSubtitleInput = document.getElementById('brandingSubtitleInput');
-document.getElementById('saveBrandingBtn').addEventListener('click', () => {
-  homeEyebrow.textContent = brandingEyebrowInput.value.trim() || 'Panel clínico';
-  homeGreeting.textContent = brandingTitleInput.value.trim() || 'Buen día, Dr. Ríos';
-  homeSubtitle.textContent = brandingSubtitleInput.value.trim() || 'Control de pacientes, rutinas y sesiones activas';
-  closeSheet();
+document.getElementById('themeDarkBtn').addEventListener('click', ()=> {
+  state.settings.theme = 'dark';
+  document.getElementById('themeDarkBtn').classList.add('active');
+  document.getElementById('themeLightBtn').classList.remove('active');
+  applySettings();
 });
+document.getElementById('themeLightBtn').addEventListener('click', ()=> {
+  state.settings.theme = 'light';
+  document.getElementById('themeLightBtn').classList.add('active');
+  document.getElementById('themeDarkBtn').classList.remove('active');
+  applySettings();
+});
+document.querySelectorAll('.color-choice').forEach(btn => btn.addEventListener('click', ()=> {
+  settingsAccent = btn.dataset.color;
+  document.querySelectorAll('.color-choice').forEach(b => b.classList.toggle('active', b === btn));
+  state.settings.accent = settingsAccent;
+  applySettings();
+}));
 
-const libTabs = [...document.querySelectorAll('[data-libtab]')];
-const paneProkinesis = document.getElementById('pane-prokinesis');
-const paneCES = document.getElementById('pane-ces757');
-const libraryCount = document.getElementById('libraryCount');
-let activeType = 'Todos';
-let activeTab = 'prokinesis';
+function saveSettings() {
+  closeSheet();
+}
 
 function cardMarkup(item, meta) {
-  return `<div class="library-item"><div class="l-main"><div class="name">${item.name}</div><div class="meta">${meta}</div></div><button class="plus-btn">+</button></div>`;
+  return `<div class="sheet-card"><div class="between"><div><div class="routine-title">${item.name}</div><div class="mini">${meta}</div></div><button class="action-pill start" onclick="addLibraryExercise('${item.name.replace(/'/g, "\\'")}')">Agregar</button></div></div>`;
 }
-
 function renderProkinesis() {
   const q = (document.getElementById('searchProkinesis').value || '').trim().toLowerCase();
-  const filtered = prokinesis.filter(x => (activeType === 'Todos' || x.type === activeType) && (!q || `${x.name} ${x.category} ${x.group} ${x.type}`.toLowerCase().includes(q)));
-  document.getElementById('listProkinesis').innerHTML = filtered.map(x => cardMarkup(x, `${x.type} · ${x.group} · ${x.category}`)).join('') || '<div class="detail-card"><div class="mini">No hay coincidencias.</div></div>';
-  if (activeTab === 'prokinesis') libraryCount.textContent = `${filtered.length} ejercicios cargados`;
+  const filtered = prokinesis.filter(x => (activeType === 'Todos' || x.type === activeType) && (!q || `${x.name} ${x.category} ${x.type}`.toLowerCase().includes(q)));
+  document.getElementById('listProkinesis').innerHTML = filtered.map(x => cardMarkup(x, `${x.type} · ${x.category}`)).join('') || '<div class="detail-card"><div class="mini">No hay coincidencias.</div></div>';
+  if (activeLib === 'prokinesis') document.getElementById('libraryCount').textContent = `${filtered.length} ejercicios cargados`;
 }
-
 function renderCES() {
   const q = (document.getElementById('searchCES').value || '').trim().toLowerCase();
   const filtered = ces757.filter(x => !q || `${x.name} ${x.category}`.toLowerCase().includes(q));
   document.getElementById('listCES').innerHTML = filtered.map(x => cardMarkup(x, x.category)).join('') || '<div class="detail-card"><div class="mini">No hay coincidencias.</div></div>';
-  if (activeTab === 'ces757') libraryCount.textContent = `${filtered.length} ejercicios cargados`;
+  if (activeLib === 'ces757') document.getElementById('libraryCount').textContent = `${filtered.length} ejercicios cargados`;
 }
-
-libTabs.forEach(btn => btn.addEventListener('click', () => {
-  activeTab = btn.dataset.libtab;
-  libTabs.forEach(b => b.classList.toggle('active', b === btn));
-  paneProkinesis.classList.toggle('hidden', activeTab !== 'prokinesis');
-  paneCES.classList.toggle('hidden', activeTab !== 'ces757');
-  if (activeTab === 'prokinesis') renderProkinesis();
-  else renderCES();
+document.querySelectorAll('[data-libtab]').forEach(btn => btn.addEventListener('click', ()=> {
+  activeLib = btn.dataset.libtab;
+  document.querySelectorAll('[data-libtab]').forEach(b => b.classList.toggle('active', b === btn));
+  document.getElementById('pane-prokinesis').classList.toggle('hidden', activeLib !== 'prokinesis');
+  document.getElementById('pane-ces757').classList.toggle('hidden', activeLib !== 'ces757');
+  if (activeLib === 'prokinesis') renderProkinesis(); else renderCES();
 }));
-
-document.getElementById('searchProkinesis').addEventListener('input', renderProkinesis);
-document.getElementById('searchCES').addEventListener('input', renderCES);
-document.querySelectorAll('#pkFiltersType .chip').forEach(btn => btn.addEventListener('click', () => {
+document.querySelectorAll('#pkFiltersType .chip').forEach(btn => btn.addEventListener('click', ()=> {
   activeType = btn.dataset.type;
   document.querySelectorAll('#pkFiltersType .chip').forEach(b => b.classList.toggle('active', b === btn));
   renderProkinesis();
 }));
-renderProkinesis();
-renderCES();
+document.getElementById('searchProkinesis').addEventListener('input', renderProkinesis);
+document.getElementById('searchCES').addEventListener('input', renderCES);
 
-document.querySelectorAll('[data-completable]').forEach(item => item.addEventListener('click', (e) => {
-  const loadBtn = e.target.closest('.load-data-btn');
-  if (loadBtn) {
-    e.preventDefault();
-    e.stopPropagation();
-    const title = item.querySelector('.exercise-name')?.textContent || 'Ejercicio';
-    alert(`Carga de datos para: ${title}`);
+function formatTime(seconds) {
+  const m = Math.floor(seconds/60), s = seconds%60;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+function getCurrentSession() {
+  return state.activeSessions.find(s => s.id === state.currentSessionId) || null;
+}
+
+function todayString() {
+  const d = new Date();
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
+
+function renderHome() {
+  document.getElementById('homePatientCount').textContent = state.patients.length;
+  document.getElementById('homePatientDelta').textContent = state.patients.length ? '+' + Math.max(state.patients.length - 1, 1) : '';
+  document.getElementById('homeActiveCount').textContent = state.activeSessions.length;
+  document.getElementById('homeActiveDot').textContent = state.activeSessions.length ? ' •' : '';
+  document.getElementById('homeFinishedToday').textContent = state.finishedToday;
+  const box = document.getElementById('homeSessionsList');
+  if (!state.activeSessions.length) {
+    box.innerHTML = '<div class="detail-card"><div class="mini">No hay rutinas en ejecución.</div></div>';
     return;
   }
-  item.classList.toggle('completed');
-  const check = item.querySelector('.check');
-  check.textContent = item.classList.contains('completed') ? '✓' : '';
-  updateProgress();
-}));
-
-let seconds = 24 * 60 + 42;
-let running = true;
-const homeTimer = document.getElementById('homeTimer');
-const executionTimer = document.getElementById('executionTimer');
-const sessionState = document.getElementById('sessionState');
-function pad(n) { return String(n).padStart(2, '0'); }
-function renderTimer() {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  const txt = `${pad(m)}:${pad(s)}`;
-  homeTimer.textContent = txt;
-  executionTimer.textContent = txt;
+  box.innerHTML = state.activeSessions.slice(0, 12).map(s => {
+    const done = s.exercises.filter(e => e.completed).length;
+    const pct = Math.round((done / Math.max(s.exercises.length,1)) * 100);
+    return `<div class="home-live-card" style="margin-bottom:12px">
+      <div class="home-live-top">
+        <div class="home-live-icon">⏱</div>
+        <div>
+          <div class="home-live-state">${s.running ? 'En curso' : 'Pausada'}</div>
+          <div class="home-live-name">${s.patientName}</div>
+        </div>
+      </div>
+      <div class="home-live-tags">
+        <div class="home-live-tag"><div class="t1">Rutina</div><div class="t2">${s.routineName}</div></div>
+        <div class="home-live-tag"><div class="t1">Progreso</div><div class="t2">${pct}%</div></div>
+      </div>
+      <div class="home-live-timer">${formatTime(s.seconds)}</div>
+      <button class="home-live-btn" onclick="openSession('${s.id}')">Ver detalles</button>
+    </div>`;
+  }).join('');
 }
-setInterval(() => { if (running) { seconds += 1; renderTimer(); } }, 1000);
-renderTimer();
 
-function updateProgress() {
-  const items = [...document.querySelectorAll('[data-completable]')];
-  const alreadyDone = 2;
-  const dynamicDone = items.filter(i => i.classList.contains('completed')).length;
-  const total = items.length + alreadyDone;
-  const done = alreadyDone + dynamicDone;
-  const pct = Math.round((done / total) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = pct + '%';
+function renderRoutines() {
+  const q = (document.getElementById('routineSearch').value || '').trim().toLowerCase();
+  const filtered = state.routines.filter(r => {
+    if (activeRouteTab === 'rutinas' && r.template) return false;
+    if (activeRouteTab === 'plantillas' && !r.template) return false;
+    return !q || `${r.name} ${r.patientName}`.toLowerCase().includes(q);
+  });
+  document.getElementById('routinesList').innerHTML = filtered.map(r => `<div class="routine-card"><div class="between"><div><div class="routine-title">${r.name}</div><div class="mini">${r.template?'Sin paciente asignado':'Paciente: '+r.patientName} · ${r.date}</div></div><span class="badge ${r.template?'template':''}">${r.template?'Plantilla':r.status}</span></div><div class="tags"><span class="tag">${r.exercises.length} ejercicios</span></div><div class="mini" style="margin-top:10px">${r.observations}</div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill" onclick="loadRoutineToBuilder('${r.id}')">Editar</button><button class="action-pill" onclick="duplicateRoutine('${r.id}')">Duplicar</button><button class="action-pill delete" onclick="deleteRoutine('${r.id}')">Eliminar</button>${!r.template?`<button class="action-pill start" onclick="startRoutine('${r.id}')">Iniciar sesión</button>`:`<button class="action-pill start" onclick="loadTemplateToBuilder('${r.id}')">Usar plantilla</button>`}</div></div>`).join('') || '<div class="detail-card"><div class="mini">No hay rutinas para mostrar.</div></div>';
 }
-updateProgress();
 
-document.getElementById('pauseBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  running = false;
-  sessionState.textContent = 'Sesión pausada';
-  sessionState.classList.remove('active');
-  sessionState.classList.add('paused');
-});
-document.getElementById('resumeBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  running = true;
-  sessionState.textContent = 'Sesión activa';
-  sessionState.classList.remove('paused');
-  sessionState.classList.add('active');
-});
+function renderPatients() {
+  const q = (document.getElementById('patientSearch').value || '').trim().toLowerCase();
+  const filtered = state.patients.filter(p => !q || p.name.toLowerCase().includes(q));
+  document.getElementById('patientsList').innerHTML = filtered.map(p => `<div class="patient-card"><div class="between"><div class="row" onclick="openPatientProfile('${p.id}')" style="flex:1"><div class="avatar-sm">${p.name.split(' ').map(x=>x[0]).slice(0,2).join('')}</div><div><div class="patient-name">${p.name}</div><div class="mini">Fase de tratamiento: ${p.phase}</div></div></div><button class="action-pill" onclick="editPatient('${p.id}')">Editar</button></div><div class="tags"><span class="tag">${p.phone}</span><span class="tag">${p.history.length} sesiones</span></div><div class="mini" style="margin-top:10px">${p.observaciones}</div></div>`).join('');
+}
 
-document.getElementById('finishSessionBtn').addEventListener('click', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  running = false;
-  sessionState.textContent = 'Sesión finalizada';
-  sessionState.classList.remove('active','paused');
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progressText').textContent = '100%';
-  alert('Sesión finalizada correctamente');
-});
+function renderPatientProfile() {
+  const p = state.patients.find(x => x.id === state.currentProfileId);
+  if (!p) return;
+  document.getElementById('profileName').textContent = p.name;
+  document.getElementById('profileDetails').innerHTML = `<div class="detail-list"><div class="detail-row"><div class="k">Edad</div><div class="v">${p.age} años</div></div><div class="detail-row"><div class="k">Teléfono</div><div class="v">${p.phone}</div></div><div class="detail-row"><div class="k">Email</div><div class="v">${p.email}</div></div><div class="detail-row"><div class="k">Fase</div><div class="v">${p.phase}</div></div><div class="detail-row"><div class="k">Antecedentes</div><div class="v">${p.antecedentes}</div></div><div class="detail-row"><div class="k">Observaciones</div><div class="v">${p.observaciones}</div></div></div>`;
+  const routines = state.routines.filter(r => r.patientId === p.id && !r.template);
+  document.getElementById('profileRoutines').innerHTML = routines.map(r => `<div class="routine-card"><div class="between"><div><div class="routine-title">${r.name}</div><div class="mini">${r.exercises.length} ejercicios</div></div><div class="row" style="gap:8px"><button class="action-pill" onclick="loadRoutineToBuilder('${r.id}')">Editar</button><button class="action-pill start" onclick="startRoutine('${r.id}')">Iniciar sesión</button></div></div></div>`).join('') || '<div class="detail-card"><div class="mini">Sin rutinas asociadas.</div></div>';
+  document.getElementById('profileHistory').innerHTML = p.history.length ? p.history.map(h => `<div class="routine-card"><div class="between"><div><div class="routine-title">${h.date}</div><div class="mini">${h.summary}</div></div><span class="badge">${h.duration}</span></div></div>`).join('') : '<div class="detail-card"><div class="mini">Aún no hay sesiones finalizadas.</div></div>';
+}
 
-['homeNoteBtn','sessionMenuBtn','addObservationBtn','quadNoteBtn','repsBadgeBtn','newPatientBtn','createPatientBtn','settingsBtn','exportWhatsappBtn','addBlockBtn','saveRoutineBtn','dupRoutineBtn','delRoutineBtn'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (id === 'delRoutineBtn') {
-        alert('Rutina eliminada');
-      } else if (id === 'dupRoutineBtn') {
-        alert('Rutina duplicada');
-      } else if (id === 'saveRoutineBtn') {
-        alert('Rutina guardada');
-      } else if (id === 'exportWhatsappBtn') {
-        alert('Rutina preparada para exportar por WhatsApp');
-      } else if (id === 'settingsBtn') {
-        openSheet('branding');
-      } else {
-        alert('Acción ejecutada');
-      }
+function renderBuilder() {
+  const select = document.getElementById('builderPatient');
+  select.innerHTML = state.patients.map(p => `<option value="${p.id}" ${state.builder.patientId===p.id?'selected':''}>${p.name}</option>`).join('');
+  document.getElementById('builderRoutineName').value = state.builder.name;
+  document.getElementById('builderObservations').value = state.builder.observations;
+  document.getElementById('builderCount').textContent = `${state.builder.exercises.length} ejercicios`;
+  document.getElementById('builderExercises').innerHTML = state.builder.exercises.length ? state.builder.exercises.map((e,i)=> `<div class="sheet-card"><div class="between"><div><div class="routine-title">${e.name}</div><div class="mini">${e.prescription}</div></div><button class="action-pill delete" onclick="removeBuilderExercise(${i})">Quitar</button></div></div>`).join('') : '<div class="detail-card"><div class="mini">Aún no agregaste ejercicios.</div></div>';
+}
+
+function openSession(sessionId) {
+  state.currentSessionId = sessionId;
+  renderExecution();
+  showScreen('execution');
+}
+
+function renderExecution() {
+  const name = document.getElementById('execPatientName');
+  const routine = document.getElementById('execRoutineName');
+  const timer = document.getElementById('executionTimer');
+  const badge = document.getElementById('sessionState');
+  const list = document.getElementById('executionExercises');
+  const fill = document.getElementById('progressFill');
+  const text = document.getElementById('progressText');
+  const hour = document.getElementById('hourNoticeBadge');
+  const s = getCurrentSession();
+  if (!s) {
+    name.textContent = 'Sin sesión activa';
+    routine.textContent = state.activeSessions.length ? 'Selecciona una sesión activa' : 'Selecciona una rutina desde Rutinas';
+    timer.textContent = '00:00';
+    badge.textContent = 'Sin iniciar';
+    badge.className = 'badge paused';
+    fill.style.width = '0%';
+    text.textContent = '0%';
+    hour.classList.add('hidden');
+    list.innerHTML = state.activeSessions.length
+      ? state.activeSessions.map(sess => `<div class="routine-card" style="margin-bottom:12px"><div class="between"><div><div class="routine-title">${sess.patientName}</div><div class="mini">${sess.routineName}</div></div><button class="action-pill start" onclick="openSession('${sess.id}')">Abrir</button></div></div>`).join('')
+      : '<div class="detail-card"><div class="mini">No hay rutina en ejecución.</div></div>';
+    return;
+  }
+  name.textContent = s.patientName;
+  routine.textContent = s.routineName;
+  timer.textContent = formatTime(s.seconds);
+  badge.textContent = s.running ? 'Sesión activa' : 'Sesión pausada';
+  badge.className = 'badge ' + (s.running ? 'active' : 'paused');
+  hour.classList.toggle('hidden', !s.reached60);
+  const pct = Math.round((s.exercises.filter(e=>e.completed).length / Math.max(s.exercises.length,1))*100);
+  fill.style.width = pct + '%';
+  text.textContent = pct + '%';
+  list.innerHTML = s.exercises.map((e,i)=> `<div class="exec-item ${e.completed?'completed':''}" onclick="toggleExercise(${i})"><div class="between"><div class="row" style="align-items:flex-start"><div class="check">${e.completed?'✓':''}</div><div><div class="exercise-name">${e.name}</div><div class="mini">${e.prescription}</div></div></div><button class="action-pill" onclick="event.stopPropagation(); notify('Carga de datos para: ' + '${e.name}')">Cargar datos</button></div>${e.notes?`<div class="note-box">${e.notes}</div>`:''}</div>`).join('');
+}
+
+function startRoutine(id) {
+  const r = state.routines.find(x => x.id === id);
+  if (!r || r.template) return;
+  if (state.activeSessions.length >= 12) {
+    notify('Límite de 12 sesiones activas alcanzado');
+    return;
+  }
+  const sessionId = 's' + Date.now() + '_' + Math.floor(Math.random()*1000);
+  state.activeSessions.unshift({
+    id: sessionId,
+    routineId:r.id,
+    patientId:r.patientId,
+    patientName:r.patientName,
+    routineName:r.name,
+    seconds:0,
+    running:true,
+    reached60:false,
+    exercises:r.exercises.map(e => ({...e, completed:false}))
+  });
+  state.currentSessionId = sessionId;
+  state.hourAlertShown = false;
+  renderAll();
+  showScreen('execution');
+}
+
+function toggleExercise(i) {
+  const s = getCurrentSession();
+  if (!s) return;
+  s.exercises[i].completed = !s.exercises[i].completed;
+  renderExecution();
+  renderHome();
+}
+
+function finishSession() {
+  const s = getCurrentSession();
+  if (!s) return;
+  const p = state.patients.find(x => x.id === s.patientId);
+  if (p) {
+    p.history.unshift({
+      date: todayString(),
+      duration: Math.round(s.seconds/60) + ' min',
+      summary: `${s.routineName} finalizada. ${s.exercises.filter(e=>e.completed).length}/${s.exercises.length} ejercicios completados.`
     });
   }
+  state.finishedToday += 1;
+  state.activeSessions = state.activeSessions.filter(x => x.id !== s.id);
+  state.currentSessionId = state.activeSessions[0]?.id || null;
+  renderAll();
+  showScreen('home');
+}
+
+function createPatient() {
+  const id = 'p' + Date.now();
+  const num = state.patients.length + 1;
+  state.patients.unshift({
+    id, name:'Paciente ' + num, age:30, phone:'+54 299 000 000' + num, email:'paciente'+num+'@email.com',
+    phase:'Evaluación inicial', antecedentes:'Sin antecedentes cargados', observaciones:'Paciente creado manualmente.', history:[]
+  });
+  renderAll();
+  showScreen('patients');
+}
+
+function editPatient(id) {
+  const p = state.patients.find(x => x.id === id);
+  if (!p) return;
+  const name = prompt('Nombre del paciente', p.name);
+  if (name === null) return;
+  const phone = prompt('Teléfono', p.phone);
+  if (phone === null) return;
+  const email = prompt('Email', p.email);
+  if (email === null) return;
+  const phase = prompt('Fase de tratamiento', p.phase);
+  if (phase === null) return;
+  const obs = prompt('Observaciones', p.observaciones);
+  if (obs === null) return;
+  p.name = name.trim() || p.name;
+  p.phone = phone.trim() || p.phone;
+  p.email = email.trim() || p.email;
+  p.phase = phase.trim() || p.phase;
+  p.observaciones = obs.trim() || p.observaciones;
+  state.routines.forEach(r => { if (r.patientId === p.id) r.patientName = p.name; });
+  renderAll();
+}
+
+function editCurrentPatient() {
+  editPatient(state.currentProfileId);
+  renderPatientProfile();
+}
+
+function duplicateRoutine(id) {
+  const r = state.routines.find(x => x.id === id);
+  if (!r) return;
+  const copy = JSON.parse(JSON.stringify(r));
+  copy.id = 'r' + Date.now();
+  copy.name = r.name + ' copia';
+  state.routines.unshift(copy);
+  renderRoutines();
+  notify('Rutina duplicada');
+}
+
+function deleteRoutine(id) {
+  state.routines = state.routines.filter(x => x.id !== id);
+  renderAll();
+}
+
+function loadRoutineToBuilder(id) {
+  const r = state.routines.find(x => x.id === id);
+  if (!r) return;
+  state.builder = {
+    patientId: r.patientId || state.patients[0]?.id || '',
+    name: r.name,
+    observations: r.observations,
+    exercises: JSON.parse(JSON.stringify(r.exercises))
+  };
+  showScreen('builder');
+  renderBuilder();
+}
+
+function loadTemplateToBuilder(id) {
+  const r = state.routines.find(x => x.id === id);
+  if (!r) return;
+  state.builder = {
+    patientId: state.patients[0]?.id || '',
+    name: r.name,
+    observations: r.observations,
+    exercises: JSON.parse(JSON.stringify(r.exercises))
+  };
+  showScreen('builder');
+  renderBuilder();
+}
+
+function resetBuilder() {
+  state.builder = { patientId: state.patients[0]?.id || '', name:'', observations:'', exercises:[] };
+  renderBuilder();
+}
+
+function addCustomExercise() {
+  const name = prompt('Nombre del ejercicio');
+  if (!name) return;
+  const pres = prompt('Prescripción', '3 sets · 10 reps') || '3 sets · 10 reps';
+  state.builder.exercises.push({ name, prescription: pres, notes:'', completed:false });
+  renderBuilder();
+}
+
+function addLibraryExercise(name) {
+  if (!libraryTargetBuilder) {
+    notify('Abre la biblioteca desde el constructor de rutina para agregar ejercicios.');
+    return;
+  }
+  state.builder.exercises.push({ name, prescription:'3 sets · 10 reps', notes:'', completed:false });
+  renderBuilder();
+  closeSheet();
+  showScreen('builder');
+}
+
+function removeBuilderExercise(i) {
+  state.builder.exercises.splice(i,1);
+  renderBuilder();
+}
+
+function saveBuiltRoutine() {
+  const patientId = document.getElementById('builderPatient').value;
+  const p = state.patients.find(x => x.id === patientId);
+  const name = document.getElementById('builderRoutineName').value.trim();
+  const obs = document.getElementById('builderObservations').value.trim();
+  if (!p) { notify('Selecciona un paciente'); return; }
+  if (!name) { notify('Coloca un nombre para la rutina'); return; }
+  if (!state.builder.exercises.length) { notify('Agrega al menos un ejercicio'); return; }
+  state.routines.unshift({
+    id:'r'+Date.now(),
+    patientId:p.id,
+    patientName:p.name,
+    name,
+    date:todayString(),
+    status:'Lista',
+    template:false,
+    observations:obs || 'Rutina creada manualmente.',
+    exercises:JSON.parse(JSON.stringify(state.builder.exercises))
+  });
+  resetBuilder();
+  renderAll();
+  showScreen('routines');
+  notify('Rutina guardada');
+}
+
+function openPatientProfile(id) {
+  state.currentProfileId = id;
+  renderPatientProfile();
+  showScreen('patient-profile');
+}
+
+document.getElementById('routineSearch').addEventListener('input', renderRoutines);
+document.getElementById('patientSearch').addEventListener('input', renderPatients);
+document.getElementById('builderPatient').addEventListener('change', e => state.builder.patientId = e.target.value);
+document.getElementById('builderRoutineName').addEventListener('input', e => state.builder.name = e.target.value);
+document.getElementById('builderObservations').addEventListener('input', e => state.builder.observations = e.target.value);
+document.getElementById('settingsUserName').addEventListener('input', e => { state.settings.userName = e.target.value.trim() || 'Dr. Ríos'; applySettings(); });
+document.getElementById('pauseBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.running=false; renderExecution(); renderHome(); } });
+document.getElementById('resumeBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.running=true; renderExecution(); renderHome(); } });
+document.getElementById('resetSessionBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.seconds=0; s.reached60=false; state.hourAlertShown=false; s.exercises.forEach(e=>e.completed=false); renderAll(); } });
+document.getElementById('finishSessionBtn').addEventListener('click', finishSession);
+document.getElementById('fabActionBtn').addEventListener('click', ()=> {
+  const active = document.querySelector('.nav-btn.active')?.dataset.nav;
+  if (active === 'patients') createPatient();
+  else showScreen('builder');
 });
+
+setInterval(()=> {
+  let changed = false;
+  state.activeSessions.forEach(sess => {
+    if (!sess.running) return;
+    sess.seconds += 1;
+    changed = true;
+    if (sess.seconds >= 3600 && !sess.reached60) {
+      sess.reached60 = true;
+      notify('Aviso: una sesión alcanzó los 60 minutos');
+    }
+  });
+  if (changed) {
+    renderExecution();
+    renderHome();
+  }
+}, 1000);
+
+function renderAll() {
+  renderHome();
+  renderRoutines();
+  renderPatients();
+  renderPatientProfile();
+  renderBuilder();
+  renderExecution();
+}
+
+window.startRoutine = startRoutine;
+window.toggleExercise = toggleExercise;
+window.duplicateRoutine = duplicateRoutine;
+window.deleteRoutine = deleteRoutine;
+window.openPatientProfile = openPatientProfile;
+window.openSession = openSession;
+window.showScreen = showScreen;
+window.openLibrary = openLibrary;
+window.openSettings = openSettings;
+window.saveSettings = saveSettings;
+window.createPatient = createPatient;
+window.editPatient = editPatient;
+window.editCurrentPatient = editCurrentPatient;
+window.loadRoutineToBuilder = loadRoutineToBuilder;
+window.loadTemplateToBuilder = loadTemplateToBuilder;
+window.resetBuilder = resetBuilder;
+window.addCustomExercise = addCustomExercise;
+window.addLibraryExercise = addLibraryExercise;
+window.removeBuilderExercise = removeBuilderExercise;
+window.saveBuiltRoutine = saveBuiltRoutine;
+
+renderProkinesis();
+renderCES();
+applySettings();
+renderAll();
 </script>
 </body>
 </html>
