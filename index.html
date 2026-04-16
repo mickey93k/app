@@ -262,6 +262,19 @@ body.theme-light .home-stat{background:#fff}
   transition:box-shadow .2s, transform .1s;
 }
 .primary-btn:active{transform:scale(.97);box-shadow:0 3px 12px rgba(83,239,185,.2)}
+.routine-footer{display:flex;align-items:center;gap:10px;margin-top:14px}
+.routine-start-btn{flex:1;min-height:46px;border-radius:14px;font-size:.88rem;letter-spacing:.05em;text-transform:uppercase;background:linear-gradient(180deg,#53efb9,#1dbb87);color:#021a0f;font-weight:900;box-shadow:0 4px 18px rgba(83,239,185,.28);transition:transform .15s, box-shadow .15s}
+.routine-start-btn:active{transform:scale(.97)}
+.routine-menu-wrap{position:relative;flex:0 0 auto}
+.routine-menu-btn{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--muted);font-size:1.2rem;letter-spacing:.1em;display:grid;place-items:center;transition:background .2s, border-color .2s, color .2s}
+.routine-menu-btn:hover,.routine-menu-btn.open{background:rgba(83,239,185,.1);border-color:rgba(83,239,185,.28);color:var(--accent)}
+.routine-menu-dropdown{position:absolute;bottom:calc(100% + 8px);right:0;min-width:160px;background:linear-gradient(160deg,#131e2c,#0e1720);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:6px;box-shadow:0 12px 36px rgba(0,0,0,.5);z-index:50;animation:fadeSlideUp .18s ease both}
+.routine-menu-item{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border-radius:11px;font-size:.88rem;font-weight:700;color:var(--text);background:transparent;transition:background .15s, color .15s;text-align:left}
+.routine-menu-item:hover{background:rgba(255,255,255,.06)}
+.routine-menu-item.danger{color:#ff8a96}
+.routine-menu-item.danger:hover{background:rgba(201,50,68,.12);color:#ffb6be}
+body.theme-light .routine-menu-dropdown{background:linear-gradient(160deg,#ffffff,#eef4fb);border-color:rgba(16,23,34,.08);box-shadow:0 12px 36px rgba(16,23,34,.18)}
+body.theme-light .routine-menu-btn{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.08)}
 .danger-btn{
   background:linear-gradient(180deg, #d63650 0%, #8f0f22 100%);
   color:#ffe8eb;
@@ -323,6 +336,123 @@ body.theme-light .digital{
   color:transparent;
 }
 
+
+.hist-time {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: .82rem;
+}
+.custom-select-wrap { position: relative; margin-bottom: 14px; }
+.custom-select-btn {
+  width: 100%; min-height: 58px; border-radius: 20px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--text); padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: .96rem; font-weight: 700;
+  transition: border-color .2s, background .2s;
+}
+.custom-select-btn:hover, .custom-select-btn.open {
+  border-color: rgba(83,239,185,.4);
+  background: rgba(83,239,185,.06);
+}
+.custom-select-list {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+  background: #111d2a; border: 1px solid rgba(83,239,185,.22);
+  border-radius: 18px; overflow: hidden; z-index: 60;
+  box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  list-style: none; margin: 0; padding: 6px;
+  max-height: 240px; overflow-y: auto;
+}
+.custom-select-list li {
+  padding: 13px 16px; border-radius: 12px;
+  font-size: .94rem; font-weight: 600; cursor: pointer;
+  color: var(--text); transition: background .15s, color .15s;
+}
+.custom-select-list li:hover { background: rgba(83,239,185,.1); color: var(--accent); }
+.custom-select-list li.selected { color: var(--accent); font-weight: 800; }
+.editable-field .v { cursor: pointer; border-bottom: 1px dashed rgba(255,255,255,.2); transition: color .2s; }
+.editable-field .v:hover { color: var(--accent); }
+.field-val-wrap { flex: 1; display: flex; justify-content: flex-end; }
+.field-edit-wrap { display: flex; align-items: center; gap: 8px; width: min(100%, 360px); }
+.field-input {
+  flex: 1; background: rgba(255,255,255,.06); border: 1px solid rgba(83,239,185,.35);
+  border-radius: 10px; padding: 8px 12px; color: var(--text); font-size: .9rem;
+}
+.field-edit-actions { display: flex; gap: 6px; }
+.field-save-btn {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: rgba(83,239,185,.15); border: 1px solid rgba(83,239,185,.3);
+  color: var(--accent); font-size: 1rem; display: grid; place-items: center;
+}
+.field-cancel-btn {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  color: var(--muted); font-size: .9rem; display: grid; place-items: center;
+}
+.lib-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px; border-radius: 16px; cursor: pointer;
+  border: 1px solid transparent;
+  transition: background .15s, border-color .15s;
+}
+.lib-item:hover { background: rgba(255,255,255,.04); }
+.lib-item.lib-selected {
+  background: rgba(83,239,185,.08);
+  border-color: rgba(83,239,185,.3);
+}
+.lib-check {
+  width: 26px; height: 26px; border-radius: 8px; flex: 0 0 auto;
+  border: 2px solid rgba(255,255,255,.2);
+  display: grid; place-items: center;
+  font-size: .85rem; font-weight: 900; color: #021a0f;
+  transition: background .15s, border-color .15s;
+}
+.lib-item.lib-selected .lib-check {
+  background: var(--accent); border-color: var(--accent);
+}
+.library-footer-sticky {
+  position: sticky; bottom: 0; left: 0; right: 0;
+  padding: 14px 0 4px; margin-top: 12px;
+  background: linear-gradient(180deg, rgba(12,19,28,0) 0%, rgba(12,19,28,.88) 28%, rgba(12,19,28,.98) 100%);
+  z-index: 8;
+}
+body.theme-light .library-footer-sticky {
+  background: linear-gradient(180deg, rgba(238,245,251,0) 0%, rgba(238,245,251,.88) 28%, rgba(238,245,251,.98) 100%);
+}
+#libraryAddSelectedBtn {
+  width: 100%; min-height: 56px;
+  box-shadow: 0 10px 24px rgba(83,239,185,.22);
+}
+#libraryAddSelectedBtn:disabled {
+  opacity: .5; box-shadow: none;
+}
+.bex-prescription {
+  font-size: .82rem; color: var(--muted); margin-top: 4px;
+  cursor: pointer; transition: color .2s;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.bex-prescription:hover { color: var(--accent); }
+.presc-editor {
+  margin-top: 12px; padding: 14px; border-radius: 16px;
+  background: rgba(83,239,185,.05); border: 1px solid rgba(83,239,185,.18);
+  animation: fadeSlideUp .18s ease both;
+}
+.presc-inputs { display: grid; grid-template-columns: 80px 80px 1fr; gap: 10px; margin-bottom: 12px; }
+.presc-field { display: flex; flex-direction: column; gap: 6px; }
+.presc-field label { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 800; }
+.presc-input {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px; padding: 9px 12px; color: var(--text);
+  font-size: .9rem; font-family: var(--font);
+}
+.presc-input:focus { border-color: rgba(83,239,185,.4); outline: none; }
+.presc-actions { display: flex; gap: 8px; }
+.presc-actions .field-save-btn { flex: 1; width: auto; height: 38px; border-radius: 10px; font-size: .85rem; font-weight: 800; }
+.presc-actions .field-cancel-btn { width: auto; padding: 0 14px; height: 38px; border-radius: 10px; font-size: .85rem; }
+@media (max-width: 520px) {
+  .presc-inputs { grid-template-columns: 1fr; }
+}
 
 /* Responsive breakpoints */
 @media (max-width:599px){
@@ -534,6 +664,406 @@ body.theme-light .digital{
   .routine-title,.patient-name{font-size:1.12rem}
 }
 
+
+
+/* --- Premium cyan refresh patch --- */
+:root {
+  --bg:#07101c;
+  --bg2:#080f1b;
+  --card:#0c1828;
+  --accent:#00d4f0;
+  --accent2:#0099bb;
+  --line:rgba(0, 212, 240, 0.12);
+  --glow:0 0 24px rgba(0, 212, 240, 0.2);
+  --shadow:0 14px 40px rgba(0,0,0,.38);
+}
+body{
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(0, 229, 255, .08) 0%, transparent 38%),
+    radial-gradient(ellipse at 80% 20%, rgba(10, 31, 58, .34) 0%, transparent 44%),
+    radial-gradient(ellipse at 50% 100%, rgba(0, 100, 180, 0.18) 0%, transparent 60%),
+    linear-gradient(180deg, #08121e 0%, #07101c 52%, #050b14 100%);
+}
+.title,
+.section-title,
+.routine-title,
+.patient-name,
+.exercise-name,
+.hero .main,
+.home-greeting .hello,
+.home-live-name,
+.home-live-timer,
+.session-time{
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.eyebrow,
+.hero .small,
+.home-live-title,
+.home-stat .k,
+.label,
+.timer-panel .timer-label,
+.badge,
+.home-live-state{
+  text-transform:uppercase;
+  letter-spacing:.18em;
+}
+.card,.session-card,.routine-card,.patient-card,.detail-card,.exec-item,.sheet-card,.hero,.builder-box,.home-stat,.timer-panel,.stat{
+  background:linear-gradient(180deg, rgba(12,24,40,.86), rgba(8,16,28,.82));
+  border:1px solid rgba(0, 229, 255, 0.15);
+  box-shadow:0 0 20px rgba(0, 229, 255, 0.08), 0 16px 40px rgba(0,0,0,.34);
+}
+.card:hover,.session-card:hover,.routine-card:hover,.patient-card:hover,.detail-card:hover,.exec-item:hover,.sheet-card:hover,.builder-box:hover,.hero:hover,.home-stat:hover,.stat:hover{
+  box-shadow:0 0 30px rgba(0, 229, 255, 0.18), 0 18px 42px rgba(0,0,0,.38);
+  border-color:rgba(0, 229, 255, 0.28);
+}
+.icon-btn,
+.quick-btn .k,
+.avatar-sm,
+.home-live-icon,
+.home-stat .k::before,
+.action-pill,
+.routine-menu-btn,
+.nav-btn .nav-ico{
+  color:var(--accent);
+  background:rgba(0, 229, 255, 0.1);
+  border:1px solid rgba(0, 229, 255, 0.2);
+  box-shadow:0 0 18px rgba(0, 229, 255, 0.08);
+}
+.avatar{
+  color:var(--accent);
+  background:linear-gradient(180deg, rgba(0, 229, 255, .14), rgba(0, 229, 255, .06));
+  border:1px solid rgba(0, 229, 255, .22);
+  box-shadow:var(--glow);
+}
+.primary-btn,
+.home-live-btn,
+.routine-start-btn,
+.fab{
+  background:linear-gradient(135deg, #00c6e0, #0081a7);
+  color:#eefcff;
+  box-shadow:0 4px 20px rgba(0, 229, 255, 0.35);
+}
+.primary-btn:hover,
+.home-live-btn:hover,
+.routine-start-btn:hover{
+  filter:brightness(1.06);
+  box-shadow:0 6px 28px rgba(0, 229, 255, 0.42);
+}
+.secondary-btn,
+.seg-btn,
+.chip,
+.searchbar,.input,.textarea,.select,
+.custom-select-btn,
+.field-input,
+.presc-input,
+.note-box,
+.home-live-tag,
+.tag,
+.badge{
+  background:rgba(8, 20, 34, .78);
+  border:1px solid rgba(0, 229, 255, 0.12);
+}
+.seg-btn.active,.chip.active{
+  background:rgba(0, 229, 255, .18);
+  border-color:rgba(0, 229, 255, .30);
+  color:#eefdff;
+  box-shadow:0 0 18px rgba(0, 229, 255, .16);
+}
+.badge.active{
+  background:rgba(0, 229, 255, .16);
+  border-color:rgba(0, 229, 255, .34);
+  color:#00e5ff;
+}
+.badge.paused,
+.badge.warning{
+  background:rgba(255, 184, 77, .16);
+  border-color:rgba(255, 184, 77, .34);
+  color:#ffb84d;
+}
+.badge.template{
+  background:rgba(112, 92, 255, .16);
+  border-color:rgba(112, 92, 255, .34);
+  color:#8ea0ff;
+}
+.bottom-nav{
+  background:linear-gradient(180deg, rgba(6,12,20,.78), rgba(8,15,27,.92));
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-top:1px solid rgba(0, 229, 255, .18);
+  box-shadow:0 -10px 30px rgba(0,0,0,.34), 0 0 0 1px rgba(0, 229, 255, .06) inset;
+}
+.nav-btn{
+  border:1px solid rgba(0, 229, 255, .08);
+  background:rgba(255,255,255,.02);
+}
+.nav-btn.active{
+  color:#eefdff;
+  background:linear-gradient(180deg, rgba(0, 229, 255, .22), rgba(0, 153, 187, .12));
+  border-color:rgba(0, 229, 255, .26);
+  box-shadow:0 0 24px rgba(0, 229, 255, .16);
+}
+.progress-bar>span{
+  background:linear-gradient(90deg, #00e5ff, #0099bb);
+  box-shadow:0 0 18px rgba(0, 229, 255, .24);
+}
+.digital,
+.home-stat .v,
+.home-live-timer{
+  background:linear-gradient(180deg, #ffffff, #8befff 72%, #00d4f0 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.sheet{
+  background:linear-gradient(180deg, #0a1422, #07101c);
+  border-top:1px solid rgba(0, 229, 255, .18);
+}
+.routine-menu-dropdown,
+.custom-select-list{
+  background:linear-gradient(160deg, #0d1828, #08121e);
+  border:1px solid rgba(0, 229, 255, .18);
+}
+body.theme-light {
+  --bg:#f3f7fb;
+  --bg2:#e7edf5;
+  --card:#ffffff;
+  --line:rgba(0,0,0,.08);
+  --text:#101722;
+  --muted:#566375;
+  --shadow:0 10px 24px rgba(16,23,34,.12);
+  background:linear-gradient(180deg,#f7fbff 0%, #eef5fb 100%);
+}
+body.theme-light .card,
+body.theme-light .session-card,
+body.theme-light .routine-card,
+body.theme-light .patient-card,
+body.theme-light .detail-card,
+body.theme-light .exec-item,
+body.theme-light .sheet-card,
+body.theme-light .hero,
+body.theme-light .builder-box,
+body.theme-light .home-stat,
+body.theme-light .timer-panel,
+body.theme-light .stat{
+  background:#ffffff;
+  border:1px solid rgba(16,23,34,.08);
+  box-shadow:0 10px 24px rgba(16,23,34,.10);
+}
+body.theme-light .primary-btn,
+body.theme-light .home-live-btn,
+body.theme-light .routine-start-btn,
+body.theme-light .fab{
+  color:#ffffff;
+}
+body.theme-light .icon-btn,
+body.theme-light .quick-btn .k,
+body.theme-light .avatar-sm,
+body.theme-light .home-live-icon,
+body.theme-light .action-pill,
+body.theme-light .routine-menu-btn,
+body.theme-light .nav-btn .nav-ico{
+  background:rgba(0, 153, 187, .08);
+  border-color:rgba(0, 153, 187, .18);
+  color:#0099bb;
+  box-shadow:none;
+}
+body.theme-light .secondary-btn,
+body.theme-light .seg-btn,
+body.theme-light .chip,
+body.theme-light .searchbar,
+body.theme-light .input,
+body.theme-light .textarea,
+body.theme-light .select,
+body.theme-light .custom-select-btn,
+body.theme-light .field-input,
+body.theme-light .presc-input,
+body.theme-light .note-box,
+body.theme-light .home-live-tag,
+body.theme-light .tag,
+body.theme-light .badge{
+  background:#ffffff;
+  border:1px solid rgba(16,23,34,.08);
+}
+body.theme-light .bottom-nav{
+  border-top:1px solid rgba(0, 153, 187, .12);
+}
+/* --- Progress evaluation patch --- */
+.exec-load-panel{
+  margin-top:14px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(180deg, rgba(0,229,255,.10), rgba(0,229,255,.04));
+  border:1px solid rgba(0,229,255,.18);
+  box-shadow:0 0 18px rgba(0,229,255,.08);
+}
+.exec-load-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.exec-load-field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.exec-load-field label{
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+  font-weight:800;
+}
+.exec-load-input{
+  min-height:52px;
+  border-radius:16px;
+  padding:0 14px;
+  background:rgba(7,18,30,.84);
+  border:1px solid rgba(0,229,255,.16);
+  color:var(--text);
+  font-size:1rem;
+  font-weight:800;
+  width:100%;
+}
+.exec-load-input:focus{
+  border-color:rgba(0,229,255,.34);
+  box-shadow:0 0 0 2px rgba(0,229,255,.12);
+}
+.exec-load-metrics{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.exec-metric-card{
+  border-radius:16px;
+  padding:12px;
+  background:rgba(5,15,25,.82);
+  border:1px solid rgba(0,229,255,.12);
+}
+.exec-metric-card .k{
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+  font-weight:800;
+}
+.exec-metric-card .v{
+  margin-top:6px;
+  font-size:1.18rem;
+  font-weight:900;
+  color:#eefcff;
+}
+.exec-prev-line{
+  margin-top:10px;
+  font-size:.82rem;
+  color:var(--muted);
+}
+.exec-fatigue-flag{
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,184,77,.12);
+  border:1px solid rgba(255,184,77,.26);
+  color:#ffb84d;
+  font-size:.82rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.progress-milestones{
+  display:grid;
+  gap:12px;
+  margin:14px 0 18px;
+}
+.progress-ex-card{
+  border-radius:20px;
+  padding:15px;
+  background:linear-gradient(180deg, rgba(12,24,40,.86), rgba(8,16,28,.82));
+  border:1px solid rgba(0,229,255,.14);
+  box-shadow:0 0 20px rgba(0,229,255,.08), 0 16px 40px rgba(0,0,0,.24);
+}
+.progress-ex-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+}
+.progress-ex-name{
+  font-size:.94rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.progress-ex-change{
+  font-size:.92rem;
+  font-weight:900;
+}
+.progress-ex-change.up{ color:var(--accent); }
+.progress-ex-change.down{ color:var(--warn); }
+.progress-line{
+  width:100%;
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress-line span{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#00e5ff,#0099bb);
+  box-shadow:0 0 18px rgba(0,229,255,.24);
+}
+.progress-ex-meta{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:10px;
+}
+.progress-chip{
+  border-radius:14px;
+  padding:10px;
+  background:rgba(5,15,25,.72);
+  border:1px solid rgba(0,229,255,.10);
+}
+.progress-chip .k{
+  font-size:.64rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+  font-weight:800;
+}
+.progress-chip .v{
+  margin-top:4px;
+  font-size:.92rem;
+  font-weight:800;
+}
+.history-metrics{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.history-metric{
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(0,229,255,.10);
+  border:1px solid rgba(0,229,255,.18);
+  font-size:.75rem;
+  font-weight:800;
+  color:#eefdff;
+}
+@media (max-width:520px){
+  .exec-load-grid,
+  .exec-load-metrics,
+  .progress-ex-meta{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -556,7 +1086,7 @@ body.theme-light .digital{
         </div>
         <div class="home-stat full">
           <div class="k">Sesiones hoy</div>
-          <div class="v"><span id="homeFinishedToday">0</span> <small>/ 12 cupos</small></div>
+          <div class="v"><span id="homeFinishedToday">0</span></div>
         </div>
       </div>
 
@@ -582,7 +1112,15 @@ body.theme-light .digital{
       <div class="builder-box">
         <div class="field">
           <label class="label">Paciente</label>
-          <div class="select"><select id="builderPatient"></select></div>
+          <div class="custom-select-wrap" id="builderPatientWrap">
+            <button class="custom-select-btn" id="builderPatientBtn" type="button">
+              <span id="builderPatientLabel">Seleccionar paciente</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 5l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <ul class="custom-select-list hidden" id="builderPatientList"></ul>
+          </div>
         </div>
         <div class="field">
           <label class="label">Nombre de la rutina</label>
@@ -635,7 +1173,7 @@ body.theme-light .digital{
         <button class="icon-btn" data-go="patients">←</button>
       </div>
       <div class="detail-card" id="profileDetails"></div>
-      <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill start" onclick="editCurrentPatient()">Editar paciente</button></div>
+      
       <div class="section-head"><div class="section-title">Rutinas asociadas</div></div>
       <div id="profileRoutines"></div>
       <div class="section-head"><div class="section-title">Historial de sesiones</div></div>
@@ -688,6 +1226,7 @@ body.theme-light .digital{
           <div class="searchbar"><span>⌕</span><input id="searchCES" type="text" placeholder="Buscar ejercicio en CES757"></div>
           <div class="library-list" id="listCES"></div>
         </div>
+        <div class="library-footer-sticky"><button id="libraryAddSelectedBtn" class="primary-btn" type="button" onclick="addSelectedLibraryExercises()" disabled>Listo</button></div>
       </div>
 
       <div id="sheetSettings" class="sheet-view hidden">
@@ -856,8 +1395,139 @@ let activeType = 'Todos';
 let activeLib = 'prokinesis';
 let libraryTargetBuilder = false;
 let settingsAccent = state.settings.accent;
+let librarySelected = new Set();
+let builderPatientSelectBound = false;
+function syncBuilderRoutineNameWithPatient(patientId) {
+  const patient = state.patients.find(p => p.id === patientId);
+  if (!patient) return;
+  state.builder.name = patient.name;
+  const input = document.getElementById('builderRoutineName');
+  if (input) input.value = patient.name;
+}
+
 
 function notify(msg){ console.log(msg); }
+
+function toNumber(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function roundMetric(value, decimals = 1) {
+  const factor = Math.pow(10, decimals);
+  return Math.round((Number(value) || 0) * factor) / factor;
+}
+
+function calcEpley(weight, reps) {
+  const w = toNumber(weight);
+  const r = toNumber(reps);
+  if (w <= 0 || r <= 0) return 0;
+  return roundMetric(w * (1 + (r / 30)), 1);
+}
+
+function calcVolume(weight, reps) {
+  const w = toNumber(weight);
+  const r = toNumber(reps);
+  if (w <= 0 || r <= 0) return 0;
+  return roundMetric(w * r, 1);
+}
+
+function formatMetricNumber(value, unit = '') {
+  const n = Number(value) || 0;
+  return n > 0 ? `${roundMetric(n, 1)}${unit}` : '—';
+}
+
+function getExercisePreviousMetric(patientId, exerciseName) {
+  const patient = state.patients.find(p => p.id === patientId);
+  if (!patient || !Array.isArray(patient.history)) return null;
+  for (const entry of patient.history) {
+    const logs = Array.isArray(entry.exerciseLogs) ? entry.exerciseLogs : [];
+    const found = logs.find(log => log.name === exerciseName && Number(log.oneRM) > 0);
+    if (found) return found;
+  }
+  return null;
+}
+
+function toggleExecData(index) {
+  const s = getCurrentSession();
+  if (!s || !s.exercises[index]) return;
+  s.exercises[index].dataOpen = !s.exercises[index].dataOpen;
+  renderExecution();
+  markDirty(500);
+}
+
+function updateExecMetric(index, field, rawValue) {
+  const s = getCurrentSession();
+  if (!s || !s.exercises[index]) return;
+  const ex = s.exercises[index];
+  const cleanValue = rawValue === '' ? '' : Math.max(0, Number(rawValue) || 0);
+  ex[field] = cleanValue;
+  const weight = toNumber(ex.pesoReal);
+  const reps = toNumber(ex.repsReales);
+  ex.oneRM = calcEpley(weight, reps);
+  ex.volumen = calcVolume(weight, reps);
+  const previous = getExercisePreviousMetric(s.patientId, ex.name);
+  ex.prevOneRM = previous && Number(previous.oneRM) > 0 ? Number(previous.oneRM) : 0;
+  ex.fatigueFlag = !!(ex.oneRM > 0 && ex.prevOneRM > 0 && ex.oneRM < ex.prevOneRM);
+  renderExecution();
+  markDirty(500);
+}
+
+function renderProgressMilestones(patient) {
+  const history = Array.isArray(patient.history) ? patient.history : [];
+  const grouped = {};
+  history.forEach(entry => {
+    const logs = Array.isArray(entry.exerciseLogs) ? entry.exerciseLogs : [];
+    logs.forEach(log => {
+      if (!log || !log.name || !(Number(log.oneRM) > 0)) return;
+      if (!grouped[log.name]) grouped[log.name] = [];
+      grouped[log.name].push({
+        date: entry.date,
+        oneRM: Number(log.oneRM) || 0,
+        volumen: Number(log.volumen) || 0,
+        pesoReal: Number(log.pesoReal) || 0,
+        repsReales: Number(log.repsReales) || 0
+      });
+    });
+  });
+  const items = Object.entries(grouped)
+    .map(([name, logs]) => {
+      const ordered = logs.slice().reverse();
+      const first = ordered[0];
+      const last = ordered[ordered.length - 1];
+      const delta = roundMetric(last.oneRM - first.oneRM, 1);
+      const pct = first.oneRM > 0 ? roundMetric((delta / first.oneRM) * 100, 1) : 0;
+      const bar = Math.max(6, Math.min(100, Math.abs(pct)));
+      return { name, logs: ordered, first, last, delta, pct, bar };
+    })
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+
+  if (!items.length) {
+    return '<div class="detail-card"><div class="mini">Todavía no hay hitos de progreso medidos. Durante la ejecución podés cargar peso y repeticiones para guardar 1RM estimado y volumen.</div></div>';
+  }
+
+  return `<div class="progress-milestones">${items.map(item => `
+    <div class="progress-ex-card">
+      <div class="progress-ex-top">
+        <div>
+          <div class="progress-ex-name">${item.name}</div>
+          <div class="mini">${item.logs.length} registro${item.logs.length === 1 ? '' : 's'} con carga</div>
+        </div>
+        <div class="progress-ex-change ${item.delta >= 0 ? 'up' : 'down'}">${item.delta >= 0 ? '+' : ''}${item.delta} kg</div>
+      </div>
+      <div class="progress-line"><span style="width:${item.bar}%"></span></div>
+      <div class="progress-ex-meta">
+        <div class="progress-chip"><div class="k">1RM inicial</div><div class="v">${roundMetric(item.first.oneRM,1)} kg</div></div>
+        <div class="progress-chip"><div class="k">1RM actual</div><div class="v">${roundMetric(item.last.oneRM,1)} kg</div></div>
+        <div class="progress-chip"><div class="k">Cambio</div><div class="v">${item.pct >= 0 ? '+' : ''}${item.pct}%</div></div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 function applySettings() {
   document.getElementById('brandUserName').textContent = 'Hola, ' + state.settings.userName;
@@ -887,9 +1557,11 @@ document.querySelectorAll('[data-routetab]').forEach(btn => btn.addEventListener
 const sheetBackdrop = document.getElementById('sheetBackdrop');
 function openLibrary(forBuilder=false) {
   libraryTargetBuilder = !!forBuilder;
+  librarySelected.clear();
   document.getElementById('sheetLibrary').classList.remove('hidden');
   document.getElementById('sheetSettings').classList.add('hidden');
   sheetBackdrop.classList.add('open');
+  renderLibraryItems();
 }
 function openSettings() {
   document.getElementById('sheetSettings').classList.remove('hidden');
@@ -931,27 +1603,91 @@ function saveSettings() {
   markDirty();
 }
 
-function cardMarkup(item, meta) {
-  return `<div class="sheet-card"><div class="between"><div><div class="routine-title">${item.name}</div><div class="mini">${meta}</div></div><button class="action-pill start" onclick="addLibraryExercise('${item.name.replace(/'/g, "\\'")}')">Agregar</button></div></div>`;
+function getActiveLibraryExercises() {
+  return activeLib === 'prokinesis' ? prokinesis : ces757;
 }
-function renderProkinesis() {
-  const q = (document.getElementById('searchProkinesis').value || '').trim().toLowerCase();
-  const filtered = prokinesis.filter(x => (activeType === 'Todos' || x.type === activeType) && (!q || `${x.name} ${x.category} ${x.type}`.toLowerCase().includes(q)));
-  document.getElementById('listProkinesis').innerHTML = filtered.map(x => cardMarkup(x, `${x.type} · ${x.category}`)).join('') || '<div class="detail-card"><div class="mini">No hay coincidencias.</div></div>';
-  if (activeLib === 'prokinesis') document.getElementById('libraryCount').textContent = `${filtered.length} ejercicios cargados`;
-}
-function renderCES() {
+
+function getLibraryFilteredExercises() {
+  if (activeLib === 'prokinesis') {
+    const q = (document.getElementById('searchProkinesis').value || '').trim().toLowerCase();
+    return prokinesis.filter(x => (activeType === 'Todos' || x.type === activeType) && (!q || `${x.name} ${x.category} ${x.type}`.toLowerCase().includes(q)));
+  }
   const q = (document.getElementById('searchCES').value || '').trim().toLowerCase();
-  const filtered = ces757.filter(x => !q || `${x.name} ${x.category}`.toLowerCase().includes(q));
-  document.getElementById('listCES').innerHTML = filtered.map(x => cardMarkup(x, x.category)).join('') || '<div class="detail-card"><div class="mini">No hay coincidencias.</div></div>';
-  if (activeLib === 'ces757') document.getElementById('libraryCount').textContent = `${filtered.length} ejercicios cargados`;
+  return ces757.filter(x => !q || `${x.name} ${x.category}`.toLowerCase().includes(q));
+}
+
+function libraryItemMarkup(item, meta) {
+  const selected = librarySelected.has(item.name);
+  return `<div class="sheet-card lib-item ${selected ? 'lib-selected' : ''}" data-name="${encodeURIComponent(item.name)}" onclick="toggleLibrarySelect(decodeURIComponent(this.dataset.name))"><div class="lib-check">${selected ? '✓' : ''}</div><div><div class="routine-title">${item.name}</div><div class="mini">${meta}</div></div></div>`;
+}
+
+function renderLibraryItems() {
+  const filtered = getLibraryFilteredExercises();
+  const targetId = activeLib === 'prokinesis' ? 'listProkinesis' : 'listCES';
+  const metaFn = activeLib === 'prokinesis' ? (x => `${x.type} · ${x.category}`) : (x => x.category);
+  document.getElementById(targetId).innerHTML = filtered.map(x => libraryItemMarkup(x, metaFn(x))).join('') || '<div class="detail-card"><div class="mini">No hay coincidencias.</div></div>';
+  document.getElementById('libraryCount').textContent = `${filtered.length} ejercicios cargados`;
+  updateLibraryAddBtn();
+}
+
+function renderProkinesis() {
+  if (activeLib === 'prokinesis') renderLibraryItems();
+}
+
+function renderCES() {
+  if (activeLib === 'ces757') renderLibraryItems();
+}
+
+function toggleLibrarySelect(name) {
+  if (librarySelected.has(name)) librarySelected.delete(name);
+  else librarySelected.add(name);
+  renderLibraryItems();
+}
+
+function updateLibraryAddBtn() {
+  const btn = document.getElementById('libraryAddSelectedBtn');
+  if (!btn) return;
+  const count = librarySelected.size;
+  btn.textContent = count > 0 ? `Listo${count > 0 ? ` (${count})` : ''}` : 'Listo';
+  btn.disabled = count === 0;
+}
+
+function addSelectedLibraryExercises() {
+  if (!libraryTargetBuilder) {
+    notify('Abre la biblioteca desde el constructor de rutina para agregar ejercicios.');
+    return;
+  }
+  const selectedNames = Array.from(librarySelected);
+  if (!selectedNames.length) {
+    notify('Seleccioná ejercicios');
+    return;
+  }
+  const allLibraryExercises = [...prokinesis, ...ces757];
+  const existingKeys = new Set(state.builder.exercises.map(e => `${e.name}__${e.prescription || ''}`));
+  let addedCount = 0;
+  selectedNames.forEach(name => {
+    const ex = allLibraryExercises.find(e => e.name === name);
+    if (!ex) return;
+    const prescription = ex.prescription || '3 sets · 10 reps';
+    const key = `${ex.name}__${prescription}`;
+    if (existingKeys.has(key)) return;
+    state.builder.exercises.push({ name: ex.name, prescription, notes: '', completed: false });
+    existingKeys.add(key);
+    addedCount += 1;
+  });
+  librarySelected.clear();
+  closeSheet();
+  showScreen('builder');
+  renderBuilder();
+  markDirty();
+  notify(addedCount ? `${addedCount} ejercicio${addedCount > 1 ? 's' : ''} agregado${addedCount > 1 ? 's' : ''}` : 'Esos ejercicios ya estaban cargados');
 }
 document.querySelectorAll('[data-libtab]').forEach(btn => btn.addEventListener('click', ()=> {
   activeLib = btn.dataset.libtab;
   document.querySelectorAll('[data-libtab]').forEach(b => b.classList.toggle('active', b === btn));
   document.getElementById('pane-prokinesis').classList.toggle('hidden', activeLib !== 'prokinesis');
   document.getElementById('pane-ces757').classList.toggle('hidden', activeLib !== 'ces757');
-  if (activeLib === 'prokinesis') renderProkinesis(); else renderCES();
+  renderLibraryItems();
 }));
 document.querySelectorAll('#pkFiltersType .chip').forEach(btn => btn.addEventListener('click', ()=> {
   activeType = btn.dataset.type;
@@ -1013,33 +1749,171 @@ function renderRoutines() {
     if (activeRouteTab === 'plantillas' && !r.template) return false;
     return !q || `${r.name} ${r.patientName}`.toLowerCase().includes(q);
   });
-  document.getElementById('routinesList').innerHTML = filtered.map(r => `<div class="routine-card"><div class="between"><div><div class="routine-title">${r.name}</div><div class="mini">${r.template?'Sin paciente asignado':'Paciente: '+r.patientName} · ${r.date}</div></div><span class="badge ${r.template?'template':''}">${r.template?'Plantilla':r.status}</span></div><div class="tags"><span class="tag">${r.exercises.length} ejercicios</span></div><div class="mini" style="margin-top:10px">${r.observations}</div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:14px"><button class="action-pill" onclick="loadRoutineToBuilder('${r.id}')">Editar</button><button class="action-pill" onclick="duplicateRoutine('${r.id}')">Duplicar</button><button class="action-pill delete" onclick="deleteRoutine('${r.id}')">Eliminar</button>${!r.template?`<button class="action-pill start" onclick="startRoutine('${r.id}')">Iniciar sesión</button>`:`<button class="action-pill start" onclick="loadTemplateToBuilder('${r.id}')">Usar plantilla</button>`}</div></div>`).join('') || '<div class="detail-card"><div class="mini">No hay rutinas para mostrar.</div></div>';
+  document.getElementById('routinesList').innerHTML = filtered.map(r => `<div class="routine-card"><div class="between"><div><div class="routine-title">${r.name}</div><div class="mini">${r.template?'Sin paciente asignado':'Paciente: '+r.patientName} · ${r.date}</div></div><span class="badge ${r.template?'template':''}">${r.template?'Plantilla':r.status}</span></div><div class="tags"><span class="tag">${r.exercises.length} ejercicios</span></div><div class="mini" style="margin-top:10px">${r.observations}</div><div class="routine-footer">${!r.template?`<button class="primary-btn routine-start-btn" onclick="startRoutine('${r.id}')">▶ Iniciar sesión</button>`:`<button class="primary-btn routine-start-btn" onclick="loadTemplateToBuilder('${r.id}')">▶ Usar plantilla</button>`}<div class="routine-menu-wrap"><button class="routine-menu-btn" onclick="toggleRoutineMenu(this)" title="Más opciones">···</button><div class="routine-menu-dropdown hidden"><button class="routine-menu-item" onclick="loadRoutineToBuilder('${r.id}'); closeAllMenus()">✎ Editar</button><button class="routine-menu-item" onclick="duplicateRoutine('${r.id}'); closeAllMenus()">⧉ Duplicar</button><button class="routine-menu-item danger" onclick="deleteRoutine('${r.id}'); closeAllMenus()">✕ Eliminar</button></div></div></div></div>`).join('') || '<div class="detail-card"><div class="mini">No hay rutinas para mostrar.</div></div>';
 }
 
 function renderPatients() {
   const q = (document.getElementById('patientSearch').value || '').trim().toLowerCase();
   const filtered = state.patients.filter(p => !q || p.name.toLowerCase().includes(q));
-  document.getElementById('patientsList').innerHTML = filtered.map(p => `<div class="patient-card"><div class="between"><div class="row" onclick="openPatientProfile('${p.id}')" style="flex:1"><div class="avatar-sm">${p.name.split(' ').map(x=>x[0]).slice(0,2).join('')}</div><div><div class="patient-name">${p.name}</div><div class="mini">Fase de tratamiento: ${p.phase}</div></div></div><button class="action-pill" onclick="editPatient('${p.id}')">Editar</button></div><div class="tags"><span class="tag">${p.phone}</span><span class="tag">${p.history.length} sesiones</span></div><div class="mini" style="margin-top:10px">${p.observaciones}</div></div>`).join('');
+  document.getElementById('patientsList').innerHTML = filtered.map(p => `<div class="patient-card" onclick="openPatientProfile('${p.id}')"><div class="between" style="align-items:flex-start"><div class="row" style="flex:1;min-width:0"><div class="avatar-sm">${p.name.split(' ').map(x=>x[0]).slice(0,2).join('')}</div><div style="min-width:0"><div class="patient-name">${p.name}</div><div class="mini">Fase de tratamiento: ${p.phase}</div></div></div><div class="routine-menu-wrap" onclick="event.stopPropagation()"><button class="routine-menu-btn" onclick="toggleRoutineMenu(this)" title="Más opciones">···</button><div class="routine-menu-dropdown hidden"><button class="routine-menu-item" onclick="editPatient('${p.id}'); closeAllMenus()">✎ Editar</button><button class="routine-menu-item" onclick="duplicatePatient('${p.id}'); closeAllMenus()">⧉ Duplicar</button><button class="routine-menu-item danger" onclick="deletePatient('${p.id}'); closeAllMenus()">✕ Eliminar</button></div></div></div><div class="tags"><span class="tag">${p.phone}</span><span class="tag">${p.history.length} sesiones</span></div><div class="mini" style="margin-top:10px">${p.observaciones}</div></div>`).join('') || '<div class="detail-card"><div class="mini">No hay pacientes para mostrar.</div></div>';
+}
+
+function editableField(patientId, field, label, value, suffix='') {
+  const safeValue = String(value ?? '');
+  return `
+    <div class="detail-row editable-field" id="field-${patientId}-${field}">
+      <span class="k">${label}</span>
+      <div class="field-val-wrap">
+        <span class="v field-display" onclick="activateFieldEdit('${patientId}','${field}')">${safeValue}${suffix}</span>
+        <div class="field-edit-wrap hidden">
+          <input class="field-input" value="${escapeHtml(safeValue)}" id="finput-${patientId}-${field}">
+          <div class="field-edit-actions">
+            <button class="field-save-btn" onclick="saveFieldEdit('${patientId}','${field}')">✓</button>
+            <button class="field-cancel-btn" onclick="cancelFieldEdit('${patientId}','${field}')">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
 }
 
 function renderPatientProfile() {
   const p = state.patients.find(x => x.id === state.currentProfileId);
   if (!p) return;
   document.getElementById('profileName').textContent = p.name;
-  document.getElementById('profileDetails').innerHTML = `<div class="detail-list"><div class="detail-row"><div class="k">Edad</div><div class="v">${p.age} años</div></div><div class="detail-row"><div class="k">Teléfono</div><div class="v">${p.phone}</div></div><div class="detail-row"><div class="k">Email</div><div class="v">${p.email}</div></div><div class="detail-row"><div class="k">Fase</div><div class="v">${p.phase}</div></div><div class="detail-row"><div class="k">Antecedentes</div><div class="v">${p.antecedentes}</div></div><div class="detail-row"><div class="k">Observaciones</div><div class="v">${p.observaciones}</div></div></div>`;
+  document.getElementById('profileDetails').innerHTML = `<div class="detail-list">${editableField(p.id, 'age', 'Edad', p.age, ' años')}${editableField(p.id, 'phone', 'Teléfono', p.phone)}${editableField(p.id, 'email', 'Email', p.email)}${editableField(p.id, 'phase', 'Fase', p.phase)}${editableField(p.id, 'antecedentes', 'Antecedentes', p.antecedentes)}${editableField(p.id, 'observaciones', 'Observaciones', p.observaciones)}</div>`;
   const routines = state.routines.filter(r => r.patientId === p.id && !r.template);
   document.getElementById('profileRoutines').innerHTML = routines.map(r => `<div class="routine-card"><div class="between"><div><div class="routine-title">${r.name}</div><div class="mini">${r.exercises.length} ejercicios</div></div><div class="row" style="gap:8px"><button class="action-pill" onclick="loadRoutineToBuilder('${r.id}')">Editar</button><button class="action-pill start" onclick="startRoutine('${r.id}')">Iniciar sesión</button></div></div></div>`).join('') || '<div class="detail-card"><div class="mini">Sin rutinas asociadas.</div></div>';
-  document.getElementById('profileHistory').innerHTML = p.history.length ? p.history.map(h => `<div class="routine-card"><div class="between"><div><div class="routine-title">${h.date}</div><div class="mini">${h.summary}</div></div><span class="badge">${h.duration}</span></div></div>`).join('') : '<div class="detail-card"><div class="mini">Aún no hay sesiones finalizadas.</div></div>';
+  const milestonesMarkup = renderProgressMilestones(p);
+  const historyMarkup = p.history.length ? p.history.map(h => {
+    const measured = Array.isArray(h.exerciseLogs) ? h.exerciseLogs.filter(log => Number(log.oneRM) > 0) : [];
+    const metricPills = measured.slice(0, 4).map(log => `<span class="history-metric">${log.name}: ${roundMetric(log.oneRM,1)} kg</span>`).join('');
+    return `<div class="routine-card"><div class="between"><div><div class="hist-date">${h.date} <span class="hist-time">· ${h.startTime || ''}</span></div><div class="mini">${h.summary}</div>${metricPills ? `<div class="history-metrics">${metricPills}</div>` : ''}</div><span class="badge">${h.duration}</span></div></div>`;
+  }).join('') : '<div class="detail-card"><div class="mini">Aún no hay sesiones finalizadas.</div></div>';
+  document.getElementById('profileHistory').innerHTML = `<div class="section-head" style="margin-top:0"><div class="section-title">Hitos de progreso</div></div>${milestonesMarkup}<div class="section-head"><div class="section-title">Sesiones registradas</div></div>${historyMarkup}`;
+}
+
+function activateFieldEdit(pid, field) {
+  const row = document.getElementById(`field-${pid}-${field}`);
+  if (!row) return;
+  row.querySelector('.field-display').classList.add('hidden');
+  row.querySelector('.field-edit-wrap').classList.remove('hidden');
+  const input = row.querySelector('.field-input');
+  const patient = state.patients.find(p => p.id === pid);
+  if (field === 'age') input.value = patient?.age ?? '';
+  if (field === 'antecedentes') input.value = patient?.antecedentes ?? '';
+  if (field === 'observaciones') input.value = patient?.observaciones ?? '';
+  input.focus();
+  input.select();
+}
+function cancelFieldEdit(pid, field) {
+  const row = document.getElementById(`field-${pid}-${field}`);
+  if (!row) return;
+  row.querySelector('.field-display').classList.remove('hidden');
+  row.querySelector('.field-edit-wrap').classList.add('hidden');
+}
+function saveFieldEdit(pid, field) {
+  const row = document.getElementById(`field-${pid}-${field}`);
+  if (!row) return;
+  const val = row.querySelector('.field-input').value.trim();
+  if (!val) return;
+  const p = state.patients.find(p => p.id === pid);
+  if (!p) return;
+  p[field] = field === 'age' ? Number(val) || p[field] : val;
+  if (field === 'name') {
+    state.routines.forEach(r => { if (r.patientId === p.id) r.patientName = p.name; });
+    document.getElementById('profileName').textContent = p.name;
+  }
+  renderPatientProfile();
+  renderPatients();
+  renderRoutines();
+  renderHome();
+  markDirty();
+  notify('Dato actualizado');
+}
+window.activateFieldEdit = activateFieldEdit;
+window.saveFieldEdit = saveFieldEdit;
+window.cancelFieldEdit = cancelFieldEdit;
+
+function renderBuilderPatientSelect() {
+  const list = document.getElementById('builderPatientList');
+  const btn = document.getElementById('builderPatientBtn');
+  const label = document.getElementById('builderPatientLabel');
+  if (!list || !btn || !label) return;
+  list.innerHTML = state.patients.map(p => `<li data-id="${p.id}" class="${p.id === state.builder.patientId ? 'selected' : ''}">${p.name}</li>`).join('');
+  const sel = state.patients.find(p => p.id === state.builder.patientId);
+  label.textContent = sel ? sel.name : 'Seleccionar paciente';
+
+  list.querySelectorAll('li').forEach(li => li.addEventListener('click', () => {
+    state.builder.patientId = li.dataset.id;
+    label.textContent = li.textContent;
+    syncBuilderRoutineNameWithPatient(li.dataset.id);
+    list.querySelectorAll('li').forEach(i => i.classList.remove('selected'));
+    li.classList.add('selected');
+    list.classList.add('hidden');
+    btn.classList.remove('open');
+    markDirty(900);
+  }));
+
+  if (!builderPatientSelectBound) {
+    btn.addEventListener('click', () => {
+      const open = !list.classList.contains('hidden');
+      list.classList.toggle('hidden', open);
+      btn.classList.toggle('open', !open);
+    });
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#builderPatientWrap')) {
+        list.classList.add('hidden');
+        btn.classList.remove('open');
+      }
+    });
+    builderPatientSelectBound = true;
+  }
+}
+
+function parseSets(presc) {
+  const m = (presc || '').match(/(\d+)\s*set/i);
+  return m ? m[1] : '3';
+}
+function parseReps(presc) {
+  const m = (presc || '').match(/(\d+)\s*rep/i);
+  return m ? m[1] : '10';
+}
+function editPrescription(idx) {
+  document.querySelectorAll('.presc-editor').forEach(e => e.classList.add('hidden'));
+  const editor = document.getElementById(`presc-editor-${idx}`);
+  if (editor) editor.classList.remove('hidden');
+}
+function closePrescEditor(idx) {
+  const editor = document.getElementById(`presc-editor-${idx}`);
+  if (editor) editor.classList.add('hidden');
+}
+function savePrescription(idx) {
+  const sets = document.getElementById(`presc-sets-${idx}`).value;
+  const reps = document.getElementById(`presc-reps-${idx}`).value;
+  const note = document.getElementById(`presc-note-${idx}`).value.trim();
+  state.builder.exercises[idx].prescription = `${sets} sets · ${reps} reps`;
+  state.builder.exercises[idx].notes = note;
+  renderBuilder();
+  markDirty();
+  notify('Dosificación actualizada');
 }
 
 function renderBuilder() {
-  const select = document.getElementById('builderPatient');
-  select.innerHTML = state.patients.map(p => `<option value="${p.id}" ${state.builder.patientId===p.id?'selected':''}>${p.name}</option>`).join('');
+  renderBuilderPatientSelect();
+  if (state.builder.patientId) {
+    const selectedPatient = state.patients.find(p => p.id === state.builder.patientId);
+    if (selectedPatient && (!state.builder.name || state.builder.name !== selectedPatient.name)) {
+      state.builder.name = selectedPatient.name;
+    }
+  }
   document.getElementById('builderRoutineName').value = state.builder.name;
   document.getElementById('builderObservations').value = state.builder.observations;
   document.getElementById('builderCount').textContent = `${state.builder.exercises.length} ejercicios`;
-  document.getElementById('builderExercises').innerHTML = state.builder.exercises.length ? state.builder.exercises.map((e,i)=> `<div class="sheet-card"><div class="between"><div><div class="routine-title">${e.name}</div><div class="mini">${e.prescription}</div></div><button class="action-pill delete" onclick="removeBuilderExercise(${i})">Quitar</button></div></div>`).join('') : '<div class="detail-card"><div class="mini">Aún no agregaste ejercicios.</div></div>';
+  document.getElementById('builderExercises').innerHTML = state.builder.exercises.length ? state.builder.exercises.map((e,i)=> `<div class="sheet-card builder-ex-item" id="bex-${i}"><div class="between"><div><div class="routine-title">${e.name}</div><div class="bex-prescription" id="bex-presc-${i}" onclick="editPrescription(${i})">${e.prescription || 'Sin dosificación'} ✎</div></div><button class="action-pill delete" onclick="removeBuilderExercise(${i})">Quitar</button></div><div class="presc-editor hidden" id="presc-editor-${i}"><div class="presc-inputs"><div class="presc-field"><label>Series</label><input type="number" min="1" max="20" id="presc-sets-${i}" value="${parseSets(e.prescription)}" class="presc-input"></div><div class="presc-field"><label>Reps</label><input type="number" min="1" max="100" id="presc-reps-${i}" value="${parseReps(e.prescription)}" class="presc-input"></div><div class="presc-field"><label>Nota</label><input type="text" id="presc-note-${i}" value="${escapeHtml(e.notes || '')}" placeholder="ej: banda amarilla" class="presc-input"></div></div><div class="presc-actions"><button class="field-save-btn" onclick="savePrescription(${i})">✓ Guardar</button><button class="field-cancel-btn" onclick="closePrescEditor(${i})">Cancelar</button></div></div></div>`).join('') : '<div class="detail-card"><div class="mini">Aún no agregaste ejercicios.</div></div>';
 }
+window.editPrescription = editPrescription;
+window.savePrescription = savePrescription;
+window.closePrescEditor = closePrescEditor;
 
 function openSession(sessionId) {
   state.currentSessionId = sessionId;
@@ -1080,7 +1954,12 @@ function renderExecution() {
   const pct = Math.round((s.exercises.filter(e=>e.completed).length / Math.max(s.exercises.length,1))*100);
   fill.style.width = pct + '%';
   text.textContent = pct + '%';
-  list.innerHTML = s.exercises.map((e,i)=> `<div class="exec-item ${e.completed?'completed':''}" onclick="toggleExercise(${i})"><div class="between"><div class="row" style="align-items:flex-start"><div class="check">${e.completed?'✓':''}</div><div><div class="exercise-name">${e.name}</div><div class="mini">${e.prescription}</div></div></div><button class="action-pill" onclick="event.stopPropagation(); notify('Carga de datos para: ' + '${e.name}')">Cargar datos</button></div>${e.notes?`<div class="note-box">${e.notes}</div>`:''}</div>`).join('');
+  list.innerHTML = s.exercises.map((e,i)=> {
+    const current1RM = Number(e.oneRM) || 0;
+    const currentVol = Number(e.volumen) || 0;
+    const prev1RM = Number(e.prevOneRM) || 0;
+    return `<div class="exec-item ${e.completed?'completed':''}" onclick="toggleExercise(${i})"><div class="between"><div class="row" style="align-items:flex-start"><div class="check">${e.completed?'✓':''}</div><div><div class="exercise-name">${e.name}</div><div class="mini">${e.prescription}</div></div></div><button class="action-pill" onclick="event.stopPropagation(); toggleExecData(${i})">${e.dataOpen ? 'Cerrar datos' : 'Cargar datos'}</button></div>${e.notes?`<div class="note-box">${e.notes}</div>`:''}${e.dataOpen ? `<div class="exec-load-panel" onclick="event.stopPropagation()"><div class="mini">Registro real para cálculo automático de fuerza y carga</div><div class="exec-load-grid"><div class="exec-load-field"><label>Peso (kg)</label><input class="exec-load-input" type="number" inputmode="decimal" min="0" step="0.1" value="${e.pesoReal ?? ''}" placeholder="0" oninput="updateExecMetric(${i}, 'pesoReal', this.value)"></div><div class="exec-load-field"><label>Reps</label><input class="exec-load-input" type="number" inputmode="numeric" min="0" step="1" value="${e.repsReales ?? ''}" placeholder="0" oninput="updateExecMetric(${i}, 'repsReales', this.value)"></div></div><div class="exec-load-metrics"><div class="exec-metric-card"><div class="k">1RM estimado</div><div class="v">${formatMetricNumber(current1RM, ' kg')}</div></div><div class="exec-metric-card"><div class="k">Volumen total</div><div class="v">${formatMetricNumber(currentVol, ' kg')}</div></div></div>${prev1RM > 0 ? `<div class="exec-prev-line">Último 1RM registrado: <strong>${roundMetric(prev1RM,1)} kg</strong></div>` : ''}${e.fatigueFlag ? `<div class="exec-fatigue-flag">Alerta de fatiga: el 1RM estimado quedó por debajo de la sesión previa</div>` : ''}</div>` : ''}</div>`;
+  }).join('');
 }
 
 function startRoutine(id) {
@@ -1100,7 +1979,8 @@ function startRoutine(id) {
     seconds:0,
     running:true,
     reached60:false,
-    exercises:r.exercises.map(e => ({...e, completed:false}))
+    startTime:new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }),
+    exercises:r.exercises.map(e => ({...e, completed:false, pesoReal:'', repsReales:'', oneRM:0, volumen:0, prevOneRM:0, dataOpen:false, fatigueFlag:false}))
   });
   state.currentSessionId = sessionId;
   state.hourAlertShown = false;
@@ -1123,10 +2003,22 @@ function finishSession() {
   if (!s) return;
   const p = state.patients.find(x => x.id === s.patientId);
   if (p) {
+    const exerciseLogs = s.exercises.map(e => ({
+      name: e.name,
+      prescription: e.prescription || '',
+      completed: !!e.completed,
+      pesoReal: toNumber(e.pesoReal),
+      repsReales: toNumber(e.repsReales),
+      oneRM: roundMetric(e.oneRM || 0, 1),
+      volumen: roundMetric(e.volumen || 0, 1),
+      fatigueFlag: !!e.fatigueFlag
+    }));
     p.history.unshift({
       date: todayString(),
+      startTime: s.startTime || '--:--',
       duration: Math.round(s.seconds/60) + ' min',
-      summary: `${s.routineName} finalizada. ${s.exercises.filter(e=>e.completed).length}/${s.exercises.length} ejercicios completados.`
+      summary: `${s.routineName} finalizada. ${s.exercises.filter(e=>e.completed).length}/${s.exercises.length} ejercicios completados.`,
+      exerciseLogs
     });
   }
   state.finishedToday += 1;
@@ -1150,31 +2042,37 @@ function createPatient() {
 }
 
 function editPatient(id) {
-  const p = state.patients.find(x => x.id === id);
-  if (!p) return;
-  const name = prompt('Nombre del paciente', p.name);
-  if (name === null) return;
-  const phone = prompt('Teléfono', p.phone);
-  if (phone === null) return;
-  const email = prompt('Email', p.email);
-  if (email === null) return;
-  const phase = prompt('Fase de tratamiento', p.phase);
-  if (phase === null) return;
-  const obs = prompt('Observaciones', p.observaciones);
-  if (obs === null) return;
-  p.name = name.trim() || p.name;
-  p.phone = phone.trim() || p.phone;
-  p.email = email.trim() || p.email;
-  p.phase = phase.trim() || p.phase;
-  p.observaciones = obs.trim() || p.observaciones;
-  state.routines.forEach(r => { if (r.patientId === p.id) r.patientName = p.name; });
-  renderAll();
-  markDirty();
+  openPatientProfile(id);
 }
 
 function editCurrentPatient() {
-  editPatient(state.currentProfileId);
   renderPatientProfile();
+}
+
+function duplicatePatient(id) {
+  const p = state.patients.find(x => x.id === id);
+  if (!p) return;
+  const copy = JSON.parse(JSON.stringify(p));
+  copy.id = 'p' + Date.now();
+  copy.name = p.name + ' copia';
+  copy.email = p.email ? 'copia_' + p.email : '';
+  state.patients.unshift(copy);
+  renderAll();
+  markDirty();
+  notify('Paciente duplicado');
+}
+
+function deletePatient(id) {
+  state.patients = state.patients.filter(x => x.id !== id);
+  state.routines = state.routines.filter(r => r.patientId !== id);
+  state.activeSessions = state.activeSessions.filter(s => s.patientId !== id);
+  if (state.currentProfileId === id) state.currentProfileId = state.patients[0]?.id || null;
+  if (state.currentSessionId && !state.activeSessions.some(s => s.id === state.currentSessionId)) {
+    state.currentSessionId = state.activeSessions[0]?.id || null;
+  }
+  renderAll();
+  markDirty();
+  notify('Paciente eliminado');
 }
 
 function duplicateRoutine(id) {
@@ -1239,15 +2137,7 @@ function addCustomExercise() {
 }
 
 function addLibraryExercise(name) {
-  if (!libraryTargetBuilder) {
-    notify('Abre la biblioteca desde el constructor de rutina para agregar ejercicios.');
-    return;
-  }
-  state.builder.exercises.push({ name, prescription:'3 sets · 10 reps', notes:'', completed:false });
-  renderBuilder();
-  markDirty();
-  closeSheet();
-  showScreen('builder');
+  toggleLibrarySelect(name);
 }
 
 function removeBuilderExercise(i) {
@@ -1257,9 +2147,16 @@ function removeBuilderExercise(i) {
 }
 
 function saveBuiltRoutine() {
-  const patientId = document.getElementById('builderPatient').value;
+  const patientId = state.builder.patientId;
   const p = state.patients.find(x => x.id === patientId);
-  const name = document.getElementById('builderRoutineName').value.trim();
+  let name = document.getElementById('builderRoutineName').value.trim();
+  if (!name && state.builder.patientId) {
+    const selectedPatient = state.patients.find(p => p.id === state.builder.patientId);
+    if (selectedPatient) {
+      name = selectedPatient.name;
+      state.builder.name = selectedPatient.name;
+    }
+  }
   const obs = document.getElementById('builderObservations').value.trim();
   if (!p) { notify('Selecciona un paciente'); return; }
   if (!name) { notify('Coloca un nombre para la rutina'); return; }
@@ -1290,13 +2187,12 @@ function openPatientProfile(id) {
 
 document.getElementById('routineSearch').addEventListener('input', renderRoutines);
 document.getElementById('patientSearch').addEventListener('input', renderPatients);
-document.getElementById('builderPatient').addEventListener('change', e => { state.builder.patientId = e.target.value; markDirty(900); });
 document.getElementById('builderRoutineName').addEventListener('input', e => { state.builder.name = e.target.value; markDirty(900); });
 document.getElementById('builderObservations').addEventListener('input', e => { state.builder.observations = e.target.value; markDirty(900); });
 document.getElementById('settingsUserName').addEventListener('input', e => { state.settings.userName = e.target.value.trim() || 'Dr. Ríos'; applySettings(); markDirty(900); });
 document.getElementById('pauseBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.running=false; renderExecution(); renderHome(); markDirty(); } });
 document.getElementById('resumeBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.running=true; renderExecution(); renderHome(); markDirty(); } });
-document.getElementById('resetSessionBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.seconds=0; s.reached60=false; state.hourAlertShown=false; s.exercises.forEach(e=>e.completed=false); renderAll(); markDirty(); } });
+document.getElementById('resetSessionBtn').addEventListener('click', ()=>{ const s=getCurrentSession(); if(s){ s.seconds=0; s.reached60=false; state.hourAlertShown=false; s.exercises.forEach(e=>{ e.completed=false; e.pesoReal=''; e.repsReales=''; e.oneRM=0; e.volumen=0; e.prevOneRM=0; e.dataOpen=false; e.fatigueFlag=false; }); renderAll(); markDirty(); } });
 document.getElementById('finishSessionBtn').addEventListener('click', finishSession);
 document.getElementById('fabActionBtn').addEventListener('click', ()=> {
   const active = document.querySelector('.nav-btn.active')?.dataset.nav;
@@ -1322,6 +2218,26 @@ setInterval(()=> {
   }
 }, 1000);
 
+
+function toggleRoutineMenu(btn) {
+  const dropdown = btn.nextElementSibling;
+  const isOpen = !dropdown.classList.contains('hidden');
+  closeAllMenus();
+  if (!isOpen) {
+    dropdown.classList.remove('hidden');
+    btn.classList.add('open');
+  }
+}
+
+function closeAllMenus() {
+  document.querySelectorAll('.routine-menu-dropdown').forEach(d => d.classList.add('hidden'));
+  document.querySelectorAll('.routine-menu-btn').forEach(b => b.classList.remove('open'));
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.routine-menu-wrap')) closeAllMenus();
+});
+
 function renderAll() {
   renderHome();
   renderRoutines();
@@ -1344,13 +2260,21 @@ window.saveSettings = saveSettings;
 window.createPatient = createPatient;
 window.editPatient = editPatient;
 window.editCurrentPatient = editCurrentPatient;
+window.duplicatePatient = duplicatePatient;
+window.deletePatient = deletePatient;
 window.loadRoutineToBuilder = loadRoutineToBuilder;
 window.loadTemplateToBuilder = loadTemplateToBuilder;
+window.toggleRoutineMenu = toggleRoutineMenu;
+window.closeAllMenus = closeAllMenus;
 window.resetBuilder = resetBuilder;
 window.addCustomExercise = addCustomExercise;
 window.addLibraryExercise = addLibraryExercise;
+window.addSelectedLibraryExercises = addSelectedLibraryExercises;
+window.toggleLibrarySelect = toggleLibrarySelect;
 window.removeBuilderExercise = removeBuilderExercise;
 window.saveBuiltRoutine = saveBuiltRoutine;
+window.toggleExecData = toggleExecData;
+window.updateExecMetric = updateExecMetric;
 
 renderProkinesis();
 renderCES();
