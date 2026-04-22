@@ -528,6 +528,277 @@
   }
 
 
+
+
+  @media (min-width: 768px) and (max-width: 979px) {
+    :root {
+      --radius: 26px;
+      --radius-sm: 18px;
+      --shadow: 0 18px 48px rgba(0,0,0,0.12);
+    }
+    body {
+      max-width: none;
+      margin: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(216,255,25,0.10), transparent 24%),
+        linear-gradient(180deg, #f4f4ef 0%, #ecece6 100%);
+    }
+    .screen {
+      height: calc(100vh - 86px);
+      padding: 0 18px 20px 18px;
+    }
+    .screen-header {
+      padding: 26px 22px 14px;
+    }
+    .screen-title {
+      font-size: 38px;
+      letter-spacing: -1.8px;
+    }
+    .screen-sub {
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    .bottom-nav {
+      width: 100%;
+      max-width: none;
+      height: 86px;
+      padding: 8px 18px calc(env(safe-area-inset-bottom, 0px) + 8px);
+      justify-content: space-between;
+      gap: 10px;
+      background: rgba(11, 11, 11, 0.95);
+      backdrop-filter: blur(22px);
+    }
+    .nav-item {
+      border-radius: 18px;
+      min-height: 62px;
+    }
+    .nav-item.active {
+      background: rgba(255,255,255,0.06);
+    }
+    .nav-item span {
+      font-size: 12px;
+    }
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+    }
+    .card,
+    .patient-card,
+    .routine-card,
+    .session-card,
+    .home-hero,
+    .benefits-wrap {
+      margin-left: 22px;
+      margin-right: 22px;
+    }
+    .search-wrap,
+    .tab-row,
+    .toggle-wrap,
+    .sec-title,
+    .split-section,
+    .metrics-row {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+    .home-hero {
+      min-height: 520px;
+      border-radius: 34px;
+      display: grid;
+      grid-template-columns: 1.04fr .96fr;
+      align-items: stretch;
+    }
+    .hero-content {
+      max-width: none;
+      padding: 28px 24px 34px;
+    }
+    .brand-dot {
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-size: clamp(42px, 7vw, 58px);
+      letter-spacing: -2.6px;
+      max-width: 420px;
+    }
+    .hero-actions {
+      margin-top: 22px;
+    }
+    .hero-figure {
+      right: 52px;
+      bottom: 118px;
+      width: 188px;
+      height: 292px;
+    }
+    .hero-treadmill {
+      right: 20px;
+      bottom: 102px;
+      width: 220px;
+      height: 150px;
+    }
+    .hero-float-row {
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 0;
+    }
+    .hero-float-card {
+      min-height: 124px;
+      padding: 16px 14px;
+      border-radius: 24px;
+    }
+    .mini-strong {
+      font-size: 15px;
+    }
+    .mini-muted {
+      font-size: 11px;
+    }
+    .metrics-row {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .metric-card {
+      padding: 18px 14px;
+      border-radius: 24px;
+    }
+    .metric-val {
+      font-size: 34px;
+    }
+    .metric-label {
+      font-size: 11px;
+      margin-top: 8px;
+    }
+    .split-section {
+      padding-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(250px, .76fr) minmax(0, 1.24fr);
+      gap: 18px;
+      align-items: start;
+    }
+    .home-copy h2 {
+      max-width: none;
+      font-size: 42px;
+      line-height: 1.02;
+      letter-spacing: -1.7px;
+    }
+    .zone-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 0;
+    }
+    .zone-card,
+    .zone-card.small {
+      min-height: 320px;
+    }
+    .zone-card .caption {
+      font-size: 22px;
+      max-width: 260px;
+    }
+    .benefits-wrap {
+      margin-top: 20px;
+      border-radius: 34px;
+      padding: 16px;
+    }
+    .benefits-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .benefit-card {
+      min-height: 132px;
+      border-radius: 24px;
+    }
+    .benefit-card.big-center {
+      grid-column: span 2;
+      grid-row: span 2;
+      min-height: 280px;
+    }
+    .big-logo {
+      font-size: 150px;
+    }
+    .micro-number {
+      font-size: 62px;
+    }
+    #screen-inicio.active {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-areas:
+        "header header"
+        "hero hero"
+        "metrics metrics"
+        "split split"
+        "sessions routines"
+        "benefits benefits";
+      align-content: start;
+      column-gap: 10px;
+      overflow-y: auto;
+    }
+    #screen-inicio > .screen-header { grid-area: header; }
+    #screen-inicio > .home-hero { grid-area: hero; }
+    #screen-inicio > .metrics-row { grid-area: metrics; }
+    #screen-inicio > .split-section { grid-area: split; }
+    #screen-inicio > .sec-title:nth-of-type(1),
+    #screen-inicio > #home-sessions-list {
+      grid-column: 1;
+    }
+    #screen-inicio > .sec-title:nth-of-type(2),
+    #screen-inicio > #home-routines-list {
+      grid-column: 2;
+    }
+    #home-sessions-list,
+    #home-routines-list {
+      align-self: start;
+      padding-bottom: 0;
+    }
+    #home-sessions-list {
+      padding-right: 8px;
+    }
+    #home-routines-list {
+      padding-left: 8px;
+    }
+    #routines-list,
+    #patients-list,
+    #execution-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+      align-items: start;
+    }
+    #routines-list .routine-card,
+    #patients-list .patient-card,
+    #execution-list .session-card {
+      margin-bottom: 12px;
+    }
+    .modal-overlay {
+      max-width: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal {
+      width: min(820px, calc(100vw - 40px));
+      max-height: calc(100vh - 40px);
+      border-radius: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.55);
+    }
+    #execution-detail {
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      padding-bottom: 100px;
+    }
+    #exec-exercises-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .pb-nav {
+      padding-bottom: 108px;
+    }
+  }
+
   @media (min-width: 980px) {
     :root {
       --nav-h: 0px;
