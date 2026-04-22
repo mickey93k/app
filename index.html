@@ -363,43 +363,33 @@
   }
   .hero-sport-visual {
     position: absolute;
-    right: 10px;
-    bottom: 34px;
-    width: min(46%, 360px);
-    height: 78%;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: min(52%, 500px);
     z-index: 1;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
     pointer-events: none;
+    overflow: hidden;
   }
-  .hero-sport-visual svg {
+  .hero-sport-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(2,2,2,0) 0%, rgba(2,2,2,0.14) 30%, rgba(2,2,2,0.46) 100%),
+      radial-gradient(circle at 28% 58%, rgba(216,255,25,0.25), transparent 18%),
+      radial-gradient(circle at 40% 24%, rgba(255,255,255,0.16), transparent 14%);
+    z-index: 2;
+  }
+  .hero-sport-image {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    overflow: visible;
-    filter: drop-shadow(0 24px 38px rgba(0,0,0,0.42));
-  }
-  .hero-sport-visual .athlete-main {
-    fill: url(#athleteFill);
-    opacity: .98;
-  }
-  .hero-sport-visual .athlete-shadow {
-    fill: rgba(0,0,0,0.28);
-    filter: blur(6px);
-  }
-  .hero-sport-visual .motion-line {
-    stroke: rgba(216,255,25,0.72);
-    stroke-width: 8;
-    stroke-linecap: round;
-  }
-  .hero-sport-visual .track-line {
-    stroke: rgba(255,255,255,0.22);
-    stroke-width: 10;
-    stroke-linecap: round;
-  }
-  .hero-sport-visual .ball-accent {
-    fill: rgba(216,255,25,0.96);
-    filter: drop-shadow(0 0 22px rgba(216,255,25,0.42));
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(1.05) contrast(1.08) brightness(0.92);
+    transform: scale(1.02);
   }
   .hero-content {
     position: relative;
@@ -445,6 +435,22 @@
   }
   .home-copy h2 { font-size: 25px; line-height: 1.05; font-weight: 800; letter-spacing: -1.2px; max-width: 290px; }
   .home-copy .btn { margin-top: 14px; }
+
+  .home-image-only {
+    margin: 10px 16px 0;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #0a0a0a;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  }
+  .home-image-only img {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 42vw, 420px);
+    object-fit: cover;
+    object-position: center;
+  }
+
   .zone-grid {
     display: grid; grid-template-columns: 1.2fr .8fr; gap: 12px; align-items: stretch; margin-top: 6px;
   }
@@ -677,7 +683,23 @@
       line-height: 1.02;
       letter-spacing: -1.7px;
     }
-    .zone-grid {
+  
+  .home-image-only {
+    margin: 10px 16px 0;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #0a0a0a;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  }
+  .home-image-only img {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 42vw, 420px);
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .zone-grid {
       grid-template-columns: 1fr 1fr;
       gap: 14px;
       margin-top: 0;
@@ -999,7 +1021,23 @@
       font-size: 34px;
       letter-spacing: -1.5px;
     }
-    .zone-grid {
+  
+  .home-image-only {
+    margin: 10px 16px 0;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #0a0a0a;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  }
+  .home-image-only img {
+    display: block;
+    width: 100%;
+    height: clamp(220px, 42vw, 420px);
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .zone-grid {
       grid-template-columns: 1.08fr .92fr;
       margin-top: 0;
     }
@@ -1150,6 +1188,8 @@
     }
   }
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -1175,33 +1215,7 @@
       </div>
     </div>
     <div class="hero-sport-visual" aria-hidden="true">
-      <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Atleta en movimiento">
-        <defs>
-          <linearGradient id="athleteFill" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="65%" stop-color="#d9d9d9"/>
-            <stop offset="100%" stop-color="#8f8f8f"/>
-          </linearGradient>
-          <radialGradient id="glowBall" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#efff9d" stop-opacity="1"/>
-            <stop offset="100%" stop-color="#d8ff19" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <ellipse class="athlete-shadow" cx="215" cy="318" rx="112" ry="18"/>
-        <circle cx="250" cy="118" r="48" fill="url(#glowBall)" opacity="0.42"/>
-        <path class="track-line" d="M162 306 C214 292, 260 286, 316 294"/>
-        <path class="track-line" d="M264 228 L309 145" opacity="0.75"/>
-        <path class="motion-line" d="M118 128 C95 109, 87 95, 80 78" opacity="0.8"/>
-        <path class="motion-line" d="M105 149 C79 141, 62 136, 42 132" opacity="0.55"/>
-        <path class="motion-line" d="M146 88 C125 68, 115 56, 110 40" opacity="0.42"/>
-        <circle class="athlete-main" cx="164" cy="76" r="26"/>
-        <path class="athlete-main" d="M146 105 C160 97, 183 100, 193 118 L206 143 C211 152, 209 163, 200 168 L176 181 C168 186, 163 193, 160 202 L148 246 C145 258, 132 264, 121 260 C110 257, 104 246, 107 235 L117 194 C121 178, 130 165, 145 157 L163 147 L149 128 C143 120, 140 112, 146 105 Z"/>
-        <path class="athlete-main" d="M197 120 L229 106 C243 100, 255 99, 268 107 L289 120 C300 127, 303 141, 295 151 C288 161, 274 163, 263 156 L247 146 L220 158 Z"/>
-        <path class="athlete-main" d="M158 203 L195 230 C209 240, 215 254, 214 270 L211 314 C210 327, 198 337, 185 336 C172 335, 163 324, 164 312 L166 275 L133 251 C122 243, 119 228, 127 217 C135 206, 149 202, 158 203 Z"/>
-        <path class="athlete-main" d="M121 190 L104 220 C97 233, 95 248, 99 262 L112 307 C116 320, 109 333, 95 337 C82 341, 69 334, 64 321 L49 273 C43 254, 46 233, 56 216 L82 176 Z"/>
-        <path class="athlete-main" d="M276 105 C294 102, 310 117, 310 136 C310 155, 294 170, 274 167 C255 164, 244 149, 247 131 C249 118, 261 108, 276 105 Z" opacity="0.95"/>
-        <circle class="ball-accent" cx="279" cy="136" r="24"/>
-      </svg>
+      <img class="hero-sport-image" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80" alt="Atleta entrenando" />
     </div>
     <div class="hero-float-row">
       <div class="hero-float-card">
@@ -1235,29 +1249,8 @@
     </div>
   </div>
 
-  <section class="split-section" data-home-section="intro">
-    <div class="section-chip">Centro clínico</div>
-    <div class="home-copy">
-      <h2>Bienvenido a KINEPRO, donde organizás pacientes, rutinas y ejecución clínica sin fricción.</h2>
-      <button class="btn btn-ghost" onclick="goTab('pacientes')">Ver pacientes ↗</button>
-    </div>
-
-    <div class="zone-grid">
-      <div class="zone-card zone-weights">
-        <div class="chip">Power zone</div>
-        <div class="caption">Rutinas, fuerza, control de cargas y progresión.</div>
-        <div class="arrow">↗</div>
-      </div>
-      <div class="zone-card zone-cardio small">
-        <div class="chip">Cardio zone</div>
-        <div class="caption">Sesiones activas con vista rápida y seguimiento.</div>
-      </div>
-    </div>
-
-    <div class="zone-footer-nav">
-      <div class="nav-circle">←</div>
-      <div class="nav-circle dark">→</div>
-    </div>
+  <section class="home-image-only" data-home-section="intro">
+    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1400&q=80" alt="Escena deportiva" />
   </section>
 
   <div class="sec-title" id="home-sessions-title" data-home-section="sessions" style="margin-top:8px">SESIONES EN TIEMPO REAL</div>
@@ -1914,12 +1907,16 @@ function saveNewRoutine() {
   renderPatients();
   renderHome();
   updateBadges();
+  queueCloudSave();
 }
 
 function deleteRoutine(id) {
   if (!confirm('¿Eliminar esta rutina?')) return;
   state.routines = state.routines.filter(r => r.id !== id);
   renderRoutines();
+  renderPatients();
+  renderHome();
+  queueCloudSave();
 }
 
 function editRoutine(id) {
@@ -2014,6 +2011,7 @@ function startSessionFromRoutine(routineId) {
   startSessionTimer(session);
   updateBadges();
   openExecutionDetail(sid);
+  queueCloudSave();
 }
 
 function startSessionTimer(session) {
@@ -2095,6 +2093,7 @@ function toggleExercise(sid, idx) {
   session.exercises[idx].done = !session.exercises[idx].done;
   updateExecProgress(session);
   renderExecExercises(session);
+  queueCloudSave();
 }
 
 function updateExecProgress(session) {
@@ -2110,6 +2109,7 @@ function toggleSessionPause() {
   if (!session) return;
   session.paused = !session.paused;
   updatePauseBtn(session);
+  queueCloudSave();
 }
 
 function updatePauseBtn(session) {
@@ -2146,6 +2146,7 @@ function finishSession() {
   closeExecutionDetail();
   renderExecutionList();
   renderHome();
+  queueCloudSave();
 }
 
 // ==================== EXECUTION LIST ====================
@@ -2210,6 +2211,7 @@ function saveSessionData() {
   };
   closeModal('modal-session-data');
   renderExecExercises(session);
+  queueCloudSave();
 }
 
 // ==================== PATIENTS ====================
@@ -2258,6 +2260,7 @@ function saveNewPatient() {
   closeModal('modal-new-patient');
   renderPatients();
   updateBadges();
+  queueCloudSave();
 }
 
 // ==================== PATIENT PROFILE ====================
@@ -2370,6 +2373,7 @@ function deletePatient(id) {
   renderExecutionList();
   renderHome();
   updateBadges();
+  queueCloudSave();
 }
 
 function saveEditPatient(id) {
@@ -2429,7 +2433,7 @@ function applyHomeVisibility() {
 }
 
 
-function persistUIState() {
+function persistUIState(skipCloud = false) {
   try {
     localStorage.setItem('kinepro_ui_state', JSON.stringify({
       profName: state.profName,
@@ -2439,6 +2443,7 @@ function persistUIState() {
       homeVisibility: state.homeVisibility,
     }));
   } catch (err) {}
+  if (!skipCloud) queueCloudSave();
 }
 
 function restoreUIState() {
@@ -2493,9 +2498,143 @@ function updateBadges() {
   badge.textContent = cnt;
 }
 
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDBFPOHtc3LtwBcaifGc2TWaMzWReWmq_4",
+  authDomain: "kinepro-8a56b.firebaseapp.com",
+  projectId: "kinepro-8a56b",
+  storageBucket: "kinepro-8a56b.firebasestorage.app",
+  messagingSenderId: "126558895981",
+  appId: "1:126558895981:web:64cfdc294935272861e464"
+};
+
+let cloudDb = null;
+let cloudDoc = null;
+let cloudReady = false;
+let cloudApplying = false;
+let cloudSaveTimer = null;
+let lastCloudWrite = 0;
+
+function getSerializableState() {
+  return {
+    patients: JSON.parse(JSON.stringify(state.patients || [])),
+    routines: JSON.parse(JSON.stringify(state.routines || [])),
+    activeSessions: (state.activeSessions || []).map(s => ({
+      id: s.id,
+      patientId: s.patientId,
+      routineId: s.routineId,
+      routineName: s.routineName,
+      exercises: JSON.parse(JSON.stringify(s.exercises || [])),
+      elapsed: s.elapsed || 0,
+      paused: !!s.paused,
+      warned60: !!s.warned60,
+    })),
+    sessionCounter: state.sessionCounter || 100,
+    todayCount: state.todayCount || 0,
+    homeVisibility: JSON.parse(JSON.stringify(state.homeVisibility || {})),
+    profName: state.profName || 'Dr. Ruiz',
+    theme: state.theme || 'dark',
+    accent: state.accent || '#00e5a0',
+    accent2: state.accent2 || '#00b37a'
+  };
+}
+
+function applySerializableState(payload) {
+  if (!payload || typeof payload !== 'object') return;
+  cloudApplying = true;
+  (state.activeSessions || []).forEach(s => { if (s && s._interval) clearInterval(s._interval); });
+  if (Array.isArray(payload.patients)) state.patients = payload.patients;
+  if (Array.isArray(payload.routines)) state.routines = payload.routines;
+  if (Array.isArray(payload.activeSessions)) state.activeSessions = payload.activeSessions;
+  if (typeof payload.sessionCounter === 'number') state.sessionCounter = payload.sessionCounter;
+  if (typeof payload.todayCount === 'number') state.todayCount = payload.todayCount;
+  if (payload.homeVisibility && typeof payload.homeVisibility === 'object') state.homeVisibility = { ...state.homeVisibility, ...payload.homeVisibility };
+  if (payload.profName) state.profName = payload.profName;
+  if (payload.theme) state.theme = payload.theme;
+  if (payload.accent) state.accent = payload.accent;
+  if (payload.accent2) state.accent2 = payload.accent2;
+  state.activeSessions.forEach(startSessionTimer);
+  persistLocalAppState();
+  persistUIState(true);
+  rerenderAll();
+  cloudApplying = false;
+}
+
+function persistLocalAppState() {
+  try {
+    localStorage.setItem('kinepro_app_state', JSON.stringify(getSerializableState()));
+  } catch (err) {}
+}
+
+function restoreLocalAppState() {
+  try {
+    const raw = localStorage.getItem('kinepro_app_state');
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    applySerializableState(saved);
+  } catch (err) {}
+}
+
+function queueCloudSave() {
+  if (cloudApplying) return;
+  persistLocalAppState();
+  if (!cloudReady || !cloudDoc) return;
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer = setTimeout(async () => {
+    try {
+      const updatedAt = Date.now();
+      lastCloudWrite = updatedAt;
+      await cloudDoc.set({
+        state: getSerializableState(),
+        updatedAt
+      }, { merge: true });
+    } catch (err) {
+      console.error('Error al guardar en Firebase', err);
+    }
+  }, 350);
+}
+
+function rerenderAll() {
+  renderHome();
+  renderRoutines();
+  renderPatients();
+  renderExecutionList();
+  renderLibraryFilters();
+  renderLibrary();
+  renderHomeSettings();
+  updateBadges();
+  if (document.getElementById('prof-name-input')) document.getElementById('prof-name-input').value = state.profName;
+  document.body.classList.toggle('theme-light', state.theme === 'light');
+  document.documentElement.style.setProperty('--accent', state.accent);
+  document.documentElement.style.setProperty('--accent2', state.accent2);
+  document.documentElement.style.setProperty('--accent-glow', state.accent + '30');
+}
+
+function initFirebaseSync() {
+  try {
+    if (!window.firebase) return;
+    firebase.initializeApp(firebaseConfig);
+    cloudDb = firebase.firestore();
+    cloudDoc = cloudDb.collection('apps').doc('kinepro_main');
+    cloudReady = true;
+    cloudDoc.onSnapshot((snap) => {
+      const data = snap.data();
+      if (!data || !data.state) return;
+      if (data.updatedAt && data.updatedAt === lastCloudWrite) return;
+      applySerializableState(data.state);
+    }, (err) => {
+      console.error('Error de sincronización Firebase', err);
+    });
+    queueCloudSave();
+  } catch (err) {
+    console.error('No se pudo iniciar Firebase', err);
+  }
+}
+
 // ==================== INIT ====================
 function init() {
   restoreUIState();
+  restoreLocalAppState();
   renderHome();
   renderRoutines();
   renderPatients();
@@ -2507,10 +2646,11 @@ function init() {
   const activeSwatch = document.querySelector(`.color-swatch[data-color="${state.accent}"]`) || document.querySelector('.color-swatch');
   if (activeSwatch) setAccent(activeSwatch);
   applyHomeVisibility();
-  // Update greeting date
+  state.activeSessions.forEach(startSessionTimer);
   const now = new Date();
   const opts = { weekday: 'long', day: 'numeric', month: 'long' };
   document.getElementById('greeting-date').textContent = now.toLocaleDateString('es-AR', opts);
+  initFirebaseSync();
 }
 init();
 </script>
