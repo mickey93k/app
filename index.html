@@ -162,6 +162,27 @@
     color: var(--text); font-family: var(--font); font-size: 13px; font-weight: 600;
     outline: none; box-shadow: var(--shadow);
   }
+  .search-wrap.has-clear .search-input { padding-right: 46px; }
+  .search-clear {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--bg2); color: var(--text2);
+    display: none; align-items: center; justify-content: center; cursor: pointer;
+    font-size: 16px; font-weight: 700; line-height: 1;
+  }
+  .search-clear.show { display: inline-flex; }
+  .library-item { transition: all 0.18s ease; }
+  .library-item.selected {
+    background: rgba(0,229,160,0.08);
+    border-color: rgba(0,229,160,0.28);
+  }
+  .library-item.selected .library-ex-name { color: var(--accent2); }
+  .library-item.selected .btn-library-toggle {
+    background: rgba(0,229,160,0.12);
+    color: var(--accent2);
+    border-color: rgba(0,229,160,0.18);
+  }
+
   .search-input::placeholder { color: #7f7f7f; }
   .search-icon { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); pointer-events: none; }
   .search-icon svg { width: 16px; height: 16px; stroke: var(--text3); }
@@ -1298,7 +1319,7 @@
         <div class="screen-title">Rutinas</div>
         <div class="screen-sub">Gestión y plantillas</div>
       </div>
-      <button class="btn btn-primary btn-sm" onclick="openModal('modal-new-routine')">+ Nueva</button>
+      <button class="btn btn-primary btn-sm" onclick="openNewRoutineModal()">+ Nueva</button>
     </div>
   </div>
   <div class="toggle-wrap">
@@ -1389,7 +1410,7 @@
     <div style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">Accesos rápidos</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="btn btn-ghost" style="font-size:12px" onclick="openModal('modal-library')">📚 Biblioteca</button>
-      <button class="btn btn-ghost" style="font-size:12px" onclick="openModal('modal-new-routine')">➕ Nueva rutina</button>
+      <button class="btn btn-ghost" style="font-size:12px" onclick="openNewRoutineModal()">➕ Nueva rutina</button>
       <button class="btn btn-ghost" style="font-size:12px" onclick="openModal('modal-new-patient')">👤 Nuevo paciente</button>
       <button class="btn btn-ghost" style="font-size:12px" onclick="goTab('ejecucion')">▶️ Ejecución</button>
     </div>
@@ -1434,7 +1455,7 @@
 <div class="modal-overlay" id="modal-new-routine">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title">Constructor de Rutina</div>
+      <div class="modal-title" id="routine-modal-title">Constructor de Rutina</div>
       <div class="modal-close" onclick="closeModal('modal-new-routine')">✕</div>
     </div>
     <div class="modal-body">
@@ -1466,7 +1487,7 @@
       <div style="display:flex;gap:8px;margin-top:12px">
         <button class="btn btn-ghost btn-sm" style="flex:1" onclick="addManualExercise()">+ Ejercicio manual</button>
       </div>
-      <button class="btn btn-primary btn-full" style="margin-top:14px" onclick="saveNewRoutine()">Guardar Rutina</button>
+      <button class="btn btn-primary btn-full" style="margin-top:14px" id="save-routine-btn" onclick="saveNewRoutine()">Guardar Rutina</button>
     </div>
   </div>
 </div>
@@ -1544,9 +1565,10 @@
         <div class="toggle-btn active" id="lib-tab-pro" onclick="switchLibTab('prokinesio')">Prokinesio</div>
         <div class="toggle-btn" id="lib-tab-ces" onclick="switchLibTab('ces757')">CES757</div>
       </div>
-      <div class="search-wrap" style="padding:0 0 8px">
+      <div class="search-wrap has-clear" style="padding:0 0 8px">
         <div class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
         <input class="search-input" id="lib-search" placeholder="Buscar ejercicio..." oninput="filterLibrary(this.value)">
+        <button type="button" class="search-clear" id="lib-search-clear" onclick="clearLibrarySearch()">×</button>
       </div>
       <div id="lib-filter-row" class="tab-row" style="padding:0 0 8px"></div>
       <div id="lib-list" style="max-height:55dvh;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
@@ -1659,6 +1681,12 @@ let state = {
   builderExercises: [],
   openedFromBuilder: false,
   todayCount: 0,
+  editingRoutineId: null,
+  localUpdatedAt: 0,
+  customExerciseLibrary: {
+    prokinesio: [],
+    ces757: []
+  },
   homeVisibility: {
     hero: true,
     metrics: true,
@@ -4377,6 +4405,99 @@ const exercises = {
   ]
 };
 
+
+function normalizeExerciseKey(text) {
+  return String(text || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
+}
+function getExerciseKey(itemOrName, category = '') {
+  if (typeof itemOrName === 'object' && itemOrName) {
+    return normalizeExerciseKey((itemOrName.name || '') + '|' + (itemOrName.category || ''));
+  }
+  return normalizeExerciseKey(String(itemOrName || '') + '|' + String(category || ''));
+}
+function getLibraryDataset(tab) {
+  const base = Array.isArray(exercises[tab]) ? exercises[tab] : [];
+  const extra = state.customExerciseLibrary && Array.isArray(state.customExerciseLibrary[tab]) ? state.customExerciseLibrary[tab] : [];
+  const merged = [...base, ...extra];
+  const seen = new Set();
+  return merged.filter(item => {
+    const key = getExerciseKey(item);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+function syncPatientRoutineLinks() {
+  const routineMap = {};
+  (state.routines || []).forEach(r => {
+    if (r && r.patientId) {
+      if (!routineMap[r.patientId]) routineMap[r.patientId] = [];
+      routineMap[r.patientId].push(r.id);
+    }
+  });
+  (state.patients || []).forEach(p => {
+    p.routines = routineMap[p.id] ? [...routineMap[p.id]] : [];
+  });
+}
+function markLocalUpdate(ts = Date.now()) {
+  state.localUpdatedAt = ts;
+}
+function openNewRoutineModal(prefillPatientId = '') {
+  state.editingRoutineId = null;
+  state.builderExercises = [];
+  state.routineType = 'routine';
+  document.getElementById('new-routine-name').value = '';
+  document.getElementById('new-routine-obs').value = '';
+  renderPatientSelect(prefillPatientId || '');
+  document.getElementById('new-routine-patient').value = prefillPatientId ? String(prefillPatientId) : '';
+  setRoutineType('routine');
+  renderBuilderExercises();
+  updateRoutineModalHeader();
+  document.getElementById('modal-new-routine').classList.add('open');
+}
+function openEditRoutineModal(id) {
+  const r = state.routines.find(r => r.id === id);
+  if (!r) return;
+  state.editingRoutineId = id;
+  state.builderExercises = (r.exercises || []).map(e => ({ ...e }));
+  state.routineType = r.type;
+  renderPatientSelect(r.patientId || '');
+  document.getElementById('new-routine-name').value = r.name || '';
+  document.getElementById('new-routine-obs').value = r.obs || '';
+  document.getElementById('new-routine-patient').value = r.patientId || '';
+  setRoutineType(r.type);
+  renderBuilderExercises();
+  updateRoutineModalHeader();
+  document.getElementById('modal-new-routine').classList.add('open');
+}
+function updateRoutineModalHeader() {
+  const title = document.getElementById('routine-modal-title');
+  const btn = document.getElementById('save-routine-btn');
+  if (title) title.textContent = state.editingRoutineId ? 'Editar Rutina' : 'Constructor de Rutina';
+  if (btn) btn.textContent = state.editingRoutineId ? 'Guardar cambios' : 'Guardar Rutina';
+}
+function isExerciseSelected(name, category = '') {
+  const key = getExerciseKey(name, category);
+  return (state.builderExercises || []).some(e => getExerciseKey(e.name, e.category || category) === key || normalizeExerciseKey(e.name) === normalizeExerciseKey(name));
+}
+function toggleExerciseFromLibrary(name, category) {
+  const key = getExerciseKey(name, category);
+  const index = state.builderExercises.findIndex(e => getExerciseKey(e.name, e.category || category) === key || normalizeExerciseKey(e.name) === normalizeExerciseKey(name));
+  if (index >= 0) {
+    state.builderExercises.splice(index, 1);
+  } else {
+    state.builderExercises.push({ name, category, prescription: '' });
+  }
+  renderBuilderExercises();
+  renderLibrary(document.getElementById('lib-search') ? document.getElementById('lib-search').value : '');
+}
+function clearLibrarySearch() {
+  const input = document.getElementById('lib-search');
+  if (!input) return;
+  input.value = '';
+  filterLibrary('');
+  input.focus();
+}
 // ==================== NAVIGATION ====================
 function goTab(tab) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -4396,14 +4517,8 @@ function goTab(tab) {
 // ==================== MODALS ====================
 function openModal(id) {
   if (id === 'modal-new-routine') {
-    state.builderExercises = [];
-    state.routineType = 'routine';
-    document.getElementById('new-routine-name').value = '';
-    document.getElementById('new-routine-obs').value = '';
-    renderPatientSelect();
-    document.getElementById('new-routine-patient').value = '';
-    renderBuilderExercises();
-    setRoutineType('routine');
+    openNewRoutineModal();
+    return;
   }
   if (id === 'modal-new-patient') {
     ['np-name','np-age','np-phone','np-email','np-history','np-obs'].forEach(i => document.getElementById(i).value = '');
@@ -4411,7 +4526,7 @@ function openModal(id) {
   }
   document.getElementById(id).classList.add('open');
 }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeModal(id) { if (id === 'modal-new-routine') { state.editingRoutineId = null; updateRoutineModalHeader(); } document.getElementById(id).classList.remove('open'); }
 
 function openLibraryFromBuilder() {
   state.openedFromBuilder = true;
@@ -4537,23 +4652,40 @@ function renderBuilderExercises() {
     return;
   }
   list.innerHTML = state.builderExercises.map((e, i) => `
-    <div class="ex-item" style="cursor:default">
-      <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0">${i+1}</div>
+    <div class="ex-item" style="cursor:default;align-items:flex-start">
+      <div style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:6px">${i+1}</div>
       <div class="ex-info">
-        <div class="ex-name">${e.name}</div>
-        <input class="form-input" style="margin-top:4px;font-size:11px;padding:5px 8px" value="${e.prescription}" placeholder="Prescripción..." oninput="updateExPrescription(${i}, this.value)">
+        <input class="form-input" style="font-size:12px;padding:9px 12px;font-weight:700" value="${(e.name || '').replace(/"/g,'&quot;')}" placeholder="Nombre del ejercicio" oninput="updateExName(${i}, this.value)">
+        <input class="form-input" style="margin-top:6px;font-size:11px;padding:8px 12px" value="${(e.prescription || '').replace(/"/g,'&quot;')}" placeholder="Series, repeticiones, peso..." oninput="updateExPrescription(${i}, this.value)">
       </div>
       <button class="btn btn-danger btn-sm btn-icon" onclick="removeBuilderEx(${i})">✕</button>
     </div>`).join('');
 }
-
+function updateExName(i, val) {
+  state.builderExercises[i].name = val;
+  renderLibrary(document.getElementById('lib-search') ? document.getElementById('lib-search').value : '');
+}
 function updateExPrescription(i, val) { state.builderExercises[i].prescription = val; }
-function removeBuilderEx(i) { state.builderExercises.splice(i, 1); renderBuilderExercises(); }
+function removeBuilderEx(i) {
+  state.builderExercises.splice(i, 1);
+  renderBuilderExercises();
+  renderLibrary(document.getElementById('lib-search') ? document.getElementById('lib-search').value : '');
+}
 function addManualExercise() {
   const name = prompt('Nombre del ejercicio:');
   if (!name || !name.trim()) return;
-  state.builderExercises.push({ name: name.trim(), prescription: '' });
+  const category = 'AGREGADOS MANUALMENTE';
+  const manual = { name: name.trim(), category };
+  if (!state.customExerciseLibrary.prokinesio.some(e => getExerciseKey(e) === getExerciseKey(manual))) {
+    state.customExerciseLibrary.prokinesio.push(manual);
+  }
+  state.currentLibTab = 'prokinesio';
+  state.builderExercises.push({ name: manual.name, category: manual.category, prescription: '' });
+  markLocalUpdate();
   renderBuilderExercises();
+  renderLibraryFilters();
+  renderLibrary(document.getElementById('lib-search') ? document.getElementById('lib-search').value : '');
+  queueCloudSave();
 }
 
 function saveNewRoutine() {
@@ -4562,61 +4694,70 @@ function saveNewRoutine() {
   const patientId = parseInt(document.getElementById('new-routine-patient').value) || null;
   if (state.routineType === 'routine' && !patientId) { alert('Selecciona un paciente existente para vincular la rutina'); return; }
   const obs = document.getElementById('new-routine-obs').value.trim();
-  const newR = {
-    id: Date.now(),
-    name, patientId, obs,
+  const exercisesPayload = state.builderExercises
+    .map(e => ({
+      name: String(e.name || '').trim(),
+      category: e.category || '',
+      prescription: String(e.prescription || '').trim()
+    }))
+    .filter(e => e.name);
+  const routineId = state.editingRoutineId || Date.now();
+  const payload = {
+    id: routineId,
+    name,
+    patientId,
+    obs,
     type: state.routineType,
     date: new Date().toISOString().split('T')[0],
-    exercises: state.builderExercises.map(e => ({ ...e }))
+    exercises: exercisesPayload
   };
-  state.routines.unshift(newR);
-  if (patientId) {
-    const p = state.patients.find(p => p.id === patientId);
-    if (p && !p.routines.includes(newR.id)) p.routines.push(newR.id);
+
+  if (state.editingRoutineId) {
+    const index = state.routines.findIndex(r => r.id === state.editingRoutineId);
+    if (index >= 0) state.routines[index] = payload;
+  } else {
+    state.routines.unshift(payload);
   }
+
+  syncPatientRoutineLinks();
+  state.editingRoutineId = null;
   closeModal('modal-new-routine');
   renderRoutines();
   renderPatients();
   renderHome();
   updateBadges();
+  markLocalUpdate();
   queueCloudSave();
 }
 
 function deleteRoutine(id) {
   if (!confirm('¿Eliminar esta rutina?')) return;
   state.routines = state.routines.filter(r => r.id !== id);
+  syncPatientRoutineLinks();
   renderRoutines();
   renderPatients();
   renderHome();
+  markLocalUpdate();
   queueCloudSave();
 }
 
 function editRoutine(id) {
-  const r = state.routines.find(r => r.id === id);
-  if (!r) return;
-  state.builderExercises = r.exercises.map(e => ({ ...e }));
-  state.routineType = r.type;
-  renderPatientSelect(r.patientId || '');
-  document.getElementById('new-routine-name').value = r.name;
-  document.getElementById('new-routine-obs').value = r.obs;
-  document.getElementById('new-routine-patient').value = r.patientId || '';
-  setRoutineType(r.type);
-  renderBuilderExercises();
-  openModal('modal-new-routine');
-  // On save, will create new routine (edit flow simplified)
+  openEditRoutineModal(id);
 }
 
 function duplicateFromTemplate(id) {
   const t = state.routines.find(r => r.id === id);
   if (!t) return;
-  state.builderExercises = t.exercises.map(e => ({ ...e }));
+  state.editingRoutineId = null;
+  state.builderExercises = (t.exercises || []).map(e => ({ ...e }));
   state.routineType = 'routine';
   renderPatientSelect();
   document.getElementById('new-routine-name').value = t.name + ' (copia)';
-  document.getElementById('new-routine-obs').value = t.obs;
+  document.getElementById('new-routine-obs').value = t.obs || '';
   setRoutineType('routine');
   renderBuilderExercises();
-  openModal('modal-new-routine');
+  updateRoutineModalHeader();
+  document.getElementById('modal-new-routine').classList.add('open');
 }
 
 // ==================== LIBRARY ====================
@@ -4626,11 +4767,12 @@ function switchLibTab(tab) {
   document.getElementById('lib-tab-pro').classList.toggle('active', tab === 'prokinesio');
   document.getElementById('lib-tab-ces').classList.toggle('active', tab === 'ces757');
   document.getElementById('lib-search').value = '';
+  const clearBtn = document.getElementById('lib-search-clear'); if (clearBtn) clearBtn.classList.remove('show');
   renderLibraryFilters();
   renderLibrary();
 }
 function getLibraryCategories(tab) {
-  const cats = Array.from(new Set((exercises[tab] || []).map(e => (e.category || 'Sin categoría').trim()).filter(Boolean)));
+  const cats = Array.from(new Set(getLibraryDataset(tab).map(e => (e.category || 'Sin categoría').trim()).filter(Boolean)));
   return ['todos', ...cats];
 }
 function renderLibraryFilters() {
@@ -4638,37 +4780,48 @@ function renderLibraryFilters() {
   const cats = getLibraryCategories(state.currentLibTab);
   row.innerHTML = cats.map(c => {
     const label = c === 'todos' ? 'Todos' : c;
-    const safe = c.replace(/'/g, "\'");
+    const safe = c.replace(/'/g, "\\'");
     return `<button class="tab-btn ${state.currentLibFilter === c ? 'active' : ''}" onclick="setLibFilter('${safe}')">${label}</button>`;
   }).join('');
 }
 function setLibFilter(f) { state.currentLibFilter = f; renderLibraryFilters(); renderLibrary(); }
-function filterLibrary(q) { renderLibrary(q); }
+function filterLibrary(q) {
+  const clear = document.getElementById('lib-search-clear');
+  if (clear) clear.classList.toggle('show', !!String(q || '').trim());
+  renderLibrary(q);
+}
 
 function renderLibrary(q = '') {
   const list = document.getElementById('lib-list');
-  let exs = exercises[state.currentLibTab] || [];
-  if (q) exs = exs.filter(e => e.name.toLowerCase().includes(q.toLowerCase()));
+  let exs = getLibraryDataset(state.currentLibTab);
+  const query = String(q || '').trim().toLowerCase();
+  if (query) exs = exs.filter(e => e.name.toLowerCase().includes(query));
   if (state.currentLibFilter !== 'todos') {
     exs = exs.filter(e => (e.category || '').toLowerCase() === state.currentLibFilter.toLowerCase());
   }
-  if (!exs.length) { list.innerHTML = `<div style="text-align:center;color:var(--text3);padding:20px;font-size:12px">Sin ejercicios</div>`; return; }
-  list.innerHTML = exs.map(e => `
-    <div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--border)">
+  if (!exs.length) {
+    list.innerHTML = `<div style="text-align:center;color:var(--text3);padding:20px;font-size:12px">Sin ejercicios</div>`;
+    return;
+  }
+  list.innerHTML = exs.map(e => {
+    const selected = isExerciseSelected(e.name, e.category);
+    const safeName = e.name.replace(/'/g, "\\'");
+    const safeCategory = (e.category || '').replace(/'/g, "\\'");
+    return `<div class="library-item ${selected ? 'selected' : ''}" style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--border);border-radius:20px">
       <div style="flex:1">
-        <div style="font-size:13px;font-weight:600">${e.name}</div>
-        <div style="font-size:10px;color:var(--text2);margin-top:2px">${e.category}</div>
+        <div class="library-ex-name" style="font-size:13px;font-weight:600">${e.name}</div>
+        <div style="font-size:10px;color:var(--text2);margin-top:2px">${e.category || 'Sin categoría'}</div>
       </div>
-      <button class="btn btn-primary btn-sm" onclick="addExFromLibrary('${e.name.replace(/'/g,"\\'")}','${e.category}')">Agregar</button>
-    </div>`).join('');
+      <button class="btn btn-primary btn-sm btn-library-toggle" onclick="addExFromLibrary('${safeName}','${safeCategory}')">${selected ? 'Agregado' : 'Agregar'}</button>
+    </div>`;
+  }).join('');
 }
 
 function addExFromLibrary(name, cat) {
-  if (state.openedFromBuilder) {
-    state.builderExercises.push({ name, prescription: '' });
-    renderBuilderExercises();
-  }
+  if (!state.openedFromBuilder) return;
+  toggleExerciseFromLibrary(name, cat);
 }
+
 
 // ==================== SESSIONS ====================
 function startSessionFromRoutine(routineId) {
@@ -4936,6 +5089,7 @@ function saveNewPatient() {
     routines: [],
   };
   state.patients.push(newP);
+  markLocalUpdate();
   closeModal('modal-new-patient');
   renderPatients();
   updateBadges();
@@ -4997,7 +5151,10 @@ function openPatientProfile(id) {
           <div style="font-size:13px;font-weight:600">${r.name}</div>
           <div style="font-size:11px;color:var(--text2)">${r.exercises.length} ejercicios</div>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="startSessionFromRoutine(${r.id});closeModal('modal-patient-profile')">▶ Iniciar</button>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-patient-profile');editRoutine(${r.id})">✏️</button>
+          <button class="btn btn-primary btn-sm" onclick="startSessionFromRoutine(${r.id});closeModal('modal-patient-profile')">▶ Iniciar</button>
+        </div>
       </div>`).join('') : '<div style="color:var(--text3);font-size:12px;margin-bottom:10px">Sin rutinas asignadas</div>'}
 
     <div style="font-size:11px;font-weight:700;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase;margin:14px 0 8px">Historial de sesiones (${p.sessions.length})</div>
@@ -5016,11 +5173,9 @@ function openPatientProfile(id) {
 
 function createRoutineForPatient(id) {
   closeModal('modal-patient-profile');
-  openModal('modal-new-routine');
-  renderPatientSelect(id);
-  document.getElementById('new-routine-patient').value = String(id);
+  openNewRoutineModal(id);
   const patient = state.patients.find(p => p.id === id);
-  if (patient && !document.getElementById('new-routine-name').value.trim()) {
+  if (patient) {
     document.getElementById('new-routine-name').value = 'Rutina ' + patient.name;
   }
 }
@@ -5052,6 +5207,7 @@ function deletePatient(id) {
   renderExecutionList();
   renderHome();
   updateBadges();
+  markLocalUpdate();
   queueCloudSave();
 }
 
@@ -5069,6 +5225,8 @@ function saveEditPatient(id) {
   renderPatients();
   renderRoutines();
   renderHome();
+  markLocalUpdate();
+  queueCloudSave();
 }
 
 // ==================== SETTINGS ====================
@@ -5214,7 +5372,9 @@ function getSerializableState() {
     profName: state.profName || 'Dr. Ruiz',
     theme: state.theme || 'dark',
     accent: state.accent || '#00e5a0',
-    accent2: state.accent2 || '#00b37a'
+    accent2: state.accent2 || '#00b37a',
+    customExerciseLibrary: JSON.parse(JSON.stringify(state.customExerciseLibrary || { prokinesio: [], ces757: [] })),
+    localUpdatedAt: state.localUpdatedAt || 0
   };
 }
 
@@ -5232,6 +5392,11 @@ function applySerializableState(payload) {
   if (payload.theme) state.theme = payload.theme;
   if (payload.accent) state.accent = payload.accent;
   if (payload.accent2) state.accent2 = payload.accent2;
+  if (payload.customExerciseLibrary && typeof payload.customExerciseLibrary === 'object') {
+    state.customExerciseLibrary = { prokinesio: [], ces757: [], ...payload.customExerciseLibrary };
+  }
+  if (typeof payload.localUpdatedAt === 'number') state.localUpdatedAt = payload.localUpdatedAt;
+  syncPatientRoutineLinks();
   state.activeSessions.forEach(startSessionTimer);
   persistLocalAppState();
   persistUIState(true);
@@ -5256,12 +5421,13 @@ function restoreLocalAppState() {
 
 function queueCloudSave() {
   if (cloudApplying) return;
+  if (!state.localUpdatedAt) markLocalUpdate();
   persistLocalAppState();
   if (!cloudReady || !cloudDoc) return;
   clearTimeout(cloudSaveTimer);
   cloudSaveTimer = setTimeout(async () => {
     try {
-      const updatedAt = Date.now();
+      const updatedAt = state.localUpdatedAt || Date.now();
       lastCloudWrite = updatedAt;
       await cloudDoc.set({
         state: getSerializableState(),
@@ -5274,6 +5440,7 @@ function queueCloudSave() {
 }
 
 function rerenderAll() {
+  syncPatientRoutineLinks();
   renderHome();
   renderRoutines();
   renderPatients();
@@ -5281,6 +5448,7 @@ function rerenderAll() {
   renderLibraryFilters();
   renderLibrary();
   renderHomeSettings();
+  updateRoutineModalHeader();
   updateBadges();
   if (document.getElementById('prof-name-input')) document.getElementById('prof-name-input').value = state.profName;
   document.body.classList.toggle('theme-light', state.theme === 'light');
@@ -5300,6 +5468,9 @@ function initFirebaseSync() {
       const data = snap.data();
       if (!data || !data.state) return;
       if (data.updatedAt && data.updatedAt === lastCloudWrite) return;
+      const incomingVersion = data.state && typeof data.state.localUpdatedAt === 'number' ? data.state.localUpdatedAt : (data.updatedAt || 0);
+      const localVersion = state.localUpdatedAt || 0;
+      if (incomingVersion && localVersion && incomingVersion < localVersion) return;
       applySerializableState(data.state);
     }, (err) => {
       console.error('Error de sincronización Firebase', err);
@@ -5314,6 +5485,7 @@ function initFirebaseSync() {
 function init() {
   restoreUIState();
   restoreLocalAppState();
+  syncPatientRoutineLinks();
   renderHome();
   renderRoutines();
   renderPatients();
@@ -5322,6 +5494,7 @@ function init() {
   renderHomeSettings();
   setTheme(state.theme || 'dark');
   setRoutineType('routine');
+  updateRoutineModalHeader();
   const activeSwatch = document.querySelector(`.color-swatch[data-color="${state.accent}"]`) || document.querySelector('.color-swatch');
   if (activeSwatch) setAccent(activeSwatch);
   applyHomeVisibility();
