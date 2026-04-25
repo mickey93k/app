@@ -1220,6 +1220,23 @@
 .home-image-only {
   background: #090909;
 }
+
+
+/* ===== PANEL INFORMATIVO DINÁMICO KINEPRO ===== */
+#kinepro-info-board { transition: all .25s ease; }
+#kinepro-info-board.board-ok { border-color: rgba(216,255,25,0.55); background: rgba(216,255,25,0.10); }
+#kinepro-info-board.board-warning { border-color: rgba(255,181,71,0.45); background: rgba(255,181,71,0.08); }
+#kinepro-info-board.board-alert { border-color: rgba(255,78,106,0.45); background: rgba(255,78,106,0.06); }
+.info-board-grid { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 10px; align-items: stretch; }
+.info-board-card { min-height: 116px; background: #1b1b1b; border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: 16px 14px; color: #fff; position: relative; overflow: hidden; }
+.info-board-card::after { content: ''; position: absolute; inset: auto -30px -44px auto; width: 110px; height: 110px; border-radius: 50%; background: rgba(216,255,25,0.10); }
+.info-board-label { font-size: 10px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: rgba(255,255,255,0.56); margin-bottom: 10px; position: relative; z-index: 1; }
+.info-board-date { font-size: 18px; line-height: 1.05; font-weight: 900; letter-spacing: -.8px; position: relative; z-index: 1; }
+.info-board-time { font-size: 50px; line-height: .9; font-weight: 900; letter-spacing: -2px; font-variant-numeric: tabular-nums; color: var(--accent); position: relative; z-index: 1; }
+.info-board-message { font-size: 14px; line-height: 1.12; font-weight: 800; letter-spacing: -.35px; position: relative; z-index: 1; }
+.info-board-sub { margin-top: 8px; font-size: 11px; line-height: 1.25; font-weight: 600; color: rgba(255,255,255,0.62); position: relative; z-index: 1; }
+@media (max-width: 400px) { .info-board-grid { grid-template-columns: 1fr; } .info-board-time { font-size: 44px; } }
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -1292,28 +1309,24 @@
   <div class="sec-title" id="home-routines-title" data-home-section="routines" style="margin-top:6px">RUTINAS RECIENTES</div>
   <div id="home-routines-list" data-home-section="routines"></div>
 
-  <section class="benefits-wrap pb-nav" data-home-section="benefits">
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <div class="icon-mark">✳</div>
-        <div class="benefit-title">Rutinas profesionales listas para ejecutar.</div>
+  <section class="benefits-wrap pb-nav" id="kinepro-info-board" data-home-section="benefits">
+    <div class="info-board-grid">
+      <div class="info-board-card">
+        <div class="info-board-label">Fecha</div>
+        <div class="info-board-date" id="kinepro-board-date">--</div>
+        <div class="info-board-sub">Panel clínico actualizado</div>
       </div>
-      <div class="benefit-card big-center"><div class="big-logo">.K</div></div>
-      <div class="benefit-card">
-        <div class="icon-mark small">◔</div>
-        <div class="benefit-title">Vista clara de progreso, series y repeticiones.</div>
+
+      <div class="info-board-card" style="display:flex;flex-direction:column;justify-content:center">
+        <div class="info-board-label">Hora actual</div>
+        <div class="info-board-time" id="kinepro-board-time">--:--</div>
+        <div class="info-board-sub">Sincronización local del dispositivo</div>
       </div>
-      <div class="benefit-card">
-        <div class="micro-number">12</div>
-        <div class="micro-sub">sesiones simultáneas</div>
-      </div>
-      <div class="benefit-card">
-        <div class="icon-mark small">⌁</div>
-        <div class="benefit-title">Pacientes, historial y observaciones clínicas.</div>
-      </div>
-      <div class="benefit-card">
-        <div class="micro-number">24/7</div>
-        <div class="micro-sub">control visual rápido</div>
+
+      <div class="info-board-card">
+        <div class="info-board-label">Aviso operativo</div>
+        <div class="info-board-message" id="kinepro-board-message">Sistema operativo normal.</div>
+        <div class="info-board-sub" id="kinepro-board-sub">Sesiones, pacientes y rutinas bajo control.</div>
       </div>
     </div>
   </section>
@@ -5722,5 +5735,46 @@ function init() {
 }
 init();
 </script>
+
+<script>
+(function(){
+  function contarSesionesActivas(){
+    const stateSessions = Array.isArray(window.sessions) ? window.sessions.length : null;
+    if (stateSessions !== null) return stateSessions;
+    return document.querySelectorAll('.session-card').length;
+  }
+  function actualizarPanelInformativoKinepro(){
+    const fechaEl = document.getElementById('kinepro-board-date');
+    const horaEl = document.getElementById('kinepro-board-time');
+    const msgEl = document.getElementById('kinepro-board-message');
+    const subEl = document.getElementById('kinepro-board-sub');
+    const board = document.getElementById('kinepro-info-board');
+    if (!fechaEl || !horaEl || !msgEl || !subEl || !board) return;
+    const ahora = new Date();
+    const fecha = ahora.toLocaleDateString('es-AR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+    fechaEl.textContent = fecha.charAt(0).toUpperCase() + fecha.slice(1);
+    horaEl.textContent = hora;
+    const sesiones = contarSesionesActivas();
+    board.classList.remove('board-ok','board-warning','board-alert');
+    if (sesiones >= 10) {
+      board.classList.add('board-alert');
+      msgEl.textContent = 'Carga alta de sesiones.';
+      subEl.textContent = 'Revisar tiempos de ejecución y cierre de sesiones activas.';
+    } else if (sesiones >= 5) {
+      board.classList.add('board-warning');
+      msgEl.textContent = 'Actividad moderada.';
+      subEl.textContent = 'Mantener control de progreso, series y repeticiones.';
+    } else {
+      board.classList.add('board-ok');
+      msgEl.textContent = 'Sistema operativo normal.';
+      subEl.textContent = 'Sesiones, pacientes y rutinas bajo control.';
+    }
+  }
+  actualizarPanelInformativoKinepro();
+  setInterval(actualizarPanelInformativoKinepro, 1000);
+})();
+</script>
+
 </body>
 </html>
