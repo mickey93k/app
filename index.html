@@ -1212,6 +1212,87 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
   }
+
+/* ===== IMPRESIÓN ESTILO PROKINESIO ===== */
+@media print {
+
+  body {
+    background: white;
+    font-family: 'Montserrat', sans-serif;
+    color: #000;
+  }
+
+  .print-container {
+    width: 100%;
+    padding: 24px;
+  }
+
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .print-logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+
+  .print-patient {
+    text-align: right;
+  }
+
+  .print-patient-name {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .print-date {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  .day-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 24px 0 10px 0;
+  }
+
+  .day-card {
+    border: 2px solid #000;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .day-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .day-table th {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 10px;
+    border-bottom: 2px solid #000;
+  }
+
+  .day-table td {
+    padding: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .day-table tr:last-child td {
+    border-bottom: none;
+  }
+
+}
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -1240,7 +1321,7 @@
       </div>
     </div>
     <div class="hero-sport-visual" aria-hidden="true">
-      <img class="hero-sport-image" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1200&q=80" alt="Atleta entrenando" />
+      <img class="hero-sport-image" src="https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=1600&q=80" alt="Atleta entrenando" />
     </div>
     <div class="hero-float-row">
       <div class="hero-float-card">
@@ -4665,7 +4746,88 @@ function printRoutinePDF(id) {
       th,td{border:1px solid #ddd;padding:10px;text-align:left;font-size:13px;vertical-align:top}
       th{background:#f3f3f3}
       .obs{margin-top:18px;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fafafa}
-    </style>
+    
+/* ===== IMPRESIÓN ESTILO PROKINESIO ===== */
+@media print {
+
+  body {
+    background: white;
+    font-family: 'Montserrat', sans-serif;
+    color: #000;
+  }
+
+  .print-container {
+    width: 100%;
+    padding: 24px;
+  }
+
+  .print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .print-logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+
+  .print-patient {
+    text-align: right;
+  }
+
+  .print-patient-name {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .print-date {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  .day-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 24px 0 10px 0;
+  }
+
+  .day-card {
+    border: 2px solid #000;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .day-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .day-table th {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 10px;
+    border-bottom: 2px solid #000;
+  }
+
+  .day-table td {
+    padding: 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .day-table tr:last-child td {
+    border-bottom: none;
+  }
+
+}
+
+</style>
   </head>
   <body>
     <h1>${routineTitle}</h1>
