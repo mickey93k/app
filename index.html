@@ -1240,6 +1240,63 @@
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<style id="kinepro-pc-layout-optimizado">
+@media (min-width: 980px) {
+  :root { --desktop-max: 1280px; --desktop-gap: 22px; }
+  body { padding-left: 108px !important; max-width: none !important; overflow: hidden !important; }
+  .bottom-nav { width: 108px !important; min-width: 108px !important; }
+  .screen { width: calc(100vw - 108px) !important; height: 100vh !important; padding: 22px clamp(24px, 3.2vw, 54px) 34px !important; overflow-y: auto !important; overflow-x: hidden !important; align-content: start !important; }
+  .screen-header { position: relative !important; top: auto !important; z-index: 2 !important; width: 100% !important; max-width: var(--desktop-max) !important; margin: 0 auto 22px !important; padding: 10px 0 6px !important; background: transparent !important; backdrop-filter: none !important; }
+  .screen-title { font-size: clamp(42px, 3.6vw, 64px) !important; line-height: .95 !important; letter-spacing: -2.8px !important; }
+  .screen-sub { font-size: 16px !important; margin-top: 12px !important; }
+  .card, .patient-card, .routine-card, .session-card, .search-wrap, .toggle-wrap, .tab-row, .sec-title, .metrics-row, .home-hero, .home-image-only, .benefits-wrap, #routines-list, #patients-list, #execution-list, #home-sessions-list, #home-routines-list, .stats-grid, #stats-detail { max-width: var(--desktop-max) !important; margin-left: auto !important; margin-right: auto !important; }
+  #screen-inicio.active { display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)) !important; gap: var(--desktop-gap) !important; align-items: start !important; }
+  #screen-inicio > .screen-header { grid-column: 1 / -1 !important; text-align: center !important; margin-bottom: 8px !important; }
+  #screen-inicio > .home-hero, #screen-inicio > .home-image-only { grid-column: 1 / -1 !important; width: 100% !important; margin-top: 0 !important; }
+  #screen-inicio > #kinepro-info-board { grid-column: 1 / span 8 !important; grid-row: auto !important; width: 100% !important; margin: 0 !important; padding: 18px !important; border-radius: 34px !important; align-self: stretch !important; }
+  #screen-inicio > .metrics-row { grid-column: 9 / span 4 !important; width: 100% !important; margin: 0 !important; padding: 0 !important; display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 14px !important; align-self: center !important; position: relative !important; z-index: 1 !important; }
+  .metric-card { min-height: 112px !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; border-radius: 28px !important; padding: 18px 14px !important; }
+  .metric-val { font-size: clamp(28px, 2.2vw, 42px) !important; }
+  .metric-label { font-size: 11px !important; letter-spacing: 1px !important; }
+  #screen-inicio > #home-sessions-title, #screen-inicio > #home-sessions-list { grid-column: 1 / span 6 !important; width: 100% !important; }
+  #screen-inicio > #home-routines-title, #screen-inicio > #home-routines-list { grid-column: 7 / span 6 !important; width: 100% !important; }
+  .info-board-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 16px !important; }
+  .info-board-card { min-height: 150px !important; border-radius: 28px !important; padding: 22px 20px !important; }
+  .info-board-date { font-size: clamp(20px, 1.7vw, 28px) !important; }
+  .info-board-time { font-size: clamp(46px, 4.2vw, 76px) !important; letter-spacing: -3px !important; }
+  .info-board-message { font-size: clamp(17px, 1.35vw, 22px) !important; }
+  .info-board-sub { font-size: 13px !important; }
+  #routines-list, #patients-list, #execution-list { width: 100% !important; display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 16px !important; }
+  #routines-list .routine-card, #patients-list .patient-card, #execution-list .session-card { margin: 0 !important; min-height: 112px !important; }
+  .search-wrap, .toggle-wrap, .tab-row { width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
+  #screen-mas.active { display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)) !important; gap: 18px 22px !important; align-items: start !important; }
+  #screen-mas > .screen-header { grid-column: 1 / -1 !important; text-align: center !important; margin-bottom: 4px !important; }
+  #screen-mas > .card { width: 100% !important; margin: 0 !important; border-radius: 30px !important; padding: 22px !important; }
+  #screen-mas > .card:nth-of-type(1) { grid-column: 1 / span 5 !important; }
+  #screen-mas > .card:nth-of-type(2) { grid-column: 6 / span 3 !important; }
+  #screen-mas > .card:nth-of-type(3) { grid-column: 9 / span 4 !important; }
+  #screen-mas > .card:nth-of-type(n+4) { grid-column: 1 / -1 !important; }
+  #screen-mas .form-input { min-height: 58px !important; font-size: 15px !important; }
+  #screen-mas .btn { min-height: 48px !important; }
+  #screen-mas .color-swatch { width: 48px !important; height: 48px !important; }
+  #screen-estadisticas.active { display: block !important; }
+  #screen-estadisticas .screen-header { text-align: center !important; }
+  .stats-grid { width: 100% !important; padding: 0 !important; display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 16px !important; }
+  .stat-card { min-height: 150px !important; border-radius: 30px !important; padding: 22px !important; }
+  .stat-value { font-size: clamp(34px, 3vw, 52px) !important; }
+  .stat-label { font-size: 12px !important; }
+  #stats-detail { width: 100% !important; margin-top: 16px !important; }
+  .modal-overlay { left: 108px !important; max-width: none !important; }
+  .modal { width: min(960px, calc(100vw - 180px)) !important; }
+  #execution-detail { left: 108px !important; width: calc(100vw - 108px) !important; max-width: none !important; padding: 24px clamp(24px, 3vw, 54px) 40px !important; }
+}
+@media (min-width: 1400px) {
+  :root { --desktop-max: 1420px; }
+  #routines-list, #patients-list, #execution-list { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+}
+</style>
+
 </head>
 <body>
 
@@ -1445,6 +1502,17 @@
   </div>
 </div>
 
+
+<!-- SCREEN: ESTADISTICAS -->
+<div class="screen" id="screen-estadisticas">
+  <div class="screen-header">
+    <div class="screen-title">Estadísticas</div>
+    <div class="screen-sub">Analítica clínica y seguimiento</div>
+  </div>
+  <div class="stats-grid" id="stats-grid"></div>
+  <div class="card pb-nav" id="stats-detail"></div>
+</div>
+
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="nav-item active" id="nav-inicio" onclick="goTab('inicio')">
@@ -1463,6 +1531,11 @@
   <div class="nav-item" id="nav-pacientes" onclick="goTab('pacientes')">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
     <span>Pacientes</span>
+  </div>
+
+  <div class="nav-item" id="nav-estadisticas" onclick="goTab('estadisticas')">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    <span>Estadísticas</span>
   </div>
   <div class="nav-item" id="nav-mas" onclick="goTab('mas')">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
@@ -1527,8 +1600,8 @@
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div class="form-group">
-          <label class="form-label">Edad</label>
-          <input class="form-input" id="np-age" type="number" placeholder="35">
+          <label class="form-label">Fecha de nacimiento</label>
+          <input class="form-input" id="np-age" type="date">
         </div>
         <div class="form-group">
           <label class="form-label">Teléfono</label>
@@ -5739,9 +5812,7 @@ init();
 <script>
 (function(){
   function contarSesionesActivas(){
-    const stateSessions = Array.isArray(window.sessions) ? window.sessions.length : null;
-    if (stateSessions !== null) return stateSessions;
-    return document.querySelectorAll('.session-card').length;
+    return Array.isArray(state.activeSessions) ? state.activeSessions.length : 0;
   }
   function actualizarPanelInformativoKinepro(){
     const fechaEl = document.getElementById('kinepro-board-date');
@@ -5773,6 +5844,109 @@ init();
   }
   actualizarPanelInformativoKinepro();
   setInterval(actualizarPanelInformativoKinepro, 1000);
+})();
+</script>
+
+
+<script>
+/* ===== KINEPRO FIX PACK: navegación estable + mejoras solicitadas ===== */
+(function(){
+  if (window.__KINEPRO_FIX_PACK__) return;
+  window.__KINEPRO_FIX_PACK__ = true;
+
+  const css = document.createElement('style');
+  css.textContent = `
+    .rest-panel{margin:0 16px 14px;padding:12px 14px;border-radius:22px;background:rgba(216,255,25,.12);border:1px solid rgba(216,255,25,.35);box-shadow:var(--shadow);text-align:center}.rest-panel.ready{background:rgba(0,229,160,.12);border-color:rgba(0,229,160,.35)}.rest-time{font-size:34px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1}.rest-label{font-size:11px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px}.order-actions{display:flex;flex-direction:column;gap:5px;margin-top:2px}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 14px}.stat-card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:14px;box-shadow:var(--shadow);min-height:96px}.stat-value{font-size:28px;font-weight:900;line-height:1;color:#090909}.stat-label{font-size:10px;font-weight:800;color:var(--text2);text-transform:uppercase;letter-spacing:.7px;margin-top:8px}.stat-list{font-size:12px;color:var(--text2);line-height:1.55;margin-top:8px}.exercise-history-row{background:#fff;border:1px solid var(--border);border-radius:18px;padding:10px 12px;margin-bottom:8px;box-shadow:var(--shadow)}@media(min-width:768px){.stats-grid{grid-template-columns:repeat(3,1fr)}}`;
+  document.head.appendChild(css);
+
+  function todayISO(){ return new Date().toISOString().split('T')[0]; }
+  function safeSave(){ try{ if (typeof markLocalUpdate === 'function') markLocalUpdate(); }catch(e){} try{ if (typeof persistLocalAppState === 'function') persistLocalAppState(); }catch(e){} try{ if (typeof queueCloudSave === 'function') queueCloudSave(); }catch(e){} }
+  function esc(v){ return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  window.calculateAge = function(fechaNacimiento, fallbackAge){ if(!fechaNacimiento) return fallbackAge || '—'; const b=new Date(String(fechaNacimiento).slice(0,10)+'T00:00:00'); if(Number.isNaN(b.getTime())) return fallbackAge || '—'; const t=new Date(); let a=t.getFullYear()-b.getFullYear(); const m=t.getMonth()-b.getMonth(); if(m<0 || (m===0 && t.getDate()<b.getDate())) a--; return a>=0 ? a : '—'; };
+  window.normalizeTodayCounter = function(){ if(!window.state) return; const d=todayISO(); if(state.todayCountDate !== d){ state.todayCountDate=d; state.todayCount=0; safeSave(); } };
+  window.incrementTodayCounter = function(){ normalizeTodayCounter(); state.todayCount=Number(state.todayCount||0)+1; state.todayCountDate=todayISO(); };
+
+  function hydrateState(){
+    if(!window.state) return;
+    state.todayCountDate = state.todayCountDate || todayISO();
+    state.restSeconds = Number(state.restSeconds || 60);
+    state.lastSessionSummary = state.lastSessionSummary || null;
+    (state.patients||[]).forEach(p=>{ p.sessions=p.sessions||[]; p.routines=p.routines||[]; p.exerciseHistory=p.exerciseHistory||[]; if(!p.fechaNacimiento && p.age && /^\d{4}-\d{2}-\d{2}$/.test(String(p.age))) p.fechaNacimiento=p.age; });
+    normalizeTodayCounter();
+  }
+
+  const baseGoTab = window.goTab;
+  window.goTab = function(tab){
+    hydrateState();
+    const screen = document.getElementById('screen-' + tab);
+    const nav = document.getElementById('nav-' + tab);
+    if(!screen || !nav){ console.warn('Pestaña inexistente:', tab); return; }
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    screen.classList.add('active');
+    nav.classList.add('active');
+    if(tab==='inicio' && typeof renderHome==='function') renderHome();
+    if(tab==='rutinas' && typeof renderRoutines==='function') renderRoutines();
+    if(tab==='ejecucion' && typeof renderExecutionList==='function') renderExecutionList();
+    if(tab==='pacientes' && typeof renderPatients==='function') renderPatients(document.getElementById('patient-search')?.value || '');
+    if(tab==='estadisticas') renderStats();
+    if(tab==='mas'){
+      const p=document.getElementById('prof-name-input'); if(p) p.value=state.profName || 'Dr. Ruiz';
+      if(typeof renderHomeSettings==='function') renderHomeSettings();
+      updateRestSettingsUI();
+    }
+  };
+
+  const oldGet = window.getSerializableState;
+  if(typeof oldGet === 'function') window.getSerializableState = getSerializableState = function(){ const out=oldGet(); out.todayCountDate=state.todayCountDate; out.restSeconds=state.restSeconds; out.lastSessionSummary=state.lastSessionSummary||null; out.patients=JSON.parse(JSON.stringify(state.patients||[])); return out; };
+  const oldApply = window.applySerializableState;
+  if(typeof oldApply === 'function') window.applySerializableState = applySerializableState = function(payload){ oldApply(payload); if(payload){ if(payload.todayCountDate) state.todayCountDate=payload.todayCountDate; if(typeof payload.restSeconds==='number') state.restSeconds=payload.restSeconds; if(payload.lastSessionSummary) state.lastSessionSummary=payload.lastSessionSummary; } hydrateState(); updateRestSettingsUI(); };
+
+  const oldRenderHome = window.renderHome;
+  if(typeof oldRenderHome === 'function') window.renderHome = renderHome = function(){ hydrateState(); oldRenderHome(); const t=document.getElementById('met-today'); if(t) t.textContent=state.todayCount||0; const a=document.getElementById('met-active'); if(a) a.textContent=(state.activeSessions||[]).length; };
+
+  window.setRestSeconds = function(seconds){ state.restSeconds=Number(seconds)||60; updateRestSettingsUI(); safeSave(); };
+  window.updateRestSettingsUI = function(){ [30,60,90].forEach(s=>{ const b=document.getElementById('rest-'+s+'-btn'); if(!b) return; b.classList.toggle('btn-primary', Number(state.restSeconds||60)===s); b.classList.toggle('btn-ghost', Number(state.restSeconds||60)!==s); }); };
+  function addRestSettings(){ if(document.getElementById('rest-30-btn')) return; const quick=Array.from(document.querySelectorAll('#screen-mas .card')).find(c=>c.textContent.includes('Accesos rápidos')); if(!quick) return; const card=document.createElement('div'); card.className='card'; card.style.marginBottom='12px'; card.innerHTML='<div style="font-size:12px;font-weight:700;color:var(--text2);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">Descanso entre series</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><button class="btn btn-ghost btn-sm" id="rest-30-btn" onclick="setRestSeconds(30)">30s</button><button class="btn btn-ghost btn-sm" id="rest-60-btn" onclick="setRestSeconds(60)">60s</button><button class="btn btn-ghost btn-sm" id="rest-90-btn" onclick="setRestSeconds(90)">90s</button></div>'; quick.parentNode.insertBefore(card, quick); updateRestSettingsUI(); }
+  function addRestPanel(){ if(document.getElementById('rest-panel')) return; const warn=document.getElementById('exec-warn-60'); if(!warn) return; const panel=document.createElement('div'); panel.id='rest-panel'; panel.className='rest-panel'; panel.style.display='none'; panel.innerHTML='<div class="rest-label" id="rest-label">Descanso activo</div><div class="rest-time" id="rest-time">00:30</div>'; warn.insertAdjacentElement('afterend', panel); }
+  window.updateRestPanel = function(session){ const panel=document.getElementById('rest-panel'), time=document.getElementById('rest-time'), label=document.getElementById('rest-label'); if(!panel||!time||!label||!session) return; const r=Number(session.restRemaining||0); if(!session.restReady && r<=0){ panel.style.display='none'; return; } panel.style.display='block'; panel.classList.toggle('ready', !!session.restReady); label.textContent=session.restReady?'Descanso completo. Puede continuar.':'Descanso activo'; time.textContent=session.restReady?'LISTO':formatTime(r); };
+  window.startRestTimer = function(session){ if(!session) return; if(session._restInterval) clearInterval(session._restInterval); session.restRemaining=Number(state.restSeconds||60); session.restReady=false; updateRestPanel(session); session._restInterval=setInterval(()=>{ session.restRemaining=Math.max(0,Number(session.restRemaining||0)-1); if(session.restRemaining<=0){ clearInterval(session._restInterval); session._restInterval=null; session.restReady=true; } updateRestPanel(session); },1000); };
+
+  const oldOpenExec = window.openExecutionDetail;
+  if(typeof oldOpenExec==='function') window.openExecutionDetail = openExecutionDetail = function(sid){ oldOpenExec(sid); addRestPanel(); const s=state.activeSessions.find(x=>x.id===sid); if(s) updateRestPanel(s); };
+  const oldToggle = window.toggleExercise;
+  if(typeof oldToggle==='function') window.toggleExercise = toggleExercise = function(sid,idx){ const s=state.activeSessions.find(x=>x.id===sid); const was=!!(s&&s.exercises&&s.exercises[idx]&&s.exercises[idx].done); oldToggle(sid,idx); const now=!!(s&&s.exercises&&s.exercises[idx]&&s.exercises[idx].done); if(!was && now) startRestTimer(s); };
+
+  window.renderBuilderExercises = renderBuilderExercises = function(){ const cnt=document.getElementById('new-routine-ex-count'); const list=document.getElementById('new-routine-exercises'); if(!cnt||!list) return; cnt.textContent=state.builderExercises.length; if(!state.builderExercises.length){ list.innerHTML='<div style="text-align:center;color:var(--text3);font-size:12px;padding:16px">Agrega ejercicios desde la biblioteca o manualmente</div>'; return; } list.innerHTML=state.builderExercises.map((e,i)=>`<div class="ex-item" draggable="true" ondragstart="builderDragStart(event,${i})" ondragover="builderDragOver(event)" ondrop="builderDrop(event,${i})" style="cursor:grab;align-items:flex-start"><div style="width:24px;height:24px;border-radius:50%;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent);flex-shrink:0;margin-top:6px">${i+1}</div><div class="ex-info"><input class="form-input" style="font-size:12px;padding:9px 12px;font-weight:700" value="${esc(e.name)}" placeholder="Nombre del ejercicio" oninput="updateExName(${i}, this.value)"><input class="form-input" style="margin-top:6px;font-size:11px;padding:8px 12px" value="${esc(e.prescription)}" placeholder="Series, repeticiones, peso..." oninput="updateExPrescription(${i}, this.value)"></div><div class="order-actions"><button class="btn btn-ghost btn-sm btn-icon" onclick="moveBuilderEx(${i},-1)" ${i===0?'disabled':''}>↑</button><button class="btn btn-ghost btn-sm btn-icon" onclick="moveBuilderEx(${i},1)" ${i===state.builderExercises.length-1?'disabled':''}>↓</button><button class="btn btn-danger btn-sm btn-icon" onclick="removeBuilderEx(${i})">✕</button></div></div>`).join(''); };
+  window.moveBuilderEx=function(i,dir){ const to=i+dir; if(to<0||to>=state.builderExercises.length) return; const item=state.builderExercises.splice(i,1)[0]; state.builderExercises.splice(to,0,item); renderBuilderExercises(); };
+  window.builderDragStart=function(ev,i){ window.builderDragIndex=i; ev.dataTransfer.effectAllowed='move'; };
+  window.builderDragOver=function(ev){ ev.preventDefault(); };
+  window.builderDrop=function(ev,i){ ev.preventDefault(); const from=window.builderDragIndex; if(from===undefined||from===i) return; const item=state.builderExercises.splice(from,1)[0]; state.builderExercises.splice(i,0,item); window.builderDragIndex=undefined; renderBuilderExercises(); };
+
+  window.duplicateRoutine=function(id){ const r=state.routines.find(x=>x.id===id); if(!r) return; const copy=JSON.parse(JSON.stringify(r)); copy.id=Date.now(); copy.name='Copia de '+(r.name||'rutina'); copy.date=todayISO(); state.routines.unshift(copy); safeSave(); renderRoutines(); };
+  const oldRoutineCard = window.routineCardHTML;
+  if(typeof oldRoutineCard==='function') window.routineCardHTML = routineCardHTML = function(r,showActions=false){ let html=oldRoutineCard(r,showActions); if(showActions && !html.includes('duplicateRoutine('+r.id+')')) html=html.replace('</div>\n  </div>', `<button class="btn btn-ghost btn-sm" onclick="duplicateRoutine(${r.id})">Duplicar</button></div>\n  </div>`); return html; };
+
+  window.filterPatients = filterPatients = function(q){ renderPatients(q); };
+  window.renderPatients = renderPatients = function(q=''){ const list=document.getElementById('patients-list'); if(!list) return; const query=String(q||'').toLowerCase().trim(); const filtered=(state.patients||[]).filter(p=>!query||[p.name,p.phase,p.history,p.obs].some(v=>String(v||'').toLowerCase().includes(query))); if(!filtered.length){ list.innerHTML='<div class="empty-state"><p>Sin pacientes</p></div>'; return; } list.innerHTML=filtered.map(p=>patientCardHTML(p)).join(''); };
+  window.patientCardHTML = patientCardHTML = function(p){ const initials=String(p.name||'').split(' ').map(w=>w[0]).slice(0,2).join(''); const colors=window.avatarColors||['#4a90e2','#a855f7','#ff6b6b','#00e5a0']; const col=p.color||colors[p.id%colors.length]; const routineCount=(state.routines||[]).filter(r=>r.patientId===p.id).length; return `<div class="patient-card" onclick="openPatientProfile(${p.id})"><div class="avatar" style="background:${col}22;color:${col}">${initials}</div><div class="patient-info"><div class="patient-name">${esc(p.name)}</div><div class="patient-phase">${esc(p.phase)}</div><div class="patient-meta">${calculateAge(p.fechaNacimiento,p.age)} años · ${esc(p.phone||'—')} · ${routineCount} rutinas · ${(p.sessions||[]).length} sesiones</div></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>`; };
+  window.saveNewPatient = saveNewPatient = function(){ const name=document.getElementById('np-name')?.value.trim(); if(!name){ alert('Ingresa el nombre del paciente'); return; } const colors=window.avatarColors||['#4a90e2','#a855f7','#ff6b6b','#00e5a0']; const birth=document.getElementById('np-age')?.value || ''; const newP={id:Date.now(),name,fechaNacimiento:birth,age:'',phone:document.getElementById('np-phone')?.value.trim()||'',email:document.getElementById('np-email')?.value.trim()||'',phase:document.getElementById('np-phase')?.value||'',history:document.getElementById('np-history')?.value.trim()||'',obs:document.getElementById('np-obs')?.value.trim()||'',color:colors[Math.floor(Math.random()*colors.length)],sessions:[],routines:[],exerciseHistory:[]}; state.patients.push(newP); safeSave(); closeModal('modal-new-patient'); renderPatients(); renderHome(); };
+
+  function buildSessionSummary(session,p){ const done=session.exercises.filter(e=>e.done); const series=done.reduce((a,e)=>a+Number(e.data?.series||0),0); const reps=done.reduce((a,e)=>a+Number(e.data?.reps||0),0); const weights=done.filter(e=>e.data?.weight).map(e=>`${e.name}: ${e.data.weight}kg`); const obs=done.filter(e=>e.data?.notes).map(e=>`${e.name}: ${e.data.notes}`); return {date:new Date().toLocaleDateString('es-AR'),patient:p?.name||'—',routine:session.routineName,duration:formatTime(session.elapsed),exercisesDone:done.length,exercisesTotal:session.exercises.length,series,reps,weights,observations:obs,rawExercises:JSON.parse(JSON.stringify(session.exercises||[]))}; }
+  function summaryText(s){ return `Resumen KINEPRO\nPaciente: ${s.patient}\nRutina: ${s.routine}\nFecha: ${s.date}\nTiempo total: ${s.duration}\nEjercicios completados: ${s.exercisesDone}/${s.exercisesTotal}\nSeries completadas: ${s.series}\nRepeticiones registradas: ${s.reps}\nPesos registrados: ${s.weights.length?s.weights.join('; '):'—'}\nObservaciones: ${s.observations.length?s.observations.join('; '):'—'}`; }
+  window.copyLastSessionSummary=function(){ const text=summaryText(state.lastSessionSummary||{}); navigator.clipboard?.writeText(text); alert('Resumen copiado'); };
+  function showSummaryModal(summary){ let modal=document.getElementById('modal-session-summary'); if(!modal){ modal=document.createElement('div'); modal.className='modal-overlay'; modal.id='modal-session-summary'; modal.innerHTML='<div class="modal"><div class="modal-header"><div class="modal-title">Resumen de sesión</div><div class="modal-close" onclick="closeModal(\'modal-session-summary\')">✕</div></div><div class="modal-body" id="session-summary-body"></div></div>'; document.body.appendChild(modal); } document.getElementById('session-summary-body').innerHTML=`<div class="card card-sm" style="margin:0 0 10px"><div style="font-size:13px;line-height:1.7;white-space:pre-wrap">${esc(summaryText(summary))}</div></div><button class="btn btn-primary btn-full" onclick="copyLastSessionSummary()">Copiar / compartir resumen</button>`; modal.classList.add('open'); }
+  window.finishSession = finishSession = function(){ if(!confirm('¿Finalizar esta sesión?')) return; const session=state.activeSessions.find(s=>s.id===state.currentSession); if(!session) return; clearInterval(session._interval); if(session._restInterval) clearInterval(session._restInterval); const p=state.patients.find(x=>x.id===session.patientId); const summary=buildSessionSummary(session,p); if(p){ p.sessions=p.sessions||[]; p.exerciseHistory=p.exerciseHistory||[]; p.sessions.push({date:summary.date,routine:summary.routine,duration:summary.duration,done:summary.exercisesDone,total:summary.exercisesTotal,summary}); (session.exercises||[]).forEach(e=>{ if(e.done||e.data){ p.exerciseHistory.push({date:summary.date,exercise:e.name,series:e.data?.series||'',reps:e.data?.reps||'',weight:e.data?.weight||'',notes:e.data?.notes||e.prescription||''}); } }); } incrementTodayCounter(); state.lastSessionSummary=summary; state.activeSessions=state.activeSessions.filter(s=>s.id!==state.currentSession); state.currentSession=null; updateBadges(); closeExecutionDetail(); renderExecutionList(); renderHome(); safeSave(); showSummaryModal(summary); };
+
+  window.renderStats=function(){ hydrateState(); const sessions=(state.patients||[]).flatMap(p=>(p.sessions||[]).map(s=>({...s,patient:p.name}))); const totalTime=sessions.reduce((a,s)=>{ const parts=String(s.duration||'0:0').split(':').map(Number); return a+(parts.length===3?parts[0]*3600+parts[1]*60+parts[2]:parts[0]*60+(parts[1]||0)); },0); const avg=sessions.length?formatTime(Math.round(totalTime/sessions.length)):'00:00'; const exerciseUse={}; const routineUse={}; (state.routines||[]).forEach(r=>{ routineUse[r.name]=(routineUse[r.name]||0)+1; (r.exercises||[]).forEach(e=>exerciseUse[e.name]=(exerciseUse[e.name]||0)+1); }); const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k,v])=>`${esc(k)} · ${v}`).join('<br>')||'Sin datos'; const grid=document.getElementById('stats-grid'); if(grid) grid.innerHTML=`<div class="stat-card"><div class="stat-value">${sessions.length}</div><div class="stat-label">Sesiones registradas</div></div><div class="stat-card"><div class="stat-value">${avg}</div><div class="stat-label">Tiempo promedio</div></div><div class="stat-card"><div class="stat-value">${(state.patients||[]).length}</div><div class="stat-label">Pacientes atendidos</div></div><div class="stat-card"><div class="stat-value">${state.todayCount||0}</div><div class="stat-label">Finalizadas hoy</div></div><div class="stat-card"><div class="stat-value">7d</div><div class="stat-label">Sesiones por semana</div><div class="stat-list">${sessions.slice(-7).length} en últimos registros</div></div><div class="stat-card"><div class="stat-value">Top</div><div class="stat-label">Ejercicios usados</div><div class="stat-list">${top(exerciseUse)}</div></div>`; const detail=document.getElementById('stats-detail'); if(detail) detail.innerHTML=`<div class="sec-title" style="padding:0 0 10px">Rutinas más usadas</div><div class="stat-list">${top(routineUse)}</div>`; };
+
+  window.printPatientPDF=function(id){ const p=state.patients.find(x=>x.id===id); if(!p) return; const r=(state.routines||[]).filter(x=>x.patientId===id); const w=window.open('','_blank'); if(!w){ alert('Tu navegador bloqueó la impresión.'); return; } w.document.write(`<html><head><title>Ficha ${esc(p.name)}</title><style>body{font-family:Arial;padding:28px;color:#111}h1{margin:0 0 8px}.box{border:1px solid #ddd;border-radius:12px;padding:14px;margin:12px 0}li{margin:6px 0}</style></head><body><h1>Ficha clínica KINEPRO</h1><div class="box"><b>${esc(p.name)}</b><br>Edad: ${calculateAge(p.fechaNacimiento,p.age)}<br>Tel: ${esc(p.phone||'—')}<br>Email: ${esc(p.email||'—')}<br>Fase: ${esc(p.phase||'—')}</div><div class="box"><h3>Observaciones clínicas</h3>${esc(p.obs||p.history||'—')}</div><div class="box"><h3>Historial de sesiones</h3><ul>${(p.sessions||[]).map(s=>`<li>${esc(s.date)} · ${esc(s.routine)} · ${esc(s.duration)} · ${s.done||0}/${s.total||0}</li>`).join('')||'<li>Sin sesiones</li>'}</ul></div><div class="box"><h3>Rutinas asignadas</h3><ul>${r.map(x=>`<li>${esc(x.name)} · ${(x.exercises||[]).length} ejercicios</li>`).join('')||'<li>Sin rutinas</li>'}</ul></div><div class="box"><h3>Evolución por ejercicio</h3><ul>${(p.exerciseHistory||[]).map(x=>`<li>${esc(x.date)} · ${esc(x.exercise)} · Series: ${esc(x.series)} · Reps: ${esc(x.reps)} · Peso: ${esc(x.weight)} · ${esc(x.notes)}</li>`).join('')||'<li>Sin registros</li>'}</ul></div><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`); w.document.close(); };
+
+  const oldOpenPatient = window.openPatientProfile;
+  if(typeof oldOpenPatient==='function') window.openPatientProfile = openPatientProfile = function(id){ oldOpenPatient(id); const p=state.patients.find(x=>x.id===id); const body=document.getElementById('patient-profile-body'); if(!p||!body) return; body.insertAdjacentHTML('afterbegin', `<button class="btn btn-ghost btn-full" style="margin-bottom:10px" onclick="printPatientPDF(${id})">PDF / imprimir ficha</button>`); const ageNodes=body.querySelectorAll('div'); ageNodes.forEach(n=>{ if(n.textContent===String(p.age||'')) n.textContent=calculateAge(p.fechaNacimiento,p.age); }); const hist=(p.exerciseHistory||[]).slice().reverse().map(x=>`<div class="exercise-history-row"><b>${esc(x.exercise)}</b><br><span style="font-size:11px;color:var(--text2)">${esc(x.date)} · Series: ${esc(x.series)} · Reps: ${esc(x.reps)} · Peso: ${esc(x.weight||'—')}</span><br><span style="font-size:11px">${esc(x.notes||'')}</span></div>`).join('')||'<div style="font-size:12px;color:var(--text2)">Sin registros por ejercicio.</div>'; body.insertAdjacentHTML('beforeend', `<div class="card card-sm" style="margin:0 0 10px"><div style="font-size:10px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Historial por ejercicio</div>${hist}</div>`); };
+
+  function boot(){ hydrateState(); addRestSettings(); addRestPanel(); renderHome(); renderPatients(); updateRestSettingsUI(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
 </script>
 
